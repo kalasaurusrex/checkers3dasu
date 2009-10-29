@@ -13,35 +13,11 @@ public class Referee
         game = g;
     }
 
-    /*public int executeMove (Square start, Square destination, ArrayList m)
+    public int executeMove (Square start, Square destination)
     {
-        int executeCode = 0; // returns 0 if error, 1 if move
-        Square tempStart = start;
-        Square tempDestination = destination;
-        ArrayList<Square> moves = m;
-        int startIndex = tempStart.getIndex();
-        int destinationIndex = tempDestination.getIndex();
-        int tempIndex;
-
-        for (int i = 0; i < moves.size(); i++ )
-        {
-            tempIndex = moves.get(i).getIndex();
-            if (destinationIndex == tempIndex)
-                executeCode = 1;// a valid move
-
-        }
-
-        if (executeCode != 0) // make sure a move is going to be exectued and then change the turns
-        {
-            if (game.getVisitorTurn()== true)
-                game.setVisitorTurn(false);
-            else
-                game.setVisitorTurn(true);
-        }
-        
-        return executeCode;
-
-    }*/
+        //return a 1 if valid or 0 if invalid
+        return 1;
+    }
 
     public boolean executePlacement (Square selection, Square destination)
     {
@@ -55,11 +31,6 @@ public class Referee
         //make sure the destination isn't a setup piece
         if (destination.getPosition().getBoard() == 0)
             return false;
-
-        //create a check that the user isn't placing a piece on top of another
-        //piece
-//        if (destination.getPiece() == null)
-//            return false;
 
         if (destination.getPiece() == null && game.getVisitorTurn())
         {
@@ -103,125 +74,20 @@ public class Referee
         return false;
     }
 
-
-    // Returns true if the player with the correct turn is trying to see his
-    // moves and false otherwise.
     public boolean validateTurn (Piece piece)
     {
-        //red(home) = 0, black(visitor) = 1
-        if (piece.getColor() == 1 && game.getVisitorTurn()== true) //checks it it's visitor's turn
-            return true;
-        else if (piece.getColor() == 0 && game.getVisitorTurn() == false)//checks if it's home's turn
-            return true;
-        else
-            return false; //if the wrong player is trying to move
+        return true;
     }
 
-    /*public ArrayList showMoves (Square square)
+    public ArrayList showMoves (Square square)
     {
-        int positionBoard = square.getPosition().getBoard();
-        int positionColumn = square.getPosition().getColumn();
-        int positionRow = square.getPosition().getRow();
-        int width = game.getWidth();
-        Square tempSquare = null;
-        ArrayList moves = null;
-        int index = square.getIndex();
-        Piece piece = square.getPiece();
+        //TEST VALUES
+        ArrayList temp = new ArrayList();
+        temp.add(squareArray[square.getIndex() + 4]);
+        temp.add(squareArray[square.getIndex() + 5]);
 
-        //the logic for pieces in even rows
-        if (positionRow%2 == 0)
-        {
-            
-            if (game.getVisitorTurn() == false || piece instanceof King) //check if it's home's turn or a king, i.e. the only two cases where you can move up
-            {
-                if (positionRow != 1 && positionColumn != 1)//makes sure checker won't jump off board
-                {
-                    tempSquare = squareArray[index-((width/2)+1)];//up and left
-                    if (tempSquare == null)//checks if the space is empty
-                    {
-                        moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
-                    }
-                }
-
-                if (positionRow != 1 && positionColumn != width)//makes sure checker won't jump off board
-                {
-                    tempSquare = squareArray[index-(width/2)];//up and right
-                    if (tempSquare == null)
-                    {
-                        moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
-                    }
-                }
-            }
-
-            if (game.getVisitorTurn() == true || piece instanceof King) //checks if it's visitor's turn or a King, i.e. the only two cases where you can move down
-            {
-                if (positionRow != width && positionColumn != 1)//makes sure checker won't jump off board
-                {
-                    tempSquare = squareArray[index+((width/2)-1)];//down and left
-                    if (tempSquare == null)
-                    {
-                        moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
-                    }
-                }
-
-                if (positionRow != width && positionColumn != width)//makes sure checker won't jump off board
-                {
-                    tempSquare = squareArray[index+(width/2)];//down and right
-                    if (tempSquare == null)
-                    {
-                        moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
-                    }
-                }
-        }
-
-        //the logic for pieces in odd rows
-        if (positionRow%2 == 1)
-        {
-            if (game.getVisitorTurn() == false || piece instanceof King) //check if it's home's turn or a king, i.e. the only two cases where you can move up
-            {
-                if (positionRow != 1 && positionColumn != width)//makes sure checker won't jump off board
-                {
-
-                    tempSquare = squareArray[index-(width/2)];//up and left
-                    if (tempSquare == null)//checks if the space is empty
-                    {
-                        moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
-                    }
-                }
-                if (positionRow != 1 && positionColumn != width)//makes sure checker won't jump off board
-                {
-                    tempSquare = squareArray[index-((width/2)+1)];//up and right
-                    if (tempSquare == null)
-                    {
-                        moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
-                    }
-                }
-            }
-
-            if (game.getVisitorTurn() == true || piece instanceof King) //check if it's visitor's turn or a king, i.e. the only two cases where you can move up
-            {
-                if (positionRow != width && positionColumn != 1)//makes sure checker won't jump off board
-                {
-                    tempSquare = squareArray[index+(width/2)];//down and left
-                    if (tempSquare == null)
-                    {
-                        moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
-                    }
-                }
-
-                if (positionRow != width && positionColumn != width)//makes sure checker won't jump off board
-                {
-                    tempSquare = squareArray[index+((width/2)+1)];//down and right
-                    if (tempSquare == null)
-                    {
-                        moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
-                    }
-                }
-            }
-        }   
+        return temp;
     }
-    return moves;
-}*/
 
     public boolean verifySelection(Square square)
     {

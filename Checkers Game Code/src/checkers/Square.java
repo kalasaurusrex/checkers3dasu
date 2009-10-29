@@ -49,10 +49,6 @@ public class Square extends javax.swing.JLabel
     //             to determine whether or not a square is a blocked square.
     //----------------------------------------------------------------------
 
-     public int getIndex()
-     {
-         return index;
-     }
     public boolean getBlocked ()
     {
         return blocked;
@@ -171,5 +167,16 @@ public class Square extends javax.swing.JLabel
     public void setVisitorMine (boolean val)
     {
         this.visitorMine = val;
+    }
+
+    //-----------------------------------------------------------------------
+    //Method: int getIndex()
+    //Description: Used during board setup to assign the array index to
+    //             the square.
+    //-----------------------------------------------------------------------
+
+    public int getIndex()
+    {
+        return index;
     }
 }
