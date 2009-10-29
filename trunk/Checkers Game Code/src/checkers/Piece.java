@@ -13,8 +13,8 @@ package checkers;
 public abstract class Piece
 {
     //Attributes////////////////////////////////////////////////////////////
-    private static final int RED = 0;//home
-    private static final int BLACK = 1;//visitor
+    private static final int RED = 0;
+    private static final int BLACK = 1;
 
     private int color;
 
@@ -29,9 +29,9 @@ public abstract class Piece
     public Piece(boolean visitorTurn)
     {
         if (visitorTurn)
-            color = BLACK; //visitor
+            color = BLACK;
         else
-            color = RED; //home
+            color = RED;
     }
 
     //-----------------------------------------------------------------------
