@@ -8,7 +8,6 @@ public class Game
     private String visitor;
     private String home;
     private boolean visitorTurn;
-    private int width;
 
     public Game (Square[] s, int width, String v, String h)
     {
@@ -16,17 +15,11 @@ public class Game
         square = s;
         visitor = v;
         home = h;
-        this.width = width;
 
         if (width == 8)
             homePieces = visitorPieces = 10;
         else if (width == 10)
             homePieces = visitorPieces = 15;
-    }
-
-    public int getWidth ()
-    {
-        return width;
     }
 
     public String getHome ()
