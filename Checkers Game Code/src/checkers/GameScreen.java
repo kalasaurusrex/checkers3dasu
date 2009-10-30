@@ -41,8 +41,8 @@ public class GameScreen extends javax.swing.JFrame
     private String visitorPlayer;
     //private boolean first = false;
     //private boolean moveSelected = false;
-    Square firstSelectMove;
-    Square secondSelectMove;
+    Square firstSelectMove  = null;
+    Square secondSelectMove = null;
     Square firstSelectSetup;
     Square secondSelectSetup;
     ArrayList<Square> availableMoves;
@@ -104,7 +104,7 @@ public class GameScreen extends javax.swing.JFrame
 
         initComponents();
         initBoard();
-        
+        setVisible(true);
         coinToss(player1, player2);
 
         initBoardSetup();
@@ -124,26 +124,31 @@ public class GameScreen extends javax.swing.JFrame
     //randomly determine the home and visitor player
     private void coinToss(String player1, String player2)
     {
-        int headsTails;
-        int homeVisitor;
+        int headsTails = -1;
+        int homeVisitor = -1;
         random = new Random();
 
-        Object[] HTOptions = { "HEADS", "TAILS" };
-        headsTails = JOptionPane.showOptionDialog(null, player1 + ", select heads or tails",
-              "Coin Toss", JOptionPane.DEFAULT_OPTION,
-              JOptionPane.QUESTION_MESSAGE, null, HTOptions, HTOptions[0]);
+        //if user uses 'X' to exit, force them to answer the question
+        while (headsTails == -1)
+        {
+            Object[] HTOptions = { "HEADS", "TAILS" };
+            headsTails = JOptionPane.showOptionDialog(null, player1 + ", select heads or tails",
+                  "Coin Toss", JOptionPane.DEFAULT_OPTION,
+                  JOptionPane.QUESTION_MESSAGE, null, HTOptions, HTOptions[0]);
+        }
 
         Object[] HVOptions = { "HOME", "VISITOR" };
-
+        //System.out.println(headsTails);
         if (random.nextInt(2) == headsTails)
         {
             if (headsTails == 0)
             {
-                homeVisitor = JOptionPane.showOptionDialog(null,
-                      "The coin landed on Heads!\n\n" + player1 +
-                      ", do you want to be home or visitor?", "Coin Toss",
-                      JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                      null, HVOptions, HVOptions[0]);
+                while (homeVisitor == -1)
+                    homeVisitor = JOptionPane.showOptionDialog(null,
+                          "The coin landed on Heads!\n\n" + player1 +
+                          ", do you want to be home or visitor?", "Coin Toss",
+                          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                          null, HVOptions, HVOptions[0]);
 
                 if (homeVisitor == 0)
                 {
@@ -158,11 +163,12 @@ public class GameScreen extends javax.swing.JFrame
             }
             else
             {
-                homeVisitor = JOptionPane.showOptionDialog(null,
-                      "The coin landed on tails!\n\n" + player1 +
-                      ", do you want to be home or visitor?", "Coin Toss",
-                      JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                      null, HVOptions, HVOptions[0]);
+                while (homeVisitor == -1)
+                    homeVisitor = JOptionPane.showOptionDialog(null,
+                          "The coin landed on tails!\n\n" + player1 +
+                          ", do you want to be home or visitor?", "Coin Toss",
+                          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                          null, HVOptions, HVOptions[0]);
                 
                 if (homeVisitor == 0)
                 {
@@ -180,11 +186,12 @@ public class GameScreen extends javax.swing.JFrame
         {
             if (headsTails == 1)
             {
-                homeVisitor = JOptionPane.showOptionDialog(null,
-                      "The coin landed on Heads!\n\n" + player2 +
-                      ", do you want to be home or visitor?", "Coin Toss",
-                      JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                      null, HVOptions, HVOptions[0]);
+                while (homeVisitor == -1)
+                    homeVisitor = JOptionPane.showOptionDialog(null,
+                          "The coin landed on Heads!\n\n" + player2 +
+                          ", do you want to be home or visitor?", "Coin Toss",
+                          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                          null, HVOptions, HVOptions[0]);
                 
                 if (homeVisitor == 0)
                 {
@@ -199,11 +206,12 @@ public class GameScreen extends javax.swing.JFrame
             }
             else
             {
-                homeVisitor = JOptionPane.showOptionDialog(null,
-                      "The coin landed on tails!\n\n" + player2 +
-                      ", do you want to be home or visitor?", "Coin Toss",
-                      JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                      null, HVOptions, HVOptions[0]);
+                while (homeVisitor == -1)
+                    homeVisitor = JOptionPane.showOptionDialog(null,
+                          "The coin landed on tails!\n\n" + player2 +
+                          ", do you want to be home or visitor?", "Coin Toss",
+                          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                          null, HVOptions, HVOptions[0]);
                 
                 if (homeVisitor == 0)
                 {
@@ -363,7 +371,7 @@ public class GameScreen extends javax.swing.JFrame
                 removeHighlights(availableMoves);
 
                 //will return 0 for error and 1 for valid move
-                if (referee.executeMove(firstSelectMove, secondSelectMove) == 1)
+                if (referee.executeMove(firstSelectMove, secondSelectMove, availableMoves) == 1)
                 {
                     //NOTE: this logic will only work in build 1
                     secondSelectMove.setIcon(firstSelectMove.getIcon());

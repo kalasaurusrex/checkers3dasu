@@ -13,7 +13,7 @@ public class Referee
         game = g;
     }
 
-    /*public int executeMove (Square start, Square destination, ArrayList m)
+    public int executeMove (Square start, Square destination, ArrayList m)
     {
         int executeCode = 0; // returns 0 if error, 1 if move
         Square tempStart = start;
@@ -27,7 +27,12 @@ public class Referee
         {
             tempIndex = moves.get(i).getIndex();
             if (destinationIndex == tempIndex)
+            {
+                destination.setPiece(start.getPiece());
+                start.setPiece(null);
+                
                 executeCode = 1;// a valid move
+            }
 
         }
 
@@ -41,7 +46,7 @@ public class Referee
         
         return executeCode;
 
-    }*/
+    }
 
     public boolean executePlacement (Square selection, Square destination)
     {
@@ -117,14 +122,14 @@ public class Referee
             return false; //if the wrong player is trying to move
     }
 
-    /*public ArrayList showMoves (Square square)
+    public ArrayList showMoves (Square square)
     {
         int positionBoard = square.getPosition().getBoard();
         int positionColumn = square.getPosition().getColumn();
         int positionRow = square.getPosition().getRow();
         int width = game.getWidth();
         Square tempSquare = null;
-        ArrayList moves = null;
+        ArrayList moves = new ArrayList();
         int index = square.getIndex();
         Piece piece = square.getPiece();
 
@@ -137,7 +142,7 @@ public class Referee
                 if (positionRow != 1 && positionColumn != 1)//makes sure checker won't jump off board
                 {
                     tempSquare = squareArray[index-((width/2)+1)];//up and left
-                    if (tempSquare == null)//checks if the space is empty
+                    if (tempSquare.getPiece() == null)//checks if the space is empty
                     {
                         moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
                     }
@@ -146,7 +151,7 @@ public class Referee
                 if (positionRow != 1 && positionColumn != width)//makes sure checker won't jump off board
                 {
                     tempSquare = squareArray[index-(width/2)];//up and right
-                    if (tempSquare == null)
+                    if (tempSquare.getPiece() == null)
                     {
                         moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
                     }
@@ -158,7 +163,7 @@ public class Referee
                 if (positionRow != width && positionColumn != 1)//makes sure checker won't jump off board
                 {
                     tempSquare = squareArray[index+((width/2)-1)];//down and left
-                    if (tempSquare == null)
+                    if (tempSquare.getPiece() == null)
                     {
                         moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
                     }
@@ -167,11 +172,12 @@ public class Referee
                 if (positionRow != width && positionColumn != width)//makes sure checker won't jump off board
                 {
                     tempSquare = squareArray[index+(width/2)];//down and right
-                    if (tempSquare == null)
+                    if (tempSquare.getPiece() == null)
                     {
                         moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
                     }
                 }
+            }
         }
 
         //the logic for pieces in odd rows
@@ -179,19 +185,19 @@ public class Referee
         {
             if (game.getVisitorTurn() == false || piece instanceof King) //check if it's home's turn or a king, i.e. the only two cases where you can move up
             {
-                if (positionRow != 1 && positionColumn != width)//makes sure checker won't jump off board
+                if (positionRow != 1 && positionColumn != 1)//makes sure checker won't jump off board
                 {
 
                     tempSquare = squareArray[index-(width/2)];//up and left
-                    if (tempSquare == null)//checks if the space is empty
+                    if (tempSquare.getPiece() == null)//checks if the space is empty
                     {
                         moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
                     }
                 }
                 if (positionRow != 1 && positionColumn != width)//makes sure checker won't jump off board
                 {
-                    tempSquare = squareArray[index-((width/2)+1)];//up and right
-                    if (tempSquare == null)
+                    tempSquare = squareArray[index-(width/2)+1];//up and right
+                    if (tempSquare.getPiece() == null)
                     {
                         moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
                     }
@@ -203,7 +209,7 @@ public class Referee
                 if (positionRow != width && positionColumn != 1)//makes sure checker won't jump off board
                 {
                     tempSquare = squareArray[index+(width/2)];//down and left
-                    if (tempSquare == null)
+                    if (tempSquare.getPiece() == null)
                     {
                         moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
                     }
@@ -212,16 +218,17 @@ public class Referee
                 if (positionRow != width && positionColumn != width)//makes sure checker won't jump off board
                 {
                     tempSquare = squareArray[index+((width/2)+1)];//down and right
-                    if (tempSquare == null)
+                    if (tempSquare.getPiece() == null)
                     {
                         moves.add(tempSquare); //adds the square to the ArrayList that will be returned.
                     }
                 }
             }
-        }   
+           
+        }
+        
+        return moves;
     }
-    return moves;
-}*/
 
     public boolean verifySelection(Square square)
     {

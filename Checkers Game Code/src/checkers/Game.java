@@ -4,17 +4,19 @@ package checkers;
 public class Game
 {
     private int homePieces, visitorPieces;
+    private int width;
     private Square[] square;
     private String visitor;
     private String home;
     private boolean visitorTurn;
 
-    public Game (Square[] s, int width, String v, String h)
+    public Game (Square[] s, int w, String v, String h)
     {
         visitorTurn = true;
         square = s;
         visitor = v;
         home = h;
+        width = w;
 
         if (width == 8)
             homePieces = visitorPieces = 10;
@@ -60,6 +62,11 @@ public class Game
     public void getBoardState () 
     {
 
+    }
+
+    public int getWidth()
+    {
+        return width;
     }
 }
 
