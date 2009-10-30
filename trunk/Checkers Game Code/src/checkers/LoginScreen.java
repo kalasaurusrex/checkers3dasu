@@ -98,22 +98,23 @@ public class LoginScreen extends javax.swing.JFrame
         setResizable(false);
         getContentPane().setLayout(null);
 
-        homePlayerNameDisplay.setFont(new java.awt.Font("Knights Quest", 1, 48));
+        homePlayerNameDisplay.setFont(new java.awt.Font("Old English Text MT", 1, 18)); // NOI18N
         getContentPane().add(homePlayerNameDisplay);
         homePlayerNameDisplay.setBounds(370, 200, 160, 40);
         homePlayerNameDisplay.setVisible(false);
 
-        jLabel1.setFont(new java.awt.Font("Knights Quest", 1, 48));
+        jLabel1.setFont(new java.awt.Font("Old English Text MT", 1, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("New Game - Log In");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(120, 20, 332, 49);
+        jLabel1.setBounds(75, 17, 432, 62);
 
-        vsLabel.setFont(new java.awt.Font("Knights Quest", 1, 64));
-        vsLabel.setText("VS.");
+        vsLabel.setFont(new java.awt.Font("Old English Text MT", 1, 64)); // NOI18N
+        vsLabel.setText("VS");
         getContentPane().add(vsLabel);
-        vsLabel.setBounds(260, 200, 80, 50);
+        vsLabel.setBounds(205, 150, 124, 147);
 
+        player1Button.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
         player1Button.setText("Player 1 Login");
         player1Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,8 +122,9 @@ public class LoginScreen extends javax.swing.JFrame
             }
         });
         getContentPane().add(player1Button);
-        player1Button.setBounds(70, 90, 132, 29);
+        player1Button.setBounds(70, 90, 120, 23);
 
+        player2Button.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
         player2Button.setText("Player 2 Login");
         player2Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,14 +132,15 @@ public class LoginScreen extends javax.swing.JFrame
             }
         });
         getContentPane().add(player2Button);
-        player2Button.setBounds(350, 90, 120, 29);
+        player2Button.setBounds(348, 93, 120, 23);
         player2Button.setVisible(false);
 
-        visitorPlayerNameDisplay.setFont(new java.awt.Font("Knights Quest", 1, 48));
+        visitorPlayerNameDisplay.setFont(new java.awt.Font("Old English Text MT", 1, 18)); // NOI18N
         getContentPane().add(visitorPlayerNameDisplay);
         visitorPlayerNameDisplay.setBounds(50, 200, 170, 40);
         visitorPlayerNameDisplay.setVisible(false);
 
+        player1NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
         player1NameSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Player 1", "Player 2" }));
         player1NameSelect.setMinimumSize(new java.awt.Dimension(180, 30));
         player1NameSelect.setPreferredSize(new java.awt.Dimension(132, 29));
@@ -147,20 +150,23 @@ public class LoginScreen extends javax.swing.JFrame
             }
         });
         getContentPane().add(player1NameSelect);
-        player1NameSelect.setBounds(90, 140, 91, 29);
+        player1NameSelect.setBounds(57, 137, 132, 29);
         player1NameSelect.setVisible(false);
 
+        player2NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
         player2NameSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Player 1", "Player 2" }));
         player2NameSelect.setMinimumSize(new java.awt.Dimension(132, 29));
+        player2NameSelect.setPreferredSize(new java.awt.Dimension(132, 29));
         player2NameSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 player2NameSelectActionPerformed(evt);
             }
         });
         getContentPane().add(player2NameSelect);
-        player2NameSelect.setBounds(360, 140, 100, 27);
+        player2NameSelect.setBounds(345, 136, 132, 29);
         player2NameSelect.setVisible(false);
 
+        playGameButton.setFont(new java.awt.Font("Old English Text MT", 0, 11)); // NOI18N
         playGameButton.setText("Play Game");
         playGameButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -168,7 +174,7 @@ public class LoginScreen extends javax.swing.JFrame
             }
         });
         getContentPane().add(playGameButton);
-        playGameButton.setBounds(240, 280, 108, 29);
+        playGameButton.setBounds(225, 296, 77, 21);
         playGameButton.setVisible(false);
 
         pack();
@@ -176,22 +182,28 @@ public class LoginScreen extends javax.swing.JFrame
 
     private void player1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player1ButtonActionPerformed
         Object[] options = {"New User", "Sign In",};
-        int selection = JOptionPane.showOptionDialog(jFrame1, "Player 1, make a " +
+        int selection = -1;
+        while (selection == -1) { // force the user to make a selection
+            selection = JOptionPane.showOptionDialog(jFrame1, "Player 1, make a " +
                 "selection:", "Player 1 Login",
     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
                 options[1]);
+        }
         if (selection == 1) { // Sign In selected
             player1NameSelect.setVisible(true);
         } else { // New User selected
-           String newUserName = JOptionPane.showInputDialog(jFrame1, "Player 1, " +
+            String newUserName = null;
+            while (newUserName == null) {
+               newUserName = JOptionPane.showInputDialog(jFrame1, "Player 1, " +
                    "enter your name", "New User");
+            }
            visitorPlayer = new User(newUserName);
            visitorPlayerNameDisplay.setText(visitorPlayer.toString());
            visitorPlayerNameDisplay.setVisible(true);
            player2Button.setVisible(true);
         }
     }//GEN-LAST:event_player1ButtonActionPerformed
-
+    
     private void player1NameSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player1NameSelectActionPerformed
         visitorPlayer = new User((String)player1NameSelect.getSelectedItem());
         visitorPlayerNameDisplay.setText(visitorPlayer.toString());
@@ -208,15 +220,21 @@ public class LoginScreen extends javax.swing.JFrame
 
     private void player2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player2ButtonActionPerformed
         Object[] options = {"New User", "Sign In",};
-        int selection = JOptionPane.showOptionDialog(jFrame1, "Player 2, make a " +
+        int selection = -1;
+        while (selection == -1) {
+            selection = JOptionPane.showOptionDialog(jFrame1, "Player 2, make a " +
                 "selection:", "Player 2 Login",
     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
                 options[1]);
+        }
         if (selection == 1) { // Sign In selected
             player2NameSelect.setVisible(true);
         } else { // New User selected
-           String newUserName = JOptionPane.showInputDialog(jFrame1, "Player 2, " +
+            String newUserName = null;
+            while (newUserName == null) {
+            newUserName = JOptionPane.showInputDialog(jFrame1, "Player 2, " +
                    "enter your name", "New User");
+            }
            homePlayer = new User(newUserName);
            homePlayerNameDisplay.setText(homePlayer.toString());
            homePlayerNameDisplay.setVisible(true);
@@ -225,10 +243,20 @@ public class LoginScreen extends javax.swing.JFrame
     }
         private void playGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playGameButtonActionPerformed
             Object[] options = {"10x10 Board", "8x8 Board",};
-            int boardSizeSelection = JOptionPane.showOptionDialog(jFrame1,
+            int boardSizeSelection = -1;
+            while (boardSizeSelection == -1) {
+                boardSizeSelection = JOptionPane.showOptionDialog(jFrame1,
                     "Select a board size", "Board Size", JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-            new GameScreen(boardSizeSelection, visitorPlayer.toString(), homePlayer.toString()).setVisible(true);
+            }
+            int width = 0;
+            if (boardSizeSelection == 0) {
+                width = 10;
+            } else {
+                width = 8;
+            }
+            //setVisible(false);
+            new GameScreen(width, visitorPlayer.toString(), homePlayer.toString()).setVisible(true);
             setVisible(false);
         }//GEN-LAST:event_playGameButtonActionPerformed
 
