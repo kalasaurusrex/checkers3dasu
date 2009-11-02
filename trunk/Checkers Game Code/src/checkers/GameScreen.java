@@ -1,6 +1,6 @@
 /*
-* The GameScreen class handles the GUI actions of the 3D
-* checkers game.
+* The GameScreen class provides a Graphical User Interface and handles user 
+* actions relating to piece placement and movement in the 3D checkers game.
 *
 * Author:  David Clark
 */
