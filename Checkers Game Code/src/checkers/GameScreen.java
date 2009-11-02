@@ -1,13 +1,9 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * GameScreen.java
- *
- * Created on Oct 15, 2009, 9:29:36 AM
- */
+* The GameScreen class handles the GUI actions of the 3D
+* checkers game.
+*
+* Author:  David Clark
+*/
 
 package checkers;
 
@@ -39,8 +35,6 @@ public class GameScreen extends javax.swing.JFrame
     private boolean boardSetup = false;
     private String homePlayer;
     private String visitorPlayer;
-    //private boolean first = false;
-    //private boolean moveSelected = false;
     Square firstSelectMove  = null;
     Square secondSelectMove = null;
     Square firstSelectSetup;
@@ -74,12 +68,6 @@ public class GameScreen extends javax.swing.JFrame
     ImageIcon squareBlocked = new ImageIcon(getClass().getResource("/checkers/images/Square_Blocked.jpg"));
     ImageIcon hSquareBlocked = new ImageIcon(getClass().getResource("/checkers/images/Highlight_Blocked.jpg"));
 
-    /** Creates new form GameScreen */
-//    public GameScreen()
-//    {
-//
-//    }
-    
     public GameScreen(Game savedGame)
     {
         //In Build 2:
@@ -98,9 +86,9 @@ public class GameScreen extends javax.swing.JFrame
         boardSetup = true;
 
         if (size == 8)
-            visitorCheckers = homeCheckers = 1; //change back to 9
+            visitorCheckers = homeCheckers = 9; 
         else if (size == 10)
-            visitorCheckers = homeCheckers = 1; //change back to 14
+            visitorCheckers = homeCheckers = 14; 
 
         initComponents();
         initBoard();
@@ -116,10 +104,10 @@ public class GameScreen extends javax.swing.JFrame
 
     //will be implemented in build 2
     //randomly place all pieces
-    public void randomPlace ()
-    {
+    //public void randomPlace ()
+    //{
         
-    }
+    //}
 
     //randomly determine the home and visitor player
     private void coinToss(String player1, String player2)
@@ -138,7 +126,6 @@ public class GameScreen extends javax.swing.JFrame
         }
 
         Object[] HVOptions = { "HOME", "VISITOR" };
-        //System.out.println(headsTails);
         if (random.nextInt(2) == headsTails)
         {
             if (headsTails == 0)
@@ -840,20 +827,6 @@ public class GameScreen extends javax.swing.JFrame
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
-
-    /**
-    * @param args the command line arguments
-    */
-//    public static void main(String args[])
-//    {
-//        java.awt.EventQueue.invokeLater(new Runnable()
-//        {
-//            public void run()
-//            {
-//                new GameScreen().setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar boardMenuBar;
