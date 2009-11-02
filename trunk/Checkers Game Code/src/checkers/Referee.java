@@ -15,7 +15,7 @@ public class Referee
 
     public int executeMove (Square start, Square destination, ArrayList m)
     {
-        int executeCode = 0; // returns 0 if error, 1 if move
+        int executeCode = 0; // returns 0 if error, 1 if valid move
         Square tempStart = start;
         Square tempDestination = destination;
         ArrayList<Square> moves = m;
@@ -60,11 +60,6 @@ public class Referee
         //make sure the destination isn't a setup piece
         if (destination.getPosition().getBoard() == 0)
             return false;
-
-        //create a check that the user isn't placing a piece on top of another
-        //piece
-//        if (destination.getPiece() == null)
-//            return false;
 
         if (destination.getPiece() == null && game.getVisitorTurn())
         {
