@@ -109,7 +109,9 @@ public class Referee
     public boolean validateTurn (Piece piece)
     {
         //red(home) = 0, black(visitor) = 1
-        if (piece.getColor() == 1 && game.getVisitorTurn()== true) //checks it it's visitor's turn
+	if (piece == null)
+            return false;
+        else if (piece.getColor() == 1 && game.getVisitorTurn()== true) //checks it it's visitor's turn
             return true;
         else if (piece.getColor() == 0 && game.getVisitorTurn() == false)//checks if it's home's turn
             return true;

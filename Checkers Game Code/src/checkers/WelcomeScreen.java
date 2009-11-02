@@ -1,20 +1,16 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * WelcomeScreen.java
- *
- * Created on Oct 15, 2009, 9:41:21 AM
- */
+* The WelcomeScreen class provides a simple Graphical User Interface
+* that allows a user to select 1 of 4 options:
+* 1. Play new game
+* 2. Load game
+* 3. View statistics
+* 4. Perform administrative functions
+* 
+* Author:  David Clark
+*/
 
 package checkers;
 
-/**
- *
- * @author clarkcito
- */
 public class WelcomeScreen extends javax.swing.JFrame
 {
     private static final int NEW = 0;
@@ -117,20 +113,6 @@ public class WelcomeScreen extends javax.swing.JFrame
             setVisible(false);
         }
     }//GEN-LAST:event_NextButtonActionPerformed
-
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[])
-    {
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                new WelcomeScreen().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton AdminButton;
