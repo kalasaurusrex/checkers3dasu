@@ -54,6 +54,12 @@ public class Game
         this.visitorTurn = val;
     }
 
+    public int getWidth()
+    {
+        return width;
+    }
+    
+    /*The following modules will be implemented in later builds
     public void storeMove () 
     {
 
@@ -63,10 +69,6 @@ public class Game
     {
 
     }
-
-    public int getWidth()
-    {
-        return width;
-    }
+    */
 }
 
