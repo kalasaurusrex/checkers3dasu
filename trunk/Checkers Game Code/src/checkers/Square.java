@@ -28,7 +28,7 @@ public class Square extends javax.swing.JLabel
     //---------------------------------------------------------------------
     //Method: Square(Position)
     //Description:  This method is a constructor of the Square class.
-    // It takes as input a parameter of typeposition, which determines
+    // It takes as input a parameter of type Position, which determines
     // as square's position on the board.
     //----------------------------------------------------------------------
 
