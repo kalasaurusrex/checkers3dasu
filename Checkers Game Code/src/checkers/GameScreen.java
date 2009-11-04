@@ -551,7 +551,16 @@ public class GameScreen extends javax.swing.JFrame
         placeVisitorBlocked.setIcon(squareBlocked);
         rMessagePane.add(placeVisitorBlocked, JLayeredPane.DEFAULT_LAYER);
         placeVisitorBlocked.setBounds(20, 85, 40, 40);
-
+        placeVisitorBlocked.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                Square mySquare = (Square) evt.getSource();
+                setupClicked(mySquare);
+            }
+        });
+        
         visitorBlockedLabel = new JLabel();
         visitorBlockedLabel.setText("x " + visitorBlocked);
         rMessagePane.add(visitorBlockedLabel, JLayeredPane.DEFAULT_LAYER);
@@ -561,6 +570,15 @@ public class GameScreen extends javax.swing.JFrame
         placeVisitorSafe.setIcon(squareSafe);
         rMessagePane.add(placeVisitorSafe, JLayeredPane.DEFAULT_LAYER);
         placeVisitorSafe.setBounds(140, 85, 40, 40);
+        placeVisitorSafe.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                Square mySquare = (Square) evt.getSource();
+                setupClicked(mySquare);
+            }
+        });
 
         visitorSafeLabel = new JLabel();
         visitorSafeLabel.setText("x " + visitorSafe);
@@ -571,6 +589,15 @@ public class GameScreen extends javax.swing.JFrame
         placeVisitorMine.setIcon(squareBlack);
         rMessagePane.add(placeVisitorMine, JLayeredPane.DEFAULT_LAYER);
         placeVisitorMine.setBounds(260, 85, 40, 40);
+        placeVisitorMine.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                Square mySquare = (Square) evt.getSource();
+                setupClicked(mySquare);
+            }
+        });
 
         visitorMineLabel = new JLabel();
         visitorMineLabel.setText("x " + visitorMines);
@@ -619,6 +646,15 @@ public class GameScreen extends javax.swing.JFrame
         placeHomeBlocked.setIcon(squareBlocked);
         lMessagePane.add(placeHomeBlocked, JLayeredPane.DEFAULT_LAYER);
         placeHomeBlocked.setBounds(20, 85, 40, 40);
+        placeHomeBlocked.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                Square mySquare = (Square) evt.getSource();
+                setupClicked(mySquare);
+            }
+        });
 
         homeBlockedLabel = new JLabel();
         homeBlockedLabel.setText("x " + homeBlocked);
@@ -629,6 +665,15 @@ public class GameScreen extends javax.swing.JFrame
         placeHomeSafe.setIcon(squareSafe);
         lMessagePane.add(placeHomeSafe, JLayeredPane.DEFAULT_LAYER);
         placeHomeSafe.setBounds(140, 85, 40, 40);
+        placeHomeSafe.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                Square mySquare = (Square) evt.getSource();
+                setupClicked(mySquare);
+            }
+        });
 
         homeSafeLabel = new JLabel();
         homeSafeLabel.setText("x " + homeSafe);
@@ -639,25 +684,21 @@ public class GameScreen extends javax.swing.JFrame
         placeHomeMine.setIcon(squareBlack);
         lMessagePane.add(placeHomeMine, JLayeredPane.DEFAULT_LAYER);
         placeHomeMine.setBounds(260, 85, 40, 40);
+        placeHomeMine.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                Square mySquare = (Square) evt.getSource();
+                setupClicked(mySquare);
+            }
+        });
 
         homeMineLabel = new JLabel();
         homeMineLabel.setText("x " + homeMines);
         lMessagePane.add(homeMineLabel, JLayeredPane.DEFAULT_LAYER);
         homeMineLabel.setBounds(305, 95, 30, 20);
 
-        //items to be implemented in build 2
-        placeVisitorSafe.setEnabled(false);
-        visitorSafeLabel.setEnabled(false);
-        placeVisitorBlocked.setEnabled(false);
-        visitorBlockedLabel.setEnabled(false);
-        placeVisitorMine.setEnabled(false);
-        visitorMineLabel.setEnabled(false);
-        placeHomeSafe.setEnabled(false);
-        homeSafeLabel.setEnabled(false);
-        placeHomeBlocked.setEnabled(false);
-        homeBlockedLabel.setEnabled(false);
-        placeHomeMine.setEnabled(false);
-        homeMineLabel.setEnabled(false);
     }
 
     //remove the board setup images (Squares)
@@ -743,6 +784,35 @@ public class GameScreen extends javax.swing.JFrame
 
                     if (homeKings == 0)
                         placeHomeKing.setEnabled(false);
+                }
+                else if(firstSelectSetup.getIcon() == squareSafe && game.getVisitorTurn())
+                {
+                    visitorSafe--;
+                    visitorSafeLabel.setText("x " + visitorSafe);
+
+                    if(visitorSafe == 0)
+                        placeVisitorSafe.setEnabled(false);
+                }
+                else if(firstSelectSetup.getIcon() == squareSafe)
+                {
+                    homeSafe--;
+                    homeSafeLabel.setText("x " + homeSafe);
+                }
+                else if(firstSelectSetup.getIcon() == squareBlocked && game.getVisitorTurn())
+                {
+
+                }
+                else if(firstSelectSetup.getIcon() == squareBlocked)
+                {
+
+                }
+                else if(firstSelectSetup.getIcon() == squareBlack && game.getVisitorTurn())
+                {
+
+                }
+                else if(firstSelectSetup.getIcon() == squareBlack)
+                {
+                    
                 }
 
                 //alternate visibility of the home and visitor setup
