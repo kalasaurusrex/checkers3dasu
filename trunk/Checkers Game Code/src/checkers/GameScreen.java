@@ -797,22 +797,41 @@ public class GameScreen extends javax.swing.JFrame
                 {
                     homeSafe--;
                     homeSafeLabel.setText("x " + homeSafe);
+
+                    if(homeSafe == 0)
+                        placeHomeSafe.setEnabled(false);
                 }
                 else if(firstSelectSetup.getIcon() == squareBlocked && game.getVisitorTurn())
                 {
+                    visitorBlocked--;
+                    visitorBlockedLabel.setText("x " + visitorBlocked);
 
+                    if(visitorBlocked == 0)
+                        placeVisitorBlocked.setEnabled(false);
                 }
                 else if(firstSelectSetup.getIcon() == squareBlocked)
                 {
+                    homeBlocked--;
+                    homeBlockedLabel.setText("x " + homeBlocked);
 
+                    if(homeBlocked == 0)
+                        placeHomeBlocked.setEnabled(false);
                 }
                 else if(firstSelectSetup.getIcon() == squareBlack && game.getVisitorTurn())
                 {
+                    visitorMines--;
+                    visitorMineLabel.setText("x " + visitorMines);
 
+                    if(visitorMines == 0)
+                        placeVisitorMine.setEnabled(false);
                 }
                 else if(firstSelectSetup.getIcon() == squareBlack)
                 {
-                    
+                    homeMines--;
+                    homeMineLabel.setText("x " + homeMines);
+
+                    if(homeMines == 0)
+                        placeHomeMine.setEnabled(false);
                 }
 
                 //alternate visibility of the home and visitor setup
@@ -828,7 +847,8 @@ public class GameScreen extends javax.swing.JFrame
                 }
 
                 //once all pieces have been placed, end the board setup phase
-                if(homeCheckers == 0 && homeKings == 0)
+                if(homeCheckers == 0 && homeKings == 0 && homeSafe == 0
+                        && homeMines == 0 && homeBlocked == 0)
                 {
                     boardSetup = false;
                     removeBoardSetup();
