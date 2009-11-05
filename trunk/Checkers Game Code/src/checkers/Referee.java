@@ -79,6 +79,31 @@ public class Referee
                 game.setVisitorTurn(false);
                 return true;
             }
+            else if(destination.getPosition().getRow() <= 3 &&
+                    selection.getPosition().getRow() == 2 &&
+                    selection.getPosition().getColumn() == 1)
+            {
+                destination.setBlocked(true);
+                game.setVisitorTurn(false);
+                return true;
+            }
+            else if(destination.getPosition().getRow() <= 3 &&
+                    selection.getPosition().getRow() == 2 &&
+                    selection.getPosition().getColumn() == 2 &&
+                    selection.getMine() == false)
+            {
+                destination.setSafe(true);
+                game.setVisitorTurn(false);
+                return true;
+            }
+            else if(destination.getPosition().getRow() <= 3 &&
+                    selection.getPosition().getRow() == 2 &&
+                    selection.getPosition().getColumn() == 3)
+            {
+                destination.setMine(true);
+                game.setVisitorTurn(false);
+                return true;
+            }
         }
         else if (destination.getPiece() == null)
         {
@@ -95,6 +120,31 @@ public class Referee
                     selection.getPosition().getColumn() == 2)
             {
                 destination.setPiece(new King(game.getVisitorTurn()));
+                game.setVisitorTurn(true);
+                return true;
+            }
+            else if(destination.getPosition().getRow() > boardHeight -3 &&
+                    selection.getPosition().getRow() == 4 &&
+                    selection.getPosition().getColumn() == 1)
+            {
+                destination.setBlocked(true);
+                game.setVisitorTurn(true);
+                return true;
+            }
+            else if(destination.getPosition().getRow() > boardHeight - 3 &&
+                    selection.getPosition().getRow() == 4 &&
+                    selection.getPosition().getColumn() == 2 &&
+                    selection.getMine() == false)
+            {
+                destination.setSafe(true);
+                game.setVisitorTurn(true);
+                return true;
+            }
+            else if(destination.getPosition().getRow() > boardHeight - 3 &&
+                    selection.getPosition().getRow() == 4 &&
+                    selection.getPosition().getColumn() == 3)
+            {
+                destination.setMine(true);
                 game.setVisitorTurn(true);
                 return true;
             }
