@@ -785,7 +785,8 @@ public class GameScreen extends javax.swing.JFrame
                     if (homeKings == 0)
                         placeHomeKing.setEnabled(false);
                 }
-                else if(firstSelectSetup.getIcon() == squareSafe && game.getVisitorTurn())
+                else if(firstSelectSetup.getIcon() == squareSafe &&
+                        game.getVisitorTurn())
                 {
                     visitorSafe--;
                     visitorSafeLabel.setText("x " + visitorSafe);
@@ -793,7 +794,8 @@ public class GameScreen extends javax.swing.JFrame
                     if(visitorSafe == 0)
                         placeVisitorSafe.setEnabled(false);
                 }
-                else if(firstSelectSetup.getIcon() == squareSafe)
+                else if(firstSelectSetup.getIcon() == squareSafe &&
+                        game.getVisitorTurn() == false)
                 {
                     homeSafe--;
                     homeSafeLabel.setText("x " + homeSafe);
@@ -801,7 +803,8 @@ public class GameScreen extends javax.swing.JFrame
                     if(homeSafe == 0)
                         placeHomeSafe.setEnabled(false);
                 }
-                else if(firstSelectSetup.getIcon() == squareBlocked && game.getVisitorTurn())
+                else if(firstSelectSetup.getIcon() == squareBlocked &&
+                        game.getVisitorTurn())
                 {
                     visitorBlocked--;
                     visitorBlockedLabel.setText("x " + visitorBlocked);
@@ -809,7 +812,8 @@ public class GameScreen extends javax.swing.JFrame
                     if(visitorBlocked == 0)
                         placeVisitorBlocked.setEnabled(false);
                 }
-                else if(firstSelectSetup.getIcon() == squareBlocked)
+                else if(firstSelectSetup.getIcon() == squareBlocked &&
+                        game.getVisitorTurn() == false)
                 {
                     homeBlocked--;
                     homeBlockedLabel.setText("x " + homeBlocked);
@@ -817,7 +821,8 @@ public class GameScreen extends javax.swing.JFrame
                     if(homeBlocked == 0)
                         placeHomeBlocked.setEnabled(false);
                 }
-                else if(firstSelectSetup.getIcon() == squareBlack && game.getVisitorTurn())
+                else if(firstSelectSetup.getIcon() == squareBlack &&
+                        game.getVisitorTurn())
                 {
                     visitorMines--;
                     visitorMineLabel.setText("x " + visitorMines);
@@ -825,7 +830,8 @@ public class GameScreen extends javax.swing.JFrame
                     if(visitorMines == 0)
                         placeVisitorMine.setEnabled(false);
                 }
-                else if(firstSelectSetup.getIcon() == squareBlack)
+                else if(firstSelectSetup.getIcon() == squareBlack &&
+                        game.getVisitorTurn() == false)
                 {
                     homeMines--;
                     homeMineLabel.setText("x " + homeMines);
