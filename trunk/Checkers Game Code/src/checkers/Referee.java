@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Referee
 {
+    private final int ALLOWABLE_ROWS = 3;
     Square[] squareArray;
     Game game;
 
@@ -51,100 +52,107 @@ public class Referee
     public boolean executePlacement (Square selection, Square destination)
     {
         int boardHeight = 0;
+        int halfHeight = 0;
 
         if(squareArray.length == 100)
+        {
             boardHeight = 10;
+        }
         else if (squareArray.length == 64)
             boardHeight = 8;
+
+        halfHeight = boardHeight / 2;
 
         //make sure the destination isn't a setup piece
         if (destination.getPosition().getBoard() == 0)
             return false;
 
-        if (destination.getPiece() == null && game.getVisitorTurn())
+        if (selection.getPosition().getRow() == 2 &&
+                selection.getPosition().getColumn() == 2 &&
+                !destination.getMine() && !destination.getBlocked()) //visitor safe
         {
-            if(destination.getPosition().getRow() <= 3 &&
-                    selection.getPosition().getRow() == 1 &&
-                    selection.getPosition().getColumn() == 1)
-            {
-                destination.setPiece(new Checker(game.getVisitorTurn()));
-                game.setVisitorTurn(false);
-                return true;
-            }
-            else if(destination.getPosition().getRow() <= 3 && 
-                    selection.getPosition().getRow() == 1 &&
-                    selection.getPosition().getColumn() == 2)
-            {
-                destination.setPiece(new King(game.getVisitorTurn()));
-                game.setVisitorTurn(false);
-                return true;
-            }
-            else if(destination.getPosition().getRow() <= 3 &&
-                    selection.getPosition().getRow() == 2 &&
-                    selection.getPosition().getColumn() == 1)
-            {
-                destination.setBlocked(true);
-                game.setVisitorTurn(false);
-                return true;
-            }
-            else if(destination.getPosition().getRow() <= 3 &&
-                    selection.getPosition().getRow() == 2 &&
-                    selection.getPosition().getColumn() == 2 &&
-                    selection.getMine() == false)
-            {
-                destination.setSafe(true);
-                game.setVisitorTurn(false);
-                return true;
-            }
-            else if(destination.getPosition().getRow() <= 3 &&
-                    selection.getPosition().getRow() == 2 &&
-                    selection.getPosition().getColumn() == 3)
-            {
-                destination.setMine(true);
-                game.setVisitorTurn(false);
-                return true;
-            }
+            destination.setSafe(true);
+            game.setVisitorTurn(false);
+
+            return true;
         }
-        else if (destination.getPiece() == null)
+        else if (selection.getPosition().getRow() == 2 &&
+                selection.getPosition().getColumn() == 3 &&
+                !destination.getSafe() && !destination.getBlocked()) //visitor mine
         {
-            if(destination.getPosition().getRow() > boardHeight - 3 && 
+            destination.setMine(true);
+            game.setVisitorTurn(false);
+
+            return true;
+        }
+        else if (selection.getPosition().getRow() == 4 &&
+                selection.getPosition().getColumn() == 2 &&
+                !destination.getMine() && !destination.getBlocked()) //home safe
+        {
+            destination.setSafe(true);
+            game.setVisitorTurn(true);
+
+            return true;
+        }
+        else if (selection.getPosition().getRow() == 4 &&
+                selection.getPosition().getColumn() == 3 &&
+                !destination.getSafe() && !destination.getBlocked()) //home mine
+        {
+            destination.setMine(true);
+            game.setVisitorTurn(true);
+
+            return true;
+        }
+        else if (destination.getPiece() == null && !destination.getBlocked())
+        {
+            if (destination.getPosition().getRow() <= ALLOWABLE_ROWS &&
+                    selection.getPosition().getRow() == 1 &&
+                    selection.getPosition().getColumn() == 1) //visitor checker
+            {
+                destination.setPiece(new Checker(game.getVisitorTurn()));
+                game.setVisitorTurn(false);
+                return true;
+            }
+            else if (destination.getPosition().getRow() <= ALLOWABLE_ROWS &&
+                    selection.getPosition().getRow() == 1 &&
+                    selection.getPosition().getColumn() == 2) //visitor king
+            {
+                destination.setPiece(new King(game.getVisitorTurn()));
+                game.setVisitorTurn(false);
+                return true;
+            }
+        
+            if (destination.getPosition().getRow() > boardHeight - ALLOWABLE_ROWS &&
                     selection.getPosition().getRow() == 3 &&
-                    selection.getPosition().getColumn() == 1)
+                    selection.getPosition().getColumn() == 1) //home checker
             {
                 destination.setPiece(new Checker(game.getVisitorTurn()));
                 game.setVisitorTurn(true);
                 return true;
             }
-            else if(destination.getPosition().getRow() >boardHeight - 3 && 
+            else if (destination.getPosition().getRow() > boardHeight - ALLOWABLE_ROWS &&
                     selection.getPosition().getRow() == 3 &&
-                    selection.getPosition().getColumn() == 2)
+                    selection.getPosition().getColumn() == 2) //home king
             {
                 destination.setPiece(new King(game.getVisitorTurn()));
                 game.setVisitorTurn(true);
                 return true;
             }
-            else if(destination.getPosition().getRow() > boardHeight -3 &&
-                    selection.getPosition().getRow() == 4 &&
-                    selection.getPosition().getColumn() == 1)
+            else if (destination.getPosition().getRow() <= halfHeight &&
+                    selection.getPosition().getRow() == 2 &&
+                    selection.getPosition().getColumn() == 1 &&
+                    !destination.getSafe() && !destination.getMine()) //visitor blocked
             {
                 destination.setBlocked(true);
-                game.setVisitorTurn(true);
+                game.setVisitorTurn(false);
                 return true;
             }
-            else if(destination.getPosition().getRow() > boardHeight - 3 &&
+            else if (destination.getPosition().getRow() > halfHeight &&
                     selection.getPosition().getRow() == 4 &&
-                    selection.getPosition().getColumn() == 2 &&
-                    selection.getMine() == false)
+                    selection.getPosition().getColumn() == 1&&
+                    !destination.getSafe() && !destination.getMine()) //home blocked
             {
-                destination.setSafe(true);
-                game.setVisitorTurn(true);
-                return true;
-            }
-            else if(destination.getPosition().getRow() > boardHeight - 3 &&
-                    selection.getPosition().getRow() == 4 &&
-                    selection.getPosition().getColumn() == 3)
-            {
-                destination.setMine(true);
+                destination.setBlocked(true);
                 game.setVisitorTurn(true);
                 return true;
             }
@@ -159,7 +167,7 @@ public class Referee
     public boolean validateTurn (Piece piece)
     {
         //red(home) = 0, black(visitor) = 1
-	if (piece == null)
+        if (piece == null)
             return false;
         else if (piece.getColor() == 1 && game.getVisitorTurn()== true) //checks it it's visitor's turn
             return true;

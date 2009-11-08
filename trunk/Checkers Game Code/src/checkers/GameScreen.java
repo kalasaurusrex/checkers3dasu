@@ -1,5 +1,5 @@
 /*
-* The GameScreen class provides a Graphical User Interface and handles user 
+* The GameScreen class provides a Graphical User Interface and handles user
 * actions relating to piece placement and movement in the 3D checkers game.
 *
 * Author:  David Clark
@@ -9,6 +9,7 @@ package checkers;
 
 import java.util.*;
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
 
 
 public class GameScreen extends javax.swing.JFrame
@@ -68,9 +69,10 @@ public class GameScreen extends javax.swing.JFrame
     ImageIcon squareBlocked = new ImageIcon(getClass().getResource("/checkers/images/Square_Blocked.jpg"));
     ImageIcon hSquareBlocked = new ImageIcon(getClass().getResource("/checkers/images/Highlight_Blocked.jpg"));
 
+    /** Creates new form GameScreen */
     public GameScreen(Game savedGame)
     {
-        //In Build 2:
+        //In Build 3:
         //get saved game info and load it
         
         initComponents();
@@ -86,14 +88,16 @@ public class GameScreen extends javax.swing.JFrame
         boardSetup = true;
 
         if (size == 8)
-            visitorCheckers = homeCheckers = 9; 
+            visitorCheckers = homeCheckers = 1; //change back to 9
         else if (size == 10)
-            visitorCheckers = homeCheckers = 14; 
+            visitorCheckers = homeCheckers = 1; //change back to 14
 
         initComponents();
         initBoard();
+
         setVisible(true);
         coinToss(player1, player2);
+        
 
         initBoardSetup();
 
@@ -104,113 +108,29 @@ public class GameScreen extends javax.swing.JFrame
 
     //will be implemented in build 2
     //randomly place all pieces
-    //public void randomPlace ()
-    //{
+    public void randomPlace ()
+    {
         
-    //}
+    }
 
     //randomly determine the home and visitor player
     private void coinToss(String player1, String player2)
     {
-        int headsTails = -1;
-        int homeVisitor = -1;
-        random = new Random();
+        CoinToss toss = new CoinToss(null, true, player1, player2);
+        toss.setLocationRelativeTo(this);
+        toss.setVisible(true);
 
-        //if user uses 'X' to exit, force them to answer the question
-        while (headsTails == -1)
+        //use the information from the coin toss to determine the home and
+        //visitor player
+        if (toss.player1Home())
         {
-            Object[] HTOptions = { "HEADS", "TAILS" };
-            headsTails = JOptionPane.showOptionDialog(null, player1 + ", select heads or tails",
-                  "Coin Toss", JOptionPane.DEFAULT_OPTION,
-                  JOptionPane.QUESTION_MESSAGE, null, HTOptions, HTOptions[0]);
-        }
-
-        Object[] HVOptions = { "HOME", "VISITOR" };
-        if (random.nextInt(2) == headsTails)
-        {
-            if (headsTails == 0)
-            {
-                while (homeVisitor == -1)
-                    homeVisitor = JOptionPane.showOptionDialog(null,
-                          "The coin landed on Heads!\n\n" + player1 +
-                          ", do you want to be home or visitor?", "Coin Toss",
-                          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                          null, HVOptions, HVOptions[0]);
-
-                if (homeVisitor == 0)
-                {
-                    homePlayer = player1;
-                    visitorPlayer = player2;
-                }
-                else
-                {
-                    homePlayer = player2;
-                    visitorPlayer = player1;
-                }
-            }
-            else
-            {
-                while (homeVisitor == -1)
-                    homeVisitor = JOptionPane.showOptionDialog(null,
-                          "The coin landed on tails!\n\n" + player1 +
-                          ", do you want to be home or visitor?", "Coin Toss",
-                          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                          null, HVOptions, HVOptions[0]);
-                
-                if (homeVisitor == 0)
-                {
-                    homePlayer = player1;
-                    visitorPlayer = player2;
-                }
-                else
-                {
-                    homePlayer = player2;
-                    visitorPlayer = player1;
-                }
-            }
+            homePlayer = player1;
+            visitorPlayer = player2;
         }
         else
         {
-            if (headsTails == 1)
-            {
-                while (homeVisitor == -1)
-                    homeVisitor = JOptionPane.showOptionDialog(null,
-                          "The coin landed on Heads!\n\n" + player2 +
-                          ", do you want to be home or visitor?", "Coin Toss",
-                          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                          null, HVOptions, HVOptions[0]);
-                
-                if (homeVisitor == 0)
-                {
-                    homePlayer = player2;
-                    visitorPlayer = player1;
-                }
-                else
-                {
-                    homePlayer = player1;
-                    visitorPlayer = player2;
-                }
-            }
-            else
-            {
-                while (homeVisitor == -1)
-                    homeVisitor = JOptionPane.showOptionDialog(null,
-                          "The coin landed on tails!\n\n" + player2 +
-                          ", do you want to be home or visitor?", "Coin Toss",
-                          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                          null, HVOptions, HVOptions[0]);
-                
-                if (homeVisitor == 0)
-                {
-                    homePlayer = player2;
-                    visitorPlayer = player1;
-                }
-                else
-                {
-                    homePlayer = player1;
-                    visitorPlayer = player2;
-                }
-            }
+            homePlayer = player2;
+            visitorPlayer = player1;
         }
     }
     
@@ -269,7 +189,6 @@ public class GameScreen extends javax.swing.JFrame
             lBackgroundLabel.setIcon(board8X8);
             rBackgroundLabel.setIcon(board8X8);
         }
-        rBackgroundLabel.setEnabled(false);  //implemented in build 2
 
         //the vert and horiz values are manipulated in the 'for' loop to place
         //the black squares between the red squares on the board
@@ -308,10 +227,7 @@ public class GameScreen extends javax.swing.JFrame
             //if half the squares have been placed, add the square to board 2,
             //otherwise add the square to board 1
             if (halfFlag)
-            {
                 rBoardPane.add(this.square[i], javax.swing.JLayeredPane.DEFAULT_LAYER);
-                this.square[i].setEnabled(false);  //implemented in build 2
-            }
             else
                 lBoardPane.add(this.square[i], javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -360,16 +276,14 @@ public class GameScreen extends javax.swing.JFrame
                 //will return 0 for error and 1 for valid move
                 if (referee.executeMove(firstSelectMove, secondSelectMove, availableMoves) == 1)
                 {
-                    //NOTE: this logic will only work in build 1
-                    secondSelectMove.setIcon(firstSelectMove.getIcon());
-                    firstSelectMove.setIcon(squareBlack);
+                    updateIcon(firstSelectMove);
+                    updateIcon(secondSelectMove);
 
                     if (rMessageLabel.getText().equals("<html>" + visitorPlayer + ", it's your turn</html>"))
                         rMessageLabel.setText("<html>" + homePlayer + ", it's your turn</html>");
                     else
                         rMessageLabel.setText("<html>" + visitorPlayer + ", it's your turn</html>");
                 }
-
 
                 firstSelectMove = null;
             }
@@ -383,6 +297,49 @@ public class GameScreen extends javax.swing.JFrame
 
                     highlightMoves(availableMoves);
                 }
+            }
+        }
+    }
+
+    //update the icon on a square that has been manipulated by the referee
+    private void updateIcon(Square square)
+    {
+        if (square.getSafe()) //is safe zone
+        {
+            if (square.getPiece() == null) //empty safe
+                square.setIcon(squareSafe);
+            else if (square.getPiece() instanceof Checker)
+            {
+                if (square.getPiece().getColor() == BLACK)  //safe black checker
+                    square.setIcon(safeCheckerBlack);
+                else  //safe red checker
+                    square.setIcon(safeCheckerRed);
+            }
+            else if (square.getPiece() instanceof King)
+            {
+                if (square.getPiece().getColor() == BLACK) //safe black king
+                    square.setIcon(safeKingBlack);
+                else //safe red king
+                    square.setIcon(safeKingRed);
+            }
+        }
+        else //not safe zone
+        {
+            if (square.getPiece() == null) //empty square
+                square.setIcon(squareBlack);
+            else if (square.getPiece() instanceof Checker)
+            {
+                if (square.getPiece().getColor() == BLACK)  //black checker
+                    square.setIcon(checkerBlack);
+                else  //red checker
+                    square.setIcon(checkerRed);
+            }
+            else if (square.getPiece() instanceof King)
+            {
+                if (square.getPiece().getColor() == BLACK) //black king
+                    square.setIcon(kingBlack);
+                else //red king
+                    square.setIcon(kingRed);
             }
         }
     }
@@ -484,7 +441,7 @@ public class GameScreen extends javax.swing.JFrame
         getContentPane().add(lMessagePane);
         lMessagePane.setBounds(40, 430, 340, 145);
 
-        //visitor places first piece, set visible to false
+        //since the visitor places the first piece, hide home's options
         lMessagePane.setVisible(false);
 
 
@@ -513,15 +470,8 @@ public class GameScreen extends javax.swing.JFrame
         placeVisitorChecker.setIcon(checkerBlack);
         rMessagePane.add(placeVisitorChecker, JLayeredPane.DEFAULT_LAYER);
         placeVisitorChecker.setBounds(80, 25, 40, 40);
-        placeVisitorChecker.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                Square mySquare =  (Square) evt.getSource();
-                setupClicked(mySquare);
-            }
-        });
+        placeVisitorChecker.setToolTipText("Checker");
+        placeVisitorChecker.addMouseListener(mouseAdapter);
         
         visitorCheckerLabel = new JLabel();
         visitorCheckerLabel.setText("x " + visitorCheckers);
@@ -532,15 +482,8 @@ public class GameScreen extends javax.swing.JFrame
         placeVisitorKing.setIcon(kingBlack);
         rMessagePane.add(placeVisitorKing, JLayeredPane.DEFAULT_LAYER);
         placeVisitorKing.setBounds(200, 25, 40, 40);
-        placeVisitorKing.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                Square myPiece =  (Square) evt.getSource();
-                setupClicked(myPiece);
-            }
-        });
+        placeVisitorKing.setToolTipText("King");
+        placeVisitorKing.addMouseListener(mouseAdapter);
 
         visitorKingLabel = new JLabel();
         visitorKingLabel.setText("x " + visitorKings);
@@ -551,16 +494,9 @@ public class GameScreen extends javax.swing.JFrame
         placeVisitorBlocked.setIcon(squareBlocked);
         rMessagePane.add(placeVisitorBlocked, JLayeredPane.DEFAULT_LAYER);
         placeVisitorBlocked.setBounds(20, 85, 40, 40);
-        placeVisitorBlocked.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                Square mySquare = (Square) evt.getSource();
-                setupClicked(mySquare);
-            }
-        });
-        
+        placeVisitorBlocked.setToolTipText("Blocked Square");
+        placeVisitorBlocked.addMouseListener(mouseAdapter);
+
         visitorBlockedLabel = new JLabel();
         visitorBlockedLabel.setText("x " + visitorBlocked);
         rMessagePane.add(visitorBlockedLabel, JLayeredPane.DEFAULT_LAYER);
@@ -570,15 +506,8 @@ public class GameScreen extends javax.swing.JFrame
         placeVisitorSafe.setIcon(squareSafe);
         rMessagePane.add(placeVisitorSafe, JLayeredPane.DEFAULT_LAYER);
         placeVisitorSafe.setBounds(140, 85, 40, 40);
-        placeVisitorSafe.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                Square mySquare = (Square) evt.getSource();
-                setupClicked(mySquare);
-            }
-        });
+        placeVisitorSafe.setToolTipText("Safe Zone");
+        placeVisitorSafe.addMouseListener(mouseAdapter);
 
         visitorSafeLabel = new JLabel();
         visitorSafeLabel.setText("x " + visitorSafe);
@@ -589,15 +518,8 @@ public class GameScreen extends javax.swing.JFrame
         placeVisitorMine.setIcon(squareBlack);
         rMessagePane.add(placeVisitorMine, JLayeredPane.DEFAULT_LAYER);
         placeVisitorMine.setBounds(260, 85, 40, 40);
-        placeVisitorMine.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                Square mySquare = (Square) evt.getSource();
-                setupClicked(mySquare);
-            }
-        });
+        placeVisitorMine.setToolTipText("Smart Mine");
+        placeVisitorMine.addMouseListener(mouseAdapter);
 
         visitorMineLabel = new JLabel();
         visitorMineLabel.setText("x " + visitorMines);
@@ -608,15 +530,8 @@ public class GameScreen extends javax.swing.JFrame
         placeHomeChecker.setIcon(checkerRed);
         lMessagePane.add(placeHomeChecker, JLayeredPane.DEFAULT_LAYER);
         placeHomeChecker.setBounds(80, 25, 40, 40);
-        placeHomeChecker.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                Square mySquare =  (Square) evt.getSource();
-                setupClicked(mySquare);
-            }
-        });
+        placeHomeChecker.setToolTipText("Checker");
+        placeHomeChecker.addMouseListener(mouseAdapter);
 
         homeCheckerLabel = new JLabel();
         homeCheckerLabel.setText("x " + homeCheckers);
@@ -627,15 +542,8 @@ public class GameScreen extends javax.swing.JFrame
         placeHomeKing.setIcon(kingRed);
         lMessagePane.add(placeHomeKing, JLayeredPane.DEFAULT_LAYER);
         placeHomeKing.setBounds(200, 25, 40, 40);
-        placeHomeKing.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                Square mySquare =  (Square) evt.getSource();
-                setupClicked(mySquare);
-            }
-        });
+        placeHomeKing.setToolTipText("King");
+        placeHomeKing.addMouseListener(mouseAdapter);
 
         homeKingLabel = new JLabel();
         homeKingLabel.setText("x " + homeKings);
@@ -646,15 +554,8 @@ public class GameScreen extends javax.swing.JFrame
         placeHomeBlocked.setIcon(squareBlocked);
         lMessagePane.add(placeHomeBlocked, JLayeredPane.DEFAULT_LAYER);
         placeHomeBlocked.setBounds(20, 85, 40, 40);
-        placeHomeBlocked.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                Square mySquare = (Square) evt.getSource();
-                setupClicked(mySquare);
-            }
-        });
+        placeHomeBlocked.setToolTipText("Blocked Square");
+        placeHomeBlocked.addMouseListener(mouseAdapter);
 
         homeBlockedLabel = new JLabel();
         homeBlockedLabel.setText("x " + homeBlocked);
@@ -665,15 +566,8 @@ public class GameScreen extends javax.swing.JFrame
         placeHomeSafe.setIcon(squareSafe);
         lMessagePane.add(placeHomeSafe, JLayeredPane.DEFAULT_LAYER);
         placeHomeSafe.setBounds(140, 85, 40, 40);
-        placeHomeSafe.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                Square mySquare = (Square) evt.getSource();
-                setupClicked(mySquare);
-            }
-        });
+        placeHomeSafe.setToolTipText("Safe Zone");
+        placeHomeSafe.addMouseListener(mouseAdapter);
 
         homeSafeLabel = new JLabel();
         homeSafeLabel.setText("x " + homeSafe);
@@ -684,21 +578,13 @@ public class GameScreen extends javax.swing.JFrame
         placeHomeMine.setIcon(squareBlack);
         lMessagePane.add(placeHomeMine, JLayeredPane.DEFAULT_LAYER);
         placeHomeMine.setBounds(260, 85, 40, 40);
-        placeHomeMine.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                Square mySquare = (Square) evt.getSource();
-                setupClicked(mySquare);
-            }
-        });
+        placeHomeMine.setToolTipText("Smart Mine");
+        placeHomeMine.addMouseListener(mouseAdapter);
 
         homeMineLabel = new JLabel();
         homeMineLabel.setText("x " + homeMines);
         lMessagePane.add(homeMineLabel, JLayeredPane.DEFAULT_LAYER);
         homeMineLabel.setBounds(305, 95, 30, 20);
-
     }
 
     //remove the board setup images (Squares)
@@ -734,6 +620,145 @@ public class GameScreen extends javax.swing.JFrame
         rMessageLabel.setText("<html>" + visitorPlayer + ", it's your turn</html>");
     }
 
+    MouseAdapter mouseAdapter = new MouseAdapter()
+    {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt)
+        {
+            Square mySquare =  (Square) evt.getSource();
+            setupClicked(mySquare);
+        }
+    };
+
+    private void updateSetupIcons(Position setup, Square destination)
+    {
+        //decrease the piece count and refresh the label value
+        if (setup.getRow() == 1 && setup.getColumn() == 1) //visitor checker
+        {
+            visitorCheckers--;
+            visitorCheckerLabel.setText("x " + visitorCheckers);
+
+            if (visitorCheckers == 0)
+                placeVisitorChecker.setEnabled(false);
+
+            if (destination.getSafe())
+                destination.setIcon(safeCheckerBlack);
+            else
+                destination.setIcon(checkerBlack);
+        }
+        else if (setup.getRow() == 1 && setup.getColumn() == 2) //visitor king
+        {
+            visitorKings--;
+            visitorKingLabel.setText("x " + visitorKings);
+
+            if (visitorKings == 0)
+                placeVisitorKing.setEnabled(false);
+
+            if (destination.getSafe())
+                destination.setIcon(safeKingBlack);
+            else
+                destination.setIcon(kingBlack);
+        }
+        else if (setup.getRow() == 3 && setup.getColumn() == 1) //home checker
+        {
+            homeCheckers--;
+            homeCheckerLabel.setText("x " + homeCheckers);
+
+            if (homeCheckers == 0)
+                placeHomeChecker.setEnabled(false);
+
+            if (destination.getSafe())
+                destination.setIcon(safeCheckerRed);
+            else
+                destination.setIcon(checkerRed);
+        }
+        else if (setup.getRow() == 3 && setup.getColumn() == 2) //home king
+        {
+            homeKings--;
+            homeKingLabel.setText("x " + homeKings);
+
+            if (homeKings == 0)
+                placeHomeKing.setEnabled(false);
+
+            if (destination.getSafe())
+                destination.setIcon(safeKingRed);
+            else
+                destination.setIcon(kingRed);
+        }
+        else if (setup.getRow() == 2 && setup.getColumn() == 1) //visitor blocked
+        {
+            visitorBlocked--;
+            visitorBlockedLabel.setText("x " + visitorBlocked);
+
+            if (visitorBlocked == 0)
+                placeVisitorBlocked.setEnabled(false);
+
+            destination.setIcon(squareBlocked);
+        }
+        else if (setup.getRow() == 4 && setup.getColumn() == 1) //home blocked
+        {
+            homeBlocked--;
+            homeBlockedLabel.setText("x " + homeBlocked);
+
+            if (homeBlocked == 0)
+                placeHomeBlocked.setEnabled(false);
+
+            destination.setIcon(squareBlocked);
+        }
+        else if (setup.getRow() == 2 && setup.getColumn() == 2) //visitor safe
+        {
+            visitorSafe--;
+            visitorSafeLabel.setText("x " + visitorSafe);
+
+            if (visitorSafe == 0)
+                placeVisitorSafe.setEnabled(false);
+
+            if (destination.getPiece() == null)
+                destination.setIcon(squareSafe);
+            else
+            {
+                if (destination.getPiece() instanceof Checker)
+                    destination.setIcon(safeCheckerBlack);
+                else if (destination.getPiece() instanceof King)
+                    destination.setIcon(safeKingBlack);
+            }
+        }
+        else if (setup.getRow() == 4 && setup.getColumn() == 2) //home safe
+        {
+            homeSafe--;
+            homeSafeLabel.setText("x " + homeSafe);
+
+            if (homeSafe == 0)
+                placeHomeSafe.setEnabled(false);
+
+            if (destination.getPiece() == null)
+                destination.setIcon(squareSafe);
+            else
+            {
+                if (destination.getPiece() instanceof Checker)
+                    destination.setIcon(safeCheckerRed);
+                else if (destination.getPiece() instanceof King)
+                    destination.setIcon(safeKingRed);
+            }
+        }
+        else if (setup.getRow() == 2 && setup.getColumn() == 3) //visitor mine
+        {
+            visitorMines--;
+            visitorMineLabel.setText("x " + visitorMines);
+
+            if (visitorMines == 0)
+                placeVisitorMine.setEnabled(false);
+        }
+        else if (setup.getRow() == 4 && setup.getColumn() == 3) //home mine
+        {
+            homeMines--;
+            homeMineLabel.setText("x " + homeMines);
+
+            if (homeMines == 0)
+                placeHomeMine.setEnabled(false);
+        }
+    }
+
     //receive and manage "clicks" from the user during setup phase
     private void setupClicked(Square square)
     {
@@ -749,96 +774,7 @@ public class GameScreen extends javax.swing.JFrame
 
             if (square.isEnabled() && referee.executePlacement(firstSelectSetup, secondSelectSetup))
             {
-                //update the icons to reflect the piece placement
-                square.setIcon(firstSelectSetup.getIcon());
-
-                //decrease the piece count and refresh the label value
-                if (firstSelectSetup.getIcon() == checkerBlack)
-                {
-                    visitorCheckers--;
-                    visitorCheckerLabel.setText("x " + visitorCheckers);
-
-                    if (visitorCheckers == 0)
-                        placeVisitorChecker.setEnabled(false);
-                }
-                else if (firstSelectSetup.getIcon() == kingBlack)
-                {
-                    visitorKings--;
-                    visitorKingLabel.setText("x " + visitorKings);
-
-                    if (visitorKings == 0)
-                        placeVisitorKing.setEnabled(false);
-                }
-                else if (firstSelectSetup.getIcon() == checkerRed)
-                {
-                    homeCheckers--;
-                    homeCheckerLabel.setText("x " + homeCheckers);
-
-                    if (homeCheckers == 0)
-                        placeHomeChecker.setEnabled(false);
-                }
-                else if (firstSelectSetup.getIcon() == kingRed)
-                {
-                    homeKings--;
-                    homeKingLabel.setText("x " + homeKings);
-
-                    if (homeKings == 0)
-                        placeHomeKing.setEnabled(false);
-                }
-                else if(firstSelectSetup.getIcon() == squareSafe &&
-                        game.getVisitorTurn())
-                {
-                    visitorSafe--;
-                    visitorSafeLabel.setText("x " + visitorSafe);
-
-                    if(visitorSafe == 0)
-                        placeVisitorSafe.setEnabled(false);
-                }
-                else if(firstSelectSetup.getIcon() == squareSafe &&
-                        game.getVisitorTurn() == false)
-                {
-                    homeSafe--;
-                    homeSafeLabel.setText("x " + homeSafe);
-
-                    if(homeSafe == 0)
-                        placeHomeSafe.setEnabled(false);
-                }
-                else if(firstSelectSetup.getIcon() == squareBlocked &&
-                        game.getVisitorTurn())
-                {
-                    visitorBlocked--;
-                    visitorBlockedLabel.setText("x " + visitorBlocked);
-
-                    if(visitorBlocked == 0)
-                        placeVisitorBlocked.setEnabled(false);
-                }
-                else if(firstSelectSetup.getIcon() == squareBlocked &&
-                        game.getVisitorTurn() == false)
-                {
-                    homeBlocked--;
-                    homeBlockedLabel.setText("x " + homeBlocked);
-
-                    if(homeBlocked == 0)
-                        placeHomeBlocked.setEnabled(false);
-                }
-                else if(firstSelectSetup.getIcon() == squareBlack &&
-                        game.getVisitorTurn())
-                {
-                    visitorMines--;
-                    visitorMineLabel.setText("x " + visitorMines);
-
-                    if(visitorMines == 0)
-                        placeVisitorMine.setEnabled(false);
-                }
-                else if(firstSelectSetup.getIcon() == squareBlack &&
-                        game.getVisitorTurn() == false)
-                {
-                    homeMines--;
-                    homeMineLabel.setText("x " + homeMines);
-
-                    if(homeMines == 0)
-                        placeHomeMine.setEnabled(false);
-                }
+                updateSetupIcons(firstSelectSetup.getPosition(), secondSelectSetup);
 
                 //alternate visibility of the home and visitor setup
                 if (rMessagePane.isVisible())
@@ -853,8 +789,8 @@ public class GameScreen extends javax.swing.JFrame
                 }
 
                 //once all pieces have been placed, end the board setup phase
-                if(homeCheckers == 0 && homeKings == 0 && homeSafe == 0
-                        && homeMines == 0 && homeBlocked == 0)
+                if(homeCheckers == 0 && homeKings == 0 && homeBlocked == 0 &&
+                        homeSafe == 0 && homeMines == 0)
                 {
                     boardSetup = false;
                     removeBoardSetup();
