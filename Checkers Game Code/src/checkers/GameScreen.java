@@ -110,10 +110,322 @@ public class GameScreen extends javax.swing.JFrame
     //randomly place all pieces
     public void randomPlace ()
     {
-        
-    }
+        //This is the randomPlace case for the 8x8 board
+        if(width == 8)
+        {
+            //populate an array with all of the possible squares
+            //that a piece can be placed.
+            Square[] randomList = new Square[24];
+            for(int i = 0; i < 12; i++)
+            {
+                randomList[i] = square[i];
+            }
+               for(int j = 0; j < 12; j++)
+            {
+               randomList[j+12] = square[32+j];
+            }
 
-    //randomly determine the home and visitor player
+            //randomly place all visitor checkers.
+            while(visitorCheckers != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 24;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorCheckers--;
+                }
+            }
+
+            //randomly place all visitor kings.
+            while(visitorKings != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 24;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setPiece(new King(game.getVisitorTurn()));
+                    visitorKings--;
+                }
+            }
+
+            //randomly place all visitor blocked squares.
+            while(visitorBlocked != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 24;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setBlocked(true);
+                    visitorBlocked--;
+                }
+            }
+
+            //randomly place all visitor safe zones.
+            while(visitorSafe != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 24;
+
+                if(square[tmp].getBlocked() != true)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorSafe--;
+                }
+            }
+
+            //randomly place all visitor mines.
+            while(visitorMines != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 24;
+
+                if(square[tmp].getBlocked() != true && square[tmp].getSafe() != true)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorMines--;
+                }
+            }
+
+            //populate the array with the available squares for the Home player
+            for(int i = 0; i < 12; i++)
+            {
+                randomList[i] = square[i];
+            }
+               for(int j = 0; j < 12; j++)
+            {
+               randomList[j+12] = square[52+j];
+            }
+
+            game.setVisitorTurn(false);
+
+            //randomly place all Home checkers.
+            while(visitorCheckers != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 24;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorCheckers--;
+                }
+            }
+
+            //randomly place all Home kings.
+            while(visitorKings != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 24;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setPiece(new King(game.getVisitorTurn()));
+                    visitorKings--;
+                }
+            }
+
+            //randomly place all Home blocked squares.
+            while(visitorBlocked != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 24;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setBlocked(true);
+                    visitorBlocked--;
+                }
+            }
+
+            //randomly place all Home safe zones.
+            while(visitorSafe != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 24;
+
+                if(square[tmp].getBlocked() != true)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorSafe--;
+                }
+            }
+
+            //randomly place all Home mines.
+            while(visitorMines != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 24;
+
+                if(square[tmp].getBlocked() != true && square[tmp].getSafe() != true)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorMines--;
+                }
+            }
+        }
+
+        //This is the randomPlace case for the 10x10
+        if(width == 10)
+        {
+            //populate an array with all of the possible squares
+            //that a piece can be placed.
+            Square[] randomList = new Square[30];
+            for(int i = 0; i < 15; i++)
+            {
+                randomList[i] = square[i];
+            }
+               for(int j = 0; j < 15; j++)
+            {
+               randomList[j+15] = square[50+j];
+            }
+
+            //randomly place all visitor checkers.
+            while(visitorCheckers != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 30;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorCheckers--;
+                }
+            }
+
+            //randomly place all visitor kings.
+            while(visitorKings != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 30;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setPiece(new King(game.getVisitorTurn()));
+                    visitorKings--;
+                }
+            }
+
+            //randomly place all visitor blocked squares.
+            while(visitorBlocked != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 30;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setBlocked(true);
+                    visitorBlocked--;
+                }
+            }
+
+            //randomly place all visitor safe zones.
+            while(visitorSafe != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 30;
+
+                if(square[tmp].getBlocked() != true)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorSafe--;
+                }
+            }
+
+            //randomly place all visitor mines.
+            while(visitorMines != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 30;
+
+                if(square[tmp].getBlocked() != true && square[tmp].getSafe() != true)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorMines--;
+                }
+            }
+
+            //populate the array with the available squares for the Home player
+            for(int i = 0; i < 15; i++)
+            {
+                randomList[i] = square[i+35];
+            }
+               for(int j = 0; j < 15; j++)
+            {
+               randomList[j+15] = square[85+j];
+            }
+
+            game.setVisitorTurn(false);
+
+            //randomly place all Home checkers.
+            while(visitorCheckers != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 30;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorCheckers--;
+                }
+            }
+
+            //randomly place all Home kings.
+            while(visitorKings != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 30;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setPiece(new King(game.getVisitorTurn()));
+                    visitorKings--;
+                }
+            }
+
+            //randomly place all Home blocked squares.
+            while(visitorBlocked != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 30;
+
+                if(square[tmp].getPiece() == null)
+                {
+                    square[tmp].setBlocked(true);
+                    visitorBlocked--;
+                }
+            }
+
+            //randomly place all Home safe zones.
+            while(visitorSafe != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 30;
+
+                if(square[tmp].getBlocked() != true)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorSafe--;
+                }
+            }
+
+            //randomly place all Home mines.
+            while(visitorMines != 0)
+            {
+                int tmp;
+                tmp = random.nextInt() % 30;
+
+                if(square[tmp].getBlocked() != true && square[tmp].getSafe() != true)
+                {
+                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    visitorMines--;
+                }
+            }
+        }
+    }
     private void coinToss(String player1, String player2)
     {
         CoinToss toss = new CoinToss(null, true, player1, player2);
