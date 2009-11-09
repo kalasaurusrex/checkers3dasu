@@ -38,8 +38,8 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="selectLabel">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Old English Text MT" size="18" style="0"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="oldEnglish_18" type="code"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -57,8 +57,8 @@
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="headsTailsGroup"/>
         </Property>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Old English Text MT" size="14" style="0"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="oldEnglish_14" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Heads"/>
       </Properties>
@@ -73,8 +73,8 @@
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="headsTailsGroup"/>
         </Property>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Old English Text MT" size="14" style="0"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="oldEnglish_14" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Tails"/>
       </Properties>
@@ -86,8 +86,8 @@
     </Component>
     <Component class="javax.swing.JButton" name="flipButton">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Old English Text MT" size="14" style="0"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="oldEnglish_14" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Flip It!"/>
       </Properties>
@@ -102,8 +102,8 @@
     </Component>
     <Component class="javax.swing.JLabel" name="infoLabel">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Old English Text MT" size="17" style="0"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="oldEnglish_17" type="code"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -121,8 +121,8 @@
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="homeVisitorGroup"/>
         </Property>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Old English Text MT" size="14" style="0"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="oldEnglish_14" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Home"/>
       </Properties>
@@ -140,8 +140,8 @@
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="homeVisitorGroup"/>
         </Property>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Old English Text MT" size="14" style="0"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="oldEnglish_14" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Visitor"/>
       </Properties>
@@ -156,8 +156,8 @@
     </Component>
     <Component class="javax.swing.JButton" name="confirmButton">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Old English Text MT" size="14" style="0"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="oldEnglish_14" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Confirm"/>
       </Properties>

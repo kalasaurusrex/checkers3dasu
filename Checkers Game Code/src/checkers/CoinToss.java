@@ -11,6 +11,10 @@ package checkers;
 import java.awt.Frame;
 import java.util.Random;
 import javax.swing.JOptionPane;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class CoinToss extends javax.swing.JDialog
 {
@@ -22,6 +26,12 @@ public class CoinToss extends javax.swing.JDialog
     private boolean p1Home;
     private int randomNumber;
     Random random;
+
+    //load font
+    Font oldEnglish_14 = loadFont(Font.PLAIN, 14);
+    Font oldEnglish_16 = loadFont(Font.PLAIN, 16);
+    Font oldEnglish_17 = loadFont(Font.PLAIN, 17);
+    Font oldEnglish_18 = loadFont(Font.PLAIN, 18);
 
     /** Creates new form CoinToss */
     public CoinToss(Frame parent, boolean modal, String p1, String p2)
@@ -38,6 +48,27 @@ public class CoinToss extends javax.swing.JDialog
     public boolean player1Home()
     {
         return p1Home;
+    }
+
+    private Font loadFont(int type, float size)
+    {
+        Font font = null;
+        try
+        {
+            InputStream input = this.getClass().getResourceAsStream("/OLDENGL.TTF");
+            font = Font.createFont(Font.PLAIN, input).deriveFont(type, size);
+        }
+        catch (IOException ioe)
+        {
+            System.err.println(ioe);
+            System.exit(1);
+        }
+        catch (FontFormatException ffe)
+        {
+            System.err.println(ffe);
+            System.exit(1);
+        }
+        return font;
     }
 
     /** This method is called from within the constructor to
@@ -67,25 +98,25 @@ public class CoinToss extends javax.swing.JDialog
         setResizable(false);
         getContentPane().setLayout(null);
 
-        selectLabel.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
+        selectLabel.setFont(oldEnglish_18);
         selectLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         selectLabel.setText("<html><center>" + player1 + ",<br>please make a selection:</center></html>");
         getContentPane().add(selectLabel);
         selectLabel.setBounds(50, 70, 300, 60);
 
         headsTailsGroup.add(headsRadio);
-        headsRadio.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
+        headsRadio.setFont(oldEnglish_14);
         headsRadio.setText("Heads");
         getContentPane().add(headsRadio);
-        headsRadio.setBounds(110, 140, 60, 21);
+        headsRadio.setBounds(110, 140, 60, 23);
 
         headsTailsGroup.add(tailsRadio);
-        tailsRadio.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
+        tailsRadio.setFont(oldEnglish_14);
         tailsRadio.setText("Tails");
         getContentPane().add(tailsRadio);
-        tailsRadio.setBounds(220, 140, 60, 21);
+        tailsRadio.setBounds(220, 140, 60, 23);
 
-        flipButton.setFont(new java.awt.Font("Old English Text MT", 0, 14));
+        flipButton.setFont(oldEnglish_14);
         flipButton.setText("Flip It!");
         flipButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,27 +126,27 @@ public class CoinToss extends javax.swing.JDialog
         getContentPane().add(flipButton);
         flipButton.setBounds(160, 180, 80, 25);
 
-        infoLabel.setFont(new java.awt.Font("Old English Text MT", 0, 17)); // NOI18N
+        infoLabel.setFont(oldEnglish_17);
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel.setText("<html><center><font color=purple><bold>A coin toss will be used to<br>help determine the home and visitor players.</bold></font></center></html>");
         getContentPane().add(infoLabel);
         infoLabel.setBounds(50, 20, 300, 40);
 
         homeVisitorGroup.add(homeRadio);
-        homeRadio.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
+        homeRadio.setFont(oldEnglish_14);
         homeRadio.setText("Home");
         getContentPane().add(homeRadio);
-        homeRadio.setBounds(110, 140, 60, 21);
+        homeRadio.setBounds(110, 140, 60, 23);
         homeRadio.setVisible(false);
 
         homeVisitorGroup.add(visitorRadio);
-        visitorRadio.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
+        visitorRadio.setFont(oldEnglish_14);
         visitorRadio.setText("Visitor");
         getContentPane().add(visitorRadio);
-        visitorRadio.setBounds(220, 140, 60, 21);
+        visitorRadio.setBounds(220, 140, 60, 23);
         visitorRadio.setVisible(false);
 
-        confirmButton.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
+        confirmButton.setFont(oldEnglish_14);
         confirmButton.setText("Confirm");
         confirmButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,6 +192,7 @@ public class CoinToss extends javax.swing.JDialog
         //if the user didn't make a selection display an error
         if (!headsRadio.isSelected() && !tailsRadio.isSelected())
         {
+            javax.swing.UIManager.put("OptionPane.messageFont", oldEnglish_16);
             JOptionPane.showMessageDialog(this, "Please make a selection", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -180,21 +212,32 @@ public class CoinToss extends javax.swing.JDialog
     }//GEN-LAST:event_flipButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        
-        //player 1 won the toss and selects home
-        if (homeRadio.isSelected() && tossWinner.equals(player1))
-            p1Home = true;
-        //player 1 won the toss and selects visitor
-        else if (visitorRadio.isSelected() && tossWinner.equals(player1))
-            p1Home = false;
-        //player 2 won the toss and selects visitor
-        else if (visitorRadio.isSelected() && tossWinner.equals(player2))
-            p1Home = true;
-        //player 2 won the toss and selects home
-        else if (homeRadio.isSelected() && tossWinner.equals(player2))
-            p1Home = false;
 
-        setVisible(false);
+        //if the user didn't make a selection display an error
+        if (!homeRadio.isSelected() && !visitorRadio.isSelected())
+        {
+            javax.swing.UIManager.put("OptionPane.messageFont", oldEnglish_16);
+            JOptionPane.showMessageDialog(this, "Please make a selection",
+                  "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        //prompt user for selection
+        else
+        {
+            //player 1 won the toss and selects home
+            if (homeRadio.isSelected() && tossWinner.equals(player1))
+                p1Home = true;
+            //player 1 won the toss and selects visitor
+            else if (visitorRadio.isSelected() && tossWinner.equals(player1))
+                p1Home = false;
+            //player 2 won the toss and selects visitor
+            else if (visitorRadio.isSelected() && tossWinner.equals(player2))
+                p1Home = true;
+            //player 2 won the toss and selects home
+            else if (homeRadio.isSelected() && tossWinner.equals(player2))
+                p1Home = false;
+
+            setVisible(false);
+        }
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -103,13 +103,13 @@ public class LoginScreen extends javax.swing.JFrame
         setResizable(false);
         getContentPane().setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Old English Text MT", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Old English Text MT", 1, 36));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("New Game - Log In");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(100, 20, 432, 62);
 
-        vsLabel.setFont(new java.awt.Font("Old English Text MT", 1, 64)); // NOI18N
+        vsLabel.setFont(new java.awt.Font("Old English Text MT", 1, 64));
         vsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         vsLabel.setText("VS");
         getContentPane().add(vsLabel);
@@ -120,7 +120,7 @@ public class LoginScreen extends javax.swing.JFrame
         jPanel1.setMinimumSize(new java.awt.Dimension(265, 135));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        player1Button.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
+        player1Button.setFont(new java.awt.Font("Old English Text MT", 0, 18));
         player1Button.setText("Player 1 Login");
         player1Button.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         player1Button.setMaximumSize(new java.awt.Dimension(170, 125));
@@ -133,7 +133,7 @@ public class LoginScreen extends javax.swing.JFrame
         });
         jPanel1.add(player1Button, java.awt.BorderLayout.CENTER);
 
-        player1NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
+        player1NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14));
         player1NameSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Player 1", "Player 2" }));
         player1NameSelect.setMaximumSize(new java.awt.Dimension(170, 30));
         player1NameSelect.setMinimumSize(new java.awt.Dimension(170, 30));
@@ -151,7 +151,7 @@ public class LoginScreen extends javax.swing.JFrame
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        player2Button.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
+        player2Button.setFont(new java.awt.Font("Old English Text MT", 0, 18));
         player2Button.setText("Player 2 Login");
         player2Button.setMaximumSize(new java.awt.Dimension(125, 125));
         player2Button.setMinimumSize(new java.awt.Dimension(125, 125));
@@ -164,7 +164,7 @@ public class LoginScreen extends javax.swing.JFrame
         jPanel2.add(player2Button, java.awt.BorderLayout.CENTER);
         player2Button.setVisible(false);
 
-        player2NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
+        player2NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14));
         player2NameSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Player 1", "Player 2" }));
         player2NameSelect.setMinimumSize(new java.awt.Dimension(125, 30));
         player2NameSelect.setPreferredSize(new java.awt.Dimension(125, 30));
@@ -180,7 +180,7 @@ public class LoginScreen extends javax.swing.JFrame
         jPanel2.setBounds(425, 90, 200, 200);
 
         visitorPlayerNameDisplay.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
-        visitorPlayerNameDisplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/Square_B_w_B_K.jpg"))); // NOI18N
+        visitorPlayerNameDisplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/PieceKingBlack.png"))); // NOI18N
         visitorPlayerNameDisplay.setToolTipText("Player 1");
         visitorPlayerNameDisplay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         visitorPlayerNameDisplay.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -190,7 +190,7 @@ public class LoginScreen extends javax.swing.JFrame
         });
 
         playGameButton.setBackground(java.awt.Color.green);
-        playGameButton.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
+        playGameButton.setFont(new java.awt.Font("Old English Text MT", 0, 18));
         playGameButton.setText("Play Game!");
         playGameButton.setAlignmentX(0.5F);
         playGameButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -202,7 +202,7 @@ public class LoginScreen extends javax.swing.JFrame
 
         homePlayerNameDisplay.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
         homePlayerNameDisplay.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        homePlayerNameDisplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/Square_B_w_R_K.jpg"))); // NOI18N
+        homePlayerNameDisplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/PieceKingRed.png"))); // NOI18N
         homePlayerNameDisplay.setToolTipText("Player 2");
         homePlayerNameDisplay.setAlignmentX(1.0F);
         homePlayerNameDisplay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -249,7 +249,7 @@ public class LoginScreen extends javax.swing.JFrame
         Object[] options = {"New User", "Sign In",};
         int selection = -1;
         while (selection == -1) {
-            selection = JOptionPane.showOptionDialog(jFrame1, "Player 2, make a " +
+            selection = JOptionPane.showOptionDialog(this, "Player 2, make a " +
                 "selection:", "Player 2 Login",
     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
                 options[1]);
@@ -259,7 +259,7 @@ public class LoginScreen extends javax.swing.JFrame
         } else { // New User selected
             String newUserName = null;
             while (newUserName == null) {
-            newUserName = JOptionPane.showInputDialog(jFrame1, "Player 2, " +
+            newUserName = JOptionPane.showInputDialog(this, "Player 2, " +
                    "enter your name", "New User");
             }
            homePlayer = new User(newUserName);
@@ -272,7 +272,7 @@ public class LoginScreen extends javax.swing.JFrame
             Object[] options = {"10x10 Board", "8x8 Board",};
             int boardSizeSelection = -1;
             while (boardSizeSelection == -1) {
-                boardSizeSelection = JOptionPane.showOptionDialog(jFrame1,
+                boardSizeSelection = JOptionPane.showOptionDialog(this,
                     "Select a board size", "Board Size", JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
             }
@@ -299,7 +299,7 @@ public class LoginScreen extends javax.swing.JFrame
             Object[] options = {"New User", "Sign In",};
             int selection = -1;
             while (selection == -1) { // force the user to make a selection
-                selection = JOptionPane.showOptionDialog(jFrame1, "Player 1, make a " +
+                selection = JOptionPane.showOptionDialog(this, "Player 1, make a " +
                         "selection:", "Player 1 Login",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
                         options[1]);
@@ -309,7 +309,7 @@ public class LoginScreen extends javax.swing.JFrame
             } else { // New User selected
                 String newUserName = null;
                 while (newUserName == null) {
-                    newUserName = JOptionPane.showInputDialog(jFrame1, "Player 1, " +
+                    newUserName = JOptionPane.showInputDialog(this, "Player 1, " +
                             "enter your name", "New User");
                 }
                 visitorPlayer = new User(newUserName);
