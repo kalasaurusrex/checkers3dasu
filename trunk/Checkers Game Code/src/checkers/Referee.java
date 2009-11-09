@@ -34,7 +34,6 @@ public class Referee
                 
                 executeCode = 1;// a valid move
             }
-
         }
 
         if (executeCode != 0) // make sure a move is going to be exectued and then change the turns
@@ -67,36 +66,40 @@ public class Referee
         if (destination.getPosition().getBoard() == 0)
             return false;
 
-        if (selection.getPosition().getRow() == 2 &&
-                selection.getPosition().getColumn() == 2 &&
-                !destination.getMine() && !destination.getBlocked()) //visitor safe
+        if (destination.getPosition().getRow() <= halfHeight &&
+              selection.getPosition().getRow() == 2 &&
+              selection.getPosition().getColumn() == 2 &&
+              !destination.getMine() && !destination.getBlocked()) //visitor safe
         {
             destination.setSafe(true);
             game.setVisitorTurn(false);
 
             return true;
         }
-        else if (selection.getPosition().getRow() == 2 &&
-                selection.getPosition().getColumn() == 3 &&
-                !destination.getSafe() && !destination.getBlocked()) //visitor mine
+        else if (destination.getPosition().getRow() <= halfHeight &&
+              selection.getPosition().getRow() == 2 &&
+              selection.getPosition().getColumn() == 3 &&
+              !destination.getSafe() && !destination.getBlocked()) //visitor mine
         {
             destination.setMine(true);
             game.setVisitorTurn(false);
 
             return true;
         }
-        else if (selection.getPosition().getRow() == 4 &&
-                selection.getPosition().getColumn() == 2 &&
-                !destination.getMine() && !destination.getBlocked()) //home safe
+        else if (destination.getPosition().getRow() > halfHeight &&
+              selection.getPosition().getRow() == 4 &&
+              selection.getPosition().getColumn() == 2 &&
+              !destination.getMine() && !destination.getBlocked()) //home safe
         {
             destination.setSafe(true);
             game.setVisitorTurn(true);
 
             return true;
         }
-        else if (selection.getPosition().getRow() == 4 &&
-                selection.getPosition().getColumn() == 3 &&
-                !destination.getSafe() && !destination.getBlocked()) //home mine
+        else if (destination.getPosition().getRow() > halfHeight &&
+              selection.getPosition().getRow() == 4 &&
+              selection.getPosition().getColumn() == 3 &&
+              !destination.getSafe() && !destination.getBlocked()) //home mine
         {
             destination.setMine(true);
             game.setVisitorTurn(true);
@@ -300,4 +303,3 @@ public class Referee
         return false;
     }
 }
-

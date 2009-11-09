@@ -10,12 +10,13 @@ package checkers;
 import java.util.*;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
-
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class GameScreen extends javax.swing.JFrame
 {
-    private static final int RED = 0;
-    private static final int BLACK = 1;
     private static final int NIL = 0;
     final int PIXELS = 40;
     private Square[] square;
@@ -42,32 +43,47 @@ public class GameScreen extends javax.swing.JFrame
     Square secondSelectSetup;
     ArrayList<Square> availableMoves;
     Random random;
-    
+
+    //load fonts
+    Font oldEnglish_14 = loadFont(Font.BOLD, 14);
+    Font oldEnglish_16b = loadFont(Font.BOLD, 16);
+    Font oldEnglish_16 = loadFont(Font.PLAIN, 16);
+
     //load images
-    ImageIcon board8X8 = new ImageIcon(getClass().getResource("/checkers/images/Board_Base_8x8.gif"));
-    ImageIcon board10X10 = new ImageIcon(getClass().getResource("/checkers/images/Board_Base_10x10.gif"));
-    ImageIcon squareBlack = new ImageIcon(getClass().getResource("/checkers/images/Square_B.jpg"));
-    ImageIcon hSquareBlack = new ImageIcon(getClass().getResource("/checkers/images/Highlight_B.jpg"));
-    ImageIcon checkerBlack = new ImageIcon(getClass().getResource("/checkers/images/Square_B_w_B.jpg"));
-    ImageIcon hCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/Highlight_B_w_B.jpg"));
-    ImageIcon checkerRed = new ImageIcon(getClass().getResource("/checkers/images/Square_B_w_R.jpg"));
-    ImageIcon hCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/Highlight_B_w_R.jpg"));
-    ImageIcon kingBlack = new ImageIcon(getClass().getResource("/checkers/images/Square_B_w_B_K.jpg"));
-    ImageIcon hKingBlack = new ImageIcon(getClass().getResource("/checkers/images/Highlight_B_w_B_K.jpg"));
-    ImageIcon kingRed = new ImageIcon(getClass().getResource("/checkers/images/Square_B_w_R_K.jpg"));
-    ImageIcon hKingRed = new ImageIcon(getClass().getResource("/checkers/images/Highlight_B_w_R_K.jpg"));
-    ImageIcon squareSafe = new ImageIcon(getClass().getResource("/checkers/images/Square_G.jpg"));
-    ImageIcon hSquareSafe = new ImageIcon(getClass().getResource("/checkers/images/Highlight_G.jpg"));
-    ImageIcon safeCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/Square_G_w_B.jpg"));
-    ImageIcon hSafeCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/Highlight_G_w_B.jpg"));
-    ImageIcon safeCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/Square_G_w_R.jpg"));
-    ImageIcon hSafeCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/Highlight_G_w_R.jpg"));
-    ImageIcon safeKingBlack = new ImageIcon(getClass().getResource("/checkers/images/Square_G_w_B_K.jpg"));
-    ImageIcon hSafeKingBlack = new ImageIcon(getClass().getResource("/checkers/images/Highlight_G_w_B_K.jpg"));
-    ImageIcon safeKingRed = new ImageIcon(getClass().getResource("/checkers/images/Square_G_w_R_K.jpg"));
-    ImageIcon hSafeKingRed = new ImageIcon(getClass().getResource("/checkers/images/Highlight_G_w_R_K.jpg"));
-    ImageIcon squareBlocked = new ImageIcon(getClass().getResource("/checkers/images/Square_Blocked.jpg"));
-    ImageIcon hSquareBlocked = new ImageIcon(getClass().getResource("/checkers/images/Highlight_Blocked.jpg"));
+    ImageIcon board8X8 = new ImageIcon(getClass().getResource("/checkers/images/Board8x8.png"));
+    ImageIcon board10X10 = new ImageIcon(getClass().getResource("/checkers/images/Board10x10.png"));
+    ImageIcon squareBlack = new ImageIcon(getClass().getResource("/checkers/images/SquareBlack.png"));
+    ImageIcon hSquareBlack = new ImageIcon(getClass().getResource("/checkers/images/hSquareBlack.png"));
+    ImageIcon checkerBlack = new ImageIcon(getClass().getResource("/checkers/images/CheckerBlack.png"));
+    ImageIcon hCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/hCheckerBlack.png"));
+    ImageIcon checkerRed = new ImageIcon(getClass().getResource("/checkers/images/CheckerRed.png"));
+    ImageIcon hCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/hCheckerRed.png"));
+    ImageIcon kingBlack = new ImageIcon(getClass().getResource("/checkers/images/KingBlack.png"));
+    ImageIcon hKingBlack = new ImageIcon(getClass().getResource("/checkers/images/hKingBlack.png"));
+    ImageIcon kingRed = new ImageIcon(getClass().getResource("/checkers/images/KingRed.png"));
+    ImageIcon hKingRed = new ImageIcon(getClass().getResource("/checkers/images/hKingRed.png"));
+    ImageIcon squareSafe = new ImageIcon(getClass().getResource("/checkers/images/SquareSafe.png"));
+    ImageIcon hSquareSafe = new ImageIcon(getClass().getResource("/checkers/images/hSquareSafe.png"));
+    ImageIcon safeCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/SafeCheckerBlack.png"));
+    ImageIcon hSafeCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/hSafeCheckerBlack.png"));
+    ImageIcon safeCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/SafeCheckerRed.png"));
+    ImageIcon hSafeCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/hSafeCheckerRed.png"));
+    ImageIcon safeKingBlack = new ImageIcon(getClass().getResource("/checkers/images/SafeKingBlack.png"));
+    ImageIcon hSafeKingBlack = new ImageIcon(getClass().getResource("/checkers/images/hSafeKingBlack.png"));
+    ImageIcon safeKingRed = new ImageIcon(getClass().getResource("/checkers/images/SafeKingRed.png"));
+    ImageIcon hSafeKingRed = new ImageIcon(getClass().getResource("/checkers/images/hSafeKingRed.png"));
+    ImageIcon squareBlocked = new ImageIcon(getClass().getResource("/checkers/images/SquareBlocked.png"));
+    ImageIcon hSquareBlocked = new ImageIcon(getClass().getResource("/checkers/images/hSquareBlocked.png"));
+    ImageIcon setupCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/PieceCheckerBlack.png"));
+    ImageIcon hSetupCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/hPieceCheckerBlack.png"));
+    ImageIcon setupKingBlack = new ImageIcon(getClass().getResource("/checkers/images/PieceKingBlack.png"));
+    ImageIcon hSetupKingBlack = new ImageIcon(getClass().getResource("/checkers/images/hPieceKingBlack.png"));
+    ImageIcon setupCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/PieceCheckerRed.png"));
+    ImageIcon hSetupCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/hPieceCheckerRed.png"));
+    ImageIcon setupKingRed = new ImageIcon(getClass().getResource("/checkers/images/PieceKingRed.png"));
+    ImageIcon hSetupKingRed = new ImageIcon(getClass().getResource("/checkers/images/hPieceKingRed.png"));
+    ImageIcon setupMine = new ImageIcon(getClass().getResource("/checkers/images/Mine.png"));
+    ImageIcon hSetupMine = new ImageIcon(getClass().getResource("/checkers/images/hMine.png"));
 
     /** Creates new form GameScreen */
     public GameScreen(Game savedGame)
@@ -98,15 +114,12 @@ public class GameScreen extends javax.swing.JFrame
         setVisible(true);
         coinToss(player1, player2);
         
-
         initBoardSetup();
 
         game = new Game(square, width, visitorPlayer, homePlayer);
         referee = new Referee(square, game);
-
     }
 
-    //will be implemented in build 2
     //randomly place all pieces
     public void randomPlace ()
     {
@@ -426,6 +439,8 @@ public class GameScreen extends javax.swing.JFrame
             }
         }
     }
+
+    //randomly determine the home and visitor player
     private void coinToss(String player1, String player2)
     {
         CoinToss toss = new CoinToss(null, true, player1, player2);
@@ -591,10 +606,25 @@ public class GameScreen extends javax.swing.JFrame
                     updateIcon(firstSelectMove);
                     updateIcon(secondSelectMove);
 
-                    if (rMessageLabel.getText().equals("<html>" + visitorPlayer + ", it's your turn</html>"))
-                        rMessageLabel.setText("<html>" + homePlayer + ", it's your turn</html>");
+                    //toggle highlight of player whose turn it is
+                    if (visitorIconLabel.getBorder() == null)
+                    {
+                        visitorIconLabel.setBorder(BorderFactory.createEtchedBorder(
+                            javax.swing.border.EtchedBorder.RAISED,
+                            new java.awt.Color(255, 255, 0), null));
+                        visitorNameLabel.setFont(oldEnglish_16b);
+                        homeIconLabel.setBorder(null);
+                        homeNameLabel.setFont(oldEnglish_16);
+                    }
                     else
-                        rMessageLabel.setText("<html>" + visitorPlayer + ", it's your turn</html>");
+                    {
+                        visitorIconLabel.setBorder(null);
+                        visitorNameLabel.setFont(oldEnglish_16);
+                        homeIconLabel.setBorder(BorderFactory.createEtchedBorder(
+                            javax.swing.border.EtchedBorder.RAISED,
+                            new java.awt.Color(255, 255, 0), null));
+                        homeNameLabel.setFont(oldEnglish_16b);
+                    }
                 }
 
                 firstSelectMove = null;
@@ -622,14 +652,14 @@ public class GameScreen extends javax.swing.JFrame
                 square.setIcon(squareSafe);
             else if (square.getPiece() instanceof Checker)
             {
-                if (square.getPiece().getColor() == BLACK)  //safe black checker
+                if (square.getPiece().getColor() == Main.BLACK)  //safe black checker
                     square.setIcon(safeCheckerBlack);
                 else  //safe red checker
                     square.setIcon(safeCheckerRed);
             }
             else if (square.getPiece() instanceof King)
             {
-                if (square.getPiece().getColor() == BLACK) //safe black king
+                if (square.getPiece().getColor() == Main.BLACK) //safe black king
                     square.setIcon(safeKingBlack);
                 else //safe red king
                     square.setIcon(safeKingRed);
@@ -641,14 +671,14 @@ public class GameScreen extends javax.swing.JFrame
                 square.setIcon(squareBlack);
             else if (square.getPiece() instanceof Checker)
             {
-                if (square.getPiece().getColor() == BLACK)  //black checker
+                if (square.getPiece().getColor() == Main.BLACK)  //black checker
                     square.setIcon(checkerBlack);
                 else  //red checker
                     square.setIcon(checkerRed);
             }
             else if (square.getPiece() instanceof King)
             {
-                if (square.getPiece().getColor() == BLACK) //black king
+                if (square.getPiece().getColor() == Main.BLACK) //black king
                     square.setIcon(kingBlack);
                 else //red king
                     square.setIcon(kingRed);
@@ -696,7 +726,18 @@ public class GameScreen extends javax.swing.JFrame
         else if (square.getIcon() == safeKingRed)
             square.setIcon(hSafeKingRed);
         else if (square.getIcon() == squareBlocked)
-           square.setIcon(hSquareBlocked);
+            square.setIcon(hSquareBlocked);
+        else if (square.getIcon() == setupCheckerBlack)
+            square.setIcon(hSetupCheckerBlack);
+        else if (square.getIcon() == setupKingBlack)
+            square.setIcon(hSetupKingBlack);
+        else if (square.getIcon() == setupCheckerRed)
+            square.setIcon(hSetupCheckerRed);
+        else if (square.getIcon() == setupKingRed)
+            square.setIcon(hSetupKingRed);
+        else if (square.getIcon() == setupMine)
+            square.setIcon(hSetupMine);
+
     }
 
     //remove the highlight from a given square
@@ -724,6 +765,16 @@ public class GameScreen extends javax.swing.JFrame
             square.setIcon(safeKingRed);
         else if (square.getIcon() == hSquareBlocked)
             square.setIcon(squareBlocked);
+        else if (square.getIcon() == hSetupCheckerBlack)
+            square.setIcon(setupCheckerBlack);
+        else if (square.getIcon() == hSetupKingBlack)
+            square.setIcon(setupKingBlack);
+        else if (square.getIcon() == hSetupCheckerRed)
+            square.setIcon(setupCheckerRed);
+        else if (square.getIcon() == hSetupKingRed)
+            square.setIcon(setupKingRed);
+        else if (square.getIcon() == hSetupMine)
+            square.setIcon(setupMine);
     }
 
     //*********************** initialize board setup **********************//
@@ -741,45 +792,54 @@ public class GameScreen extends javax.swing.JFrame
         lMessagePane = new JLayeredPane();
         lMessageLabel = new JLabel();
         rMessagePane = new JLayeredPane();
-        rMessageLabel = new JLabel();
+        homeIconLabel = new JLabel(setupCheckerRed, JLabel.CENTER);
+        homeNameLabel = new JLabel(homePlayer);
+        visitorIconLabel = new JLabel(setupCheckerBlack, JLabel.CENTER);
+        visitorNameLabel = new JLabel(visitorPlayer);
 
         lMessagePane.setBorder(BorderFactory.createTitledBorder
               (BorderFactory.createEtchedBorder
               (new java.awt.Color(255, 255, 0), null),
               homePlayer + ", place a piece",
               javax.swing.border.TitledBorder.RIGHT,
-              javax.swing.border.TitledBorder.TOP,
-              new java.awt.Font("Old English Text MT", 0, 16)));
+              javax.swing.border.TitledBorder.TOP, oldEnglish_16));
         getContentPane().add(lMessagePane);
         lMessagePane.setBounds(40, 430, 340, 145);
 
         //since the visitor places the first piece, hide home's options
         lMessagePane.setVisible(false);
 
-
         rMessagePane.setBorder(BorderFactory.createTitledBorder
               (BorderFactory.createEtchedBorder
               (new java.awt.Color(255, 255, 0), null),
               visitorPlayer + ", place a piece",
               javax.swing.border.TitledBorder.LEFT,
-              javax.swing.border.TitledBorder.TOP,
-              new java.awt.Font("Old English Text MT", 0, 16)));
+              javax.swing.border.TitledBorder.TOP, oldEnglish_16));
         getContentPane().add(rMessagePane);
         rMessagePane.setBounds(500, 20, 340, 145);
 
         lMessageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lMessageLabel.setFont(new java.awt.Font("Old English Text MT", 0, 16));
+        lMessageLabel.setFont(oldEnglish_16);
         lMessageLabel.setBounds(5, 5, 335, 140);
-        lMessagePane.add(lMessageLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lMessagePane.add(lMessageLabel, JLayeredPane.DEFAULT_LAYER);
         lMessageLabel.setVisible(false);
-        rMessageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rMessageLabel.setFont(new java.awt.Font("Old English Text MT", 0, 24));
-        rMessageLabel.setBounds(5, 45, 335, 55);
-        rMessagePane.add(rMessageLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        rMessageLabel.setVisible(false);
+
+        visitorIconLabel.setBounds(20, 20, 40, 40);
+        rMessagePane.add(visitorIconLabel, JLayeredPane.DEFAULT_LAYER);
+        visitorIconLabel.setVisible(false);
+        visitorNameLabel.setBounds(65, 20, 275, 40);
+        rMessagePane.add(visitorNameLabel, JLayeredPane.DEFAULT_LAYER);
+        visitorNameLabel.setVisible(false);
+
+        homeIconLabel.setBounds(20, 75, 40, 40);
+        rMessagePane.add(homeIconLabel, JLayeredPane.DEFAULT_LAYER);
+        homeIconLabel.setVisible(false);
+        homeNameLabel.setBounds(65, 75, 275, 40);
+        rMessagePane.add(homeNameLabel, JLayeredPane.DEFAULT_LAYER);
+        homeNameLabel.setVisible(false);
 
         placeVisitorChecker = new Square(new Position(0, 1, 1), NIL);
-        placeVisitorChecker.setIcon(checkerBlack);
+        placeVisitorChecker.setIcon(setupCheckerBlack);
         rMessagePane.add(placeVisitorChecker, JLayeredPane.DEFAULT_LAYER);
         placeVisitorChecker.setBounds(80, 25, 40, 40);
         placeVisitorChecker.setToolTipText("Checker");
@@ -791,7 +851,7 @@ public class GameScreen extends javax.swing.JFrame
         visitorCheckerLabel.setBounds(125, 35, 30, 20);
 
         placeVisitorKing = new Square(new Position(0, 1, 2), NIL);
-        placeVisitorKing.setIcon(kingBlack);
+        placeVisitorKing.setIcon(setupKingBlack);
         rMessagePane.add(placeVisitorKing, JLayeredPane.DEFAULT_LAYER);
         placeVisitorKing.setBounds(200, 25, 40, 40);
         placeVisitorKing.setToolTipText("King");
@@ -827,7 +887,7 @@ public class GameScreen extends javax.swing.JFrame
         visitorSafeLabel.setBounds(185, 95, 30, 20);
 
         placeVisitorMine = new Square(new Position(0, 2, 3), NIL);
-        placeVisitorMine.setIcon(squareBlack);
+        placeVisitorMine.setIcon(setupMine);
         rMessagePane.add(placeVisitorMine, JLayeredPane.DEFAULT_LAYER);
         placeVisitorMine.setBounds(260, 85, 40, 40);
         placeVisitorMine.setToolTipText("Smart Mine");
@@ -839,7 +899,7 @@ public class GameScreen extends javax.swing.JFrame
         visitorMineLabel.setBounds(305, 95, 30, 20);
 
         placeHomeChecker = new Square(new Position(0, 3, 1), NIL);
-        placeHomeChecker.setIcon(checkerRed);
+        placeHomeChecker.setIcon(setupCheckerRed);
         lMessagePane.add(placeHomeChecker, JLayeredPane.DEFAULT_LAYER);
         placeHomeChecker.setBounds(80, 25, 40, 40);
         placeHomeChecker.setToolTipText("Checker");
@@ -851,7 +911,7 @@ public class GameScreen extends javax.swing.JFrame
         homeCheckerLabel.setBounds(125, 35, 30, 20);
 
         placeHomeKing = new Square(new Position(0, 3, 2), NIL);
-        placeHomeKing.setIcon(kingRed);
+        placeHomeKing.setIcon(setupKingRed);
         lMessagePane.add(placeHomeKing, JLayeredPane.DEFAULT_LAYER);
         placeHomeKing.setBounds(200, 25, 40, 40);
         placeHomeKing.setToolTipText("King");
@@ -887,7 +947,7 @@ public class GameScreen extends javax.swing.JFrame
         homeSafeLabel.setBounds(185, 95, 30, 20);
 
         placeHomeMine = new Square(new Position(0, 4, 3), NIL);
-        placeHomeMine.setIcon(squareBlack);
+        placeHomeMine.setIcon(setupMine);
         lMessagePane.add(placeHomeMine, JLayeredPane.DEFAULT_LAYER);
         placeHomeMine.setBounds(260, 85, 40, 40);
         placeHomeMine.setToolTipText("Smart Mine");
@@ -902,6 +962,7 @@ public class GameScreen extends javax.swing.JFrame
     //remove the board setup images (Squares)
     private void removeBoardSetup()
     {
+        //remove the setup icons
         placeVisitorChecker.setVisible(false);
         placeVisitorKing.setVisible(false);
         placeVisitorSafe.setVisible(false);
@@ -923,15 +984,31 @@ public class GameScreen extends javax.swing.JFrame
         homeSafeLabel.setVisible(false);
         homeMineLabel.setVisible(false);
 
+        //enable the labels that will be used during game play
         lMessagePane.setBorder(null);
         lMessagePane.setVisible(true);
         lMessageLabel.setVisible(true);
         rMessagePane.setBorder(null);
         rMessagePane.setVisible(true);
-        rMessageLabel.setVisible(true);
-        rMessageLabel.setText("<html>" + visitorPlayer + ", it's your turn</html>");
+
+        visitorIconLabel.setVisible(true);
+        visitorIconLabel.setBorder(BorderFactory.createEtchedBorder(
+              javax.swing.border.EtchedBorder.RAISED,
+              new java.awt.Color(255, 255, 0), null));
+        visitorNameLabel.setVisible(true);
+        visitorNameLabel.setFont(oldEnglish_16b);
+        homeIconLabel.setVisible(true);
+        homeNameLabel.setVisible(true);
+        homeNameLabel.setFont(oldEnglish_16);
+
+        //inform the user that the board setup phase is over
+        javax.swing.UIManager.put("OptionPane.messageFont", oldEnglish_16);
+        JOptionPane.showMessageDialog(this, "Board setup is complete!\n" +
+              visitorPlayer + " has the first move.", "Board Setup",
+              JOptionPane.INFORMATION_MESSAGE);
     }
 
+    //handle mouse click on Squares
     MouseAdapter mouseAdapter = new MouseAdapter()
     {
         @Override
@@ -1122,6 +1199,28 @@ public class GameScreen extends javax.swing.JFrame
         }
     }
 
+    //load the Old English font with a given size and type
+    private Font loadFont(int type, float size)
+    {
+        Font font = null;
+        try
+        {
+            InputStream input = this.getClass().getResourceAsStream("/OLDENGL.TTF");
+            font = Font.createFont(Font.PLAIN, input).deriveFont(type, size);
+        }
+        catch (IOException ioe)
+        {
+            System.err.println(ioe);
+            System.exit(1);
+        }
+        catch (FontFormatException ffe)
+        {
+            System.err.println(ffe);
+            System.exit(1);
+        }
+        return font;
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -1144,10 +1243,10 @@ public class GameScreen extends javax.swing.JFrame
         getContentPane().setLayout(null);
 
         gameMenu.setText("Game");
-        gameMenu.setFont(new java.awt.Font("Old English Text MT", 0, 16));
+        gameMenu.setFont(oldEnglish_16);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
-        exitMenuItem.setFont(new java.awt.Font("Old English Text MT", 0, 14));
+        exitMenuItem.setFont(oldEnglish_14);
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1159,7 +1258,7 @@ public class GameScreen extends javax.swing.JFrame
         boardMenuBar.add(gameMenu);
 
         helpMenu.setText("Help");
-        helpMenu.setFont(new java.awt.Font("Old English Text MT", 0, 16));
+        helpMenu.setFont(oldEnglish_16);
         boardMenuBar.add(helpMenu);
 
         setJMenuBar(boardMenuBar);
@@ -1182,8 +1281,11 @@ public class GameScreen extends javax.swing.JFrame
     //additional variable declarations
     JLabel lMessageLabel;
     JLayeredPane lMessagePane;
-    JLabel rMessageLabel;
     JLayeredPane rMessagePane;
+    JLabel homeIconLabel;
+    JLabel homeNameLabel;
+    JLabel visitorIconLabel;
+    JLabel visitorNameLabel;
     Square placeVisitorChecker;
     Square placeVisitorKing;
     Square placeVisitorBlocked;
