@@ -11,6 +11,11 @@ package checkers;
  */
 public class Main
 {
+    public static final int RED = 0;
+    public static final int BLACK = 1;
+    public static final int NEW = 0;
+    public static final int ADMIN = 1;
+    public static final int STATS = 2;
 
     /**
      * @param args the command line arguments
@@ -19,5 +24,4 @@ public class Main
     {
         new WelcomeScreen().setVisible(true);
     }
-
 }
