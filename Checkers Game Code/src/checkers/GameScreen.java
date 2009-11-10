@@ -123,9 +123,11 @@ public class GameScreen extends javax.swing.JFrame
     //randomly place all pieces
     public void randomPlace ()
     {
+        random = new Random();
         //This is the randomPlace case for the 8x8 board
         if(width == 8)
         {
+            game.setVisitorTurn(true);
             //populate an array with all of the possible squares
             //that a piece can be placed.
             Square[] randomList = new Square[24];
@@ -135,7 +137,7 @@ public class GameScreen extends javax.swing.JFrame
             }
                for(int j = 0; j < 12; j++)
             {
-               randomList[j+12] = square[32+j];
+               randomList[j+12] = square[j+32];
             }
 
             //randomly place all visitor checkers.
@@ -144,10 +146,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 24;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorCheckers--;
+                    randomList[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -157,10 +159,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 24;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setPiece(new King(game.getVisitorTurn()));
-                    visitorKings--;
+                    randomList[tmp].setPiece(new King(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -170,10 +172,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 24;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setBlocked(true);
-                    visitorBlocked--;
+                    randomList[tmp].setBlocked(true);
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -183,10 +185,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 24;
 
-                if(square[tmp].getBlocked() != true)
+                if(randomList[tmp].getBlocked() != true)
                 {
-                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorSafe--;
+                    randomList[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -196,10 +198,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 24;
 
-                if(square[tmp].getBlocked() != true && square[tmp].getSafe() != true)
+                if(randomList[tmp].getBlocked() != true && randomList[tmp].getSafe() != true)
                 {
-                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorMines--;
+                    randomList[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -221,10 +223,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 24;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorCheckers--;
+                    randomList[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -234,10 +236,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 24;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setPiece(new King(game.getVisitorTurn()));
-                    visitorKings--;
+                    randomList[tmp].setPiece(new King(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -247,10 +249,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 24;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setBlocked(true);
-                    visitorBlocked--;
+                    randomList[tmp].setBlocked(true);
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -260,10 +262,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 24;
 
-                if(square[tmp].getBlocked() != true)
+                if(randomList[tmp].getBlocked() != true)
                 {
-                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorSafe--;
+                    randomList[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -273,10 +275,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 24;
 
-                if(square[tmp].getBlocked() != true && square[tmp].getSafe() != true)
+                if(randomList[tmp].getBlocked() != true && randomList[tmp].getSafe() != true)
                 {
-                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorMines--;
+                    randomList[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
         }
@@ -284,6 +286,7 @@ public class GameScreen extends javax.swing.JFrame
         //This is the randomPlace case for the 10x10
         if(width == 10)
         {
+            game.setVisitorTurn(true);
             //populate an array with all of the possible squares
             //that a piece can be placed.
             Square[] randomList = new Square[30];
@@ -302,10 +305,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 30;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorCheckers--;
+                    randomList[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -315,10 +318,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 30;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setPiece(new King(game.getVisitorTurn()));
-                    visitorKings--;
+                    randomList[tmp].setPiece(new King(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -328,10 +331,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 30;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setBlocked(true);
-                    visitorBlocked--;
+                    randomList[tmp].setBlocked(true);
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -341,10 +344,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 30;
 
-                if(square[tmp].getBlocked() != true)
+                if(randomList[tmp].getBlocked() != true)
                 {
-                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorSafe--;
+                    randomList[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -354,10 +357,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 30;
 
-                if(square[tmp].getBlocked() != true && square[tmp].getSafe() != true)
+                if(randomList[tmp].getBlocked() != true && randomList[tmp].getSafe() != true)
                 {
-                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorMines--;
+                    randomList[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -379,10 +382,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 30;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorCheckers--;
+                    randomList[tmp].setPiece(new Checker(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -392,10 +395,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 30;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setPiece(new King(game.getVisitorTurn()));
-                    visitorKings--;
+                    randomList[tmp].setPiece(new King(game.getVisitorTurn()));
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -405,10 +408,10 @@ public class GameScreen extends javax.swing.JFrame
                 int tmp;
                 tmp = random.nextInt() % 30;
 
-                if(square[tmp].getPiece() == null)
+                if(randomList[tmp].getPiece() == null)
                 {
-                    square[tmp].setBlocked(true);
-                    visitorBlocked--;
+                    randomList[tmp].setBlocked(true);
+                    updateIcon(randomList[tmp]);
                 }
             }
 
@@ -421,7 +424,7 @@ public class GameScreen extends javax.swing.JFrame
                 if(square[tmp].getBlocked() != true)
                 {
                     square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorSafe--;
+                    updateIcon(square[tmp]);
                 }
             }
 
@@ -434,7 +437,7 @@ public class GameScreen extends javax.swing.JFrame
                 if(square[tmp].getBlocked() != true && square[tmp].getSafe() != true)
                 {
                     square[tmp].setPiece(new Checker(game.getVisitorTurn()));
-                    visitorMines--;
+                    updateIcon(square[tmp]);
                 }
             }
         }
@@ -459,6 +462,22 @@ public class GameScreen extends javax.swing.JFrame
             homePlayer = player2;
             visitorPlayer = player1;
         }
+        randomPlace();
+        //give the players the option to randomize
+       /* Object[] options = {"Yes", "No",};
+        int selection = -1;
+        while (selection == -1)
+        { // force the user to make a selection
+            selection = JOptionPane.showOptionDialog(jFrame1,
+            "Would you like to place your own pieces?", "Player 1 Login",
+        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+                options[1]);
+
+        if (selection == 1)  // Sign In selected
+        {
+            randomPlace();
+        }
+        }*/
     }
     
     //************************ initialize the board ***********************//
