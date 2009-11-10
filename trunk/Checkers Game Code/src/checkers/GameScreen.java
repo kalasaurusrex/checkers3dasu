@@ -462,7 +462,7 @@ public class GameScreen extends javax.swing.JFrame
             homePlayer = player2;
             visitorPlayer = player1;
         }
-        randomPlace();
+        
         //give the players the option to randomize
        /* Object[] options = {"Yes", "No",};
         int selection = -1;
