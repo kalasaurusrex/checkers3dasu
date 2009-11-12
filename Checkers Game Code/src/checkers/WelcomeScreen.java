@@ -11,16 +11,43 @@
 
 package checkers;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class WelcomeScreen extends javax.swing.JFrame
 {
-    private static final int NEW = 0;
-    private static final int ADMIN = 1;
-    private static final int STATS = 2;
-
+    //load fonts
+    Font oldEnglish_16 = loadFont(Font.PLAIN, 16);
+    Font oldEnglish_40 = loadFont(Font.PLAIN, 40);
+    
     /** Creates new form WelcomeScreen */
     public WelcomeScreen()
     {
         initComponents();
+    }
+
+    //load the Old English font with a given size and type
+    private Font loadFont(int type, float size)
+    {
+        Font font = null;
+        try
+        {
+            InputStream input = this.getClass().getResourceAsStream("/OLDENGL.TTF");
+            font = Font.createFont(Font.PLAIN, input).deriveFont(type, size);
+        }
+        catch (IOException ioe)
+        {
+            System.err.println(ioe);
+            System.exit(1);
+        }
+        catch (FontFormatException ffe)
+        {
+            System.err.println(ffe);
+            System.exit(1);
+        }
+        return font;
     }
 
     /** This method is called from within the constructor to
@@ -42,44 +69,47 @@ public class WelcomeScreen extends javax.swing.JFrame
         ExitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("3D Checkers");
         setMinimumSize(new java.awt.Dimension(440, 330));
         setResizable(false);
         getContentPane().setLayout(null);
 
-        WelcomeLabel.setFont(new java.awt.Font("Old English Text MT", 0, 40)); // NOI18N
+        WelcomeLabel.setFont(oldEnglish_40);
         WelcomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         WelcomeLabel.setText("Welcome to 3D Checkers");
+        WelcomeLabel.setPreferredSize(new java.awt.Dimension(404, 50));
         getContentPane().add(WelcomeLabel);
-        WelcomeLabel.setBounds(18, 12, 403, 40);
+        WelcomeLabel.setBounds(18, 12, 404, 50);
 
         buttonGroup.add(NewGameButton);
-        NewGameButton.setFont(new java.awt.Font("Old English Text MT", 0, 16)); // NOI18N
+        NewGameButton.setFont(oldEnglish_16);
+        NewGameButton.setSelected(true);
         NewGameButton.setText("New Game");
         getContentPane().add(NewGameButton);
         NewGameButton.setBounds(160, 90, 140, 24);
 
         buttonGroup.add(LoadGameButton);
-        LoadGameButton.setFont(new java.awt.Font("Old English Text MT", 0, 16)); // NOI18N
+        LoadGameButton.setFont(oldEnglish_16);
         LoadGameButton.setText("Load Game");
         LoadGameButton.setEnabled(false);
         getContentPane().add(LoadGameButton);
         LoadGameButton.setBounds(160, 120, 140, 24);
 
         buttonGroup.add(StatsButton);
-        StatsButton.setFont(new java.awt.Font("Old English Text MT", 0, 16)); // NOI18N
+        StatsButton.setFont(oldEnglish_16);
         StatsButton.setText("Statistics");
         StatsButton.setEnabled(false);
         getContentPane().add(StatsButton);
         StatsButton.setBounds(160, 150, 140, 24);
 
         buttonGroup.add(AdminButton);
-        AdminButton.setFont(new java.awt.Font("Old English Text MT", 0, 16)); // NOI18N
+        AdminButton.setFont(oldEnglish_16);
         AdminButton.setText("Administration");
         AdminButton.setEnabled(false);
         getContentPane().add(AdminButton);
         AdminButton.setBounds(160, 180, 140, 24);
 
-        NextButton.setFont(new java.awt.Font("Old English Text MT", 0, 16)); // NOI18N
+        NextButton.setFont(oldEnglish_16);
         NextButton.setText("Next");
         NextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,8 +118,9 @@ public class WelcomeScreen extends javax.swing.JFrame
         });
         getContentPane().add(NextButton);
         NextButton.setBounds(240, 242, 68, 28);
+        getRootPane().setDefaultButton(NextButton);
 
-        ExitButton.setFont(new java.awt.Font("Old English Text MT", 0, 16)); // NOI18N
+        ExitButton.setFont(oldEnglish_16);
         ExitButton.setText("Exit");
         ExitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,7 +140,7 @@ public class WelcomeScreen extends javax.swing.JFrame
     private void NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextButtonActionPerformed
         if (NewGameButton.isSelected())
         {
-            new LoginScreen(NEW).setVisible(true);
+            new LoginScreen(Main.NEW).setVisible(true);
             setVisible(false);
         }
     }//GEN-LAST:event_NextButtonActionPerformed
