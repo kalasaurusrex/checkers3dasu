@@ -24,6 +24,7 @@ public class CoinToss extends javax.swing.JDialog
     private String player2;
     private String tossWinner;
     private boolean p1Home;
+    private boolean randomSetup;
     private int randomNumber;
     Random random;
 
@@ -82,14 +83,20 @@ public class CoinToss extends javax.swing.JDialog
 
         headsTailsGroup = new javax.swing.ButtonGroup();
         homeVisitorGroup = new javax.swing.ButtonGroup();
-        selectLabel = new javax.swing.JLabel();
+        manualRandomGroup = new javax.swing.ButtonGroup();
+        selectLabel1 = new javax.swing.JLabel();
+        selectLabel2 = new javax.swing.JLabel();
         headsRadio = new javax.swing.JRadioButton();
         tailsRadio = new javax.swing.JRadioButton();
         flipButton = new javax.swing.JButton();
-        infoLabel = new javax.swing.JLabel();
         homeRadio = new javax.swing.JRadioButton();
         visitorRadio = new javax.swing.JRadioButton();
         confirmButton = new javax.swing.JButton();
+        infoLabel1 = new javax.swing.JLabel();
+        infoLabel2 = new javax.swing.JLabel();
+        setupButton = new javax.swing.JButton();
+        manualRadio = new javax.swing.JRadioButton();
+        randomRadio = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Coin Toss");
@@ -98,23 +105,29 @@ public class CoinToss extends javax.swing.JDialog
         setResizable(false);
         getContentPane().setLayout(null);
 
-        selectLabel.setFont(oldEnglish_18);
-        selectLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        selectLabel.setText("<html><center>" + player1 + ",<br>please make a selection:</center></html>");
-        getContentPane().add(selectLabel);
-        selectLabel.setBounds(50, 70, 300, 60);
+        selectLabel1.setFont(oldEnglish_18);
+        selectLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        selectLabel1.setText(player1 + ",");
+        getContentPane().add(selectLabel1);
+        selectLabel1.setBounds(50, 70, 300, 30);
+
+        selectLabel2.setFont(oldEnglish_18);
+        selectLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        selectLabel2.setText("please make a selection:");
+        getContentPane().add(selectLabel2);
+        selectLabel2.setBounds(50, 100, 300, 30);
 
         headsTailsGroup.add(headsRadio);
         headsRadio.setFont(oldEnglish_14);
         headsRadio.setText("Heads");
         getContentPane().add(headsRadio);
-        headsRadio.setBounds(110, 140, 60, 23);
+        headsRadio.setBounds(110, 140, 70, 21);
 
         headsTailsGroup.add(tailsRadio);
         tailsRadio.setFont(oldEnglish_14);
         tailsRadio.setText("Tails");
         getContentPane().add(tailsRadio);
-        tailsRadio.setBounds(220, 140, 60, 23);
+        tailsRadio.setBounds(220, 140, 70, 21);
 
         flipButton.setFont(oldEnglish_14);
         flipButton.setText("Flip It!");
@@ -126,24 +139,18 @@ public class CoinToss extends javax.swing.JDialog
         getContentPane().add(flipButton);
         flipButton.setBounds(160, 180, 80, 25);
 
-        infoLabel.setFont(oldEnglish_17);
-        infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        infoLabel.setText("<html><center><font color=purple><bold>A coin toss will be used to<br>help determine the home and visitor players.</bold></font></center></html>");
-        getContentPane().add(infoLabel);
-        infoLabel.setBounds(50, 20, 300, 40);
-
         homeVisitorGroup.add(homeRadio);
         homeRadio.setFont(oldEnglish_14);
         homeRadio.setText("Home");
         getContentPane().add(homeRadio);
-        homeRadio.setBounds(110, 140, 60, 23);
+        homeRadio.setBounds(110, 140, 70, 21);
         homeRadio.setVisible(false);
 
         homeVisitorGroup.add(visitorRadio);
         visitorRadio.setFont(oldEnglish_14);
         visitorRadio.setText("Visitor");
         getContentPane().add(visitorRadio);
-        visitorRadio.setBounds(220, 140, 60, 23);
+        visitorRadio.setBounds(220, 140, 70, 21);
         visitorRadio.setVisible(false);
 
         confirmButton.setFont(oldEnglish_14);
@@ -157,6 +164,44 @@ public class CoinToss extends javax.swing.JDialog
         confirmButton.setBounds(160, 180, 80, 25);
         confirmButton.setVisible(false);
 
+        infoLabel1.setFont(oldEnglish_17);
+        infoLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoLabel1.setText("A coin toss will be used to help");
+        getContentPane().add(infoLabel1);
+        infoLabel1.setBounds(50, 20, 300, 20);
+        infoLabel1.setFont(oldEnglish_17);
+
+        infoLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoLabel2.setText("determine the home and visitor players.");
+        getContentPane().add(infoLabel2);
+        infoLabel2.setBounds(50, 40, 300, 20);
+        infoLabel2.setFont(oldEnglish_17);
+
+        setupButton.setFont(oldEnglish_14);
+        setupButton.setText("Confirm");
+        setupButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setupButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(setupButton);
+        setupButton.setBounds(160, 180, 80, 25);
+        setupButton.setVisible(false);
+
+        manualRandomGroup.add(manualRadio);
+        manualRadio.setFont(oldEnglish_14);
+        manualRadio.setText("Manual");
+        getContentPane().add(manualRadio);
+        manualRadio.setBounds(110, 140, 70, 21);
+        manualRadio.setVisible(false);
+
+        manualRandomGroup.add(randomRadio);
+        randomRadio.setFont(oldEnglish_14);
+        randomRadio.setText("Random");
+        getContentPane().add(randomRadio);
+        randomRadio.setBounds(220, 140, 70, 21);
+        randomRadio.setVisible(false);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -168,26 +213,27 @@ public class CoinToss extends javax.swing.JDialog
         if (randomNumber == HEADS && headsRadio.isSelected())
         {
             tossWinner = player1;
-            infoLabel.setText("The coin landed on heads!");
+            infoLabel2.setText("The coin landed on heads!");
         }
         //coin lands on heads and player 1 selected tails
         else if (randomNumber == HEADS && tailsRadio.isSelected())
         {
             tossWinner = player2;
-            infoLabel.setText("The coin landed on heads!");
+            infoLabel2.setText("The coin landed on heads!");
         }
         //coin lands on tails and player 1 selected heads
         else if (randomNumber == TAILS && headsRadio.isSelected())
         {
             tossWinner = player2;
-            infoLabel.setText("The coin landed on tails!");
+            infoLabel2.setText("The coin landed on tails!");
         }
         //coin lands on tails and player 1 selected tails
         else if (randomNumber == TAILS && tailsRadio.isSelected())
         {
             tossWinner = player1;
-            infoLabel.setText("The coin landed on tails!");
+            infoLabel2.setText("The coin landed on tails!");
         }
+        infoLabel1.setText("");
 
         //if the user didn't make a selection display an error
         if (!headsRadio.isSelected() && !tailsRadio.isSelected())
@@ -199,8 +245,8 @@ public class CoinToss extends javax.swing.JDialog
         //prompt user for selection
         else
         {
-            selectLabel.setText("<html>" + tossWinner + " has won the toss." + 
-                      "<br>Please make a selection:");
+            selectLabel1.setText(tossWinner + " won the toss.");
+            selectLabel2.setText("Please make a selection:");
 
             flipButton.setVisible(false);
             tailsRadio.setVisible(false);
@@ -223,6 +269,17 @@ public class CoinToss extends javax.swing.JDialog
         //prompt user for selection
         else
         {
+            infoLabel2.setText("There are two board setup options.");
+            selectLabel1.setText("");
+            selectLabel2.setText("Please make a selection:");
+
+            confirmButton.setVisible(false);
+            homeRadio.setVisible(false);
+            visitorRadio.setVisible(false);
+            setupButton.setVisible(true);
+            randomRadio.setVisible(true);
+            manualRadio.setVisible(true);
+
             //player 1 won the toss and selects home
             if (homeRadio.isSelected() && tossWinner.equals(player1))
                 p1Home = true;
@@ -235,10 +292,32 @@ public class CoinToss extends javax.swing.JDialog
             //player 2 won the toss and selects home
             else if (homeRadio.isSelected() && tossWinner.equals(player2))
                 p1Home = false;
-
-            setVisible(false);
         }
     }//GEN-LAST:event_confirmButtonActionPerformed
+
+    private void setupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setupButtonActionPerformed
+
+        //if the user didn't make a selection display an error
+        if (!manualRadio.isSelected() && !randomRadio.isSelected())
+        {
+            javax.swing.UIManager.put("OptionPane.messageFont", oldEnglish_16);
+            JOptionPane.showMessageDialog(this, "Please make a selection",
+                  "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        //prompt user for selection
+        else
+        {
+            //random board setup
+            if (randomRadio.isSelected())
+                randomSetup = true;
+            //manual board setup
+            else if (manualRadio.isSelected())
+                randomSetup = false;
+            
+            setVisible(false);
+        }
+
+}//GEN-LAST:event_setupButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton confirmButton;
@@ -247,8 +326,14 @@ public class CoinToss extends javax.swing.JDialog
     private javax.swing.ButtonGroup headsTailsGroup;
     private javax.swing.JRadioButton homeRadio;
     private javax.swing.ButtonGroup homeVisitorGroup;
-    private javax.swing.JLabel infoLabel;
-    private javax.swing.JLabel selectLabel;
+    private javax.swing.JLabel infoLabel1;
+    private javax.swing.JLabel infoLabel2;
+    private javax.swing.JRadioButton manualRadio;
+    private javax.swing.ButtonGroup manualRandomGroup;
+    private javax.swing.JRadioButton randomRadio;
+    private javax.swing.JLabel selectLabel1;
+    private javax.swing.JLabel selectLabel2;
+    private javax.swing.JButton setupButton;
     private javax.swing.JRadioButton tailsRadio;
     private javax.swing.JRadioButton visitorRadio;
     // End of variables declaration//GEN-END:variables
