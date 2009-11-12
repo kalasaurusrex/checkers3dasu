@@ -13,9 +13,13 @@ package checkers;
 
 import java.util.*;
 import javax.swing.*;
+import javax.naming.*;
+import java.security.InvalidParameterException;
+import java.io.*;
+
 /**
  *
- * @author clarkcito
+ * @author kalamath
  */
 public class LoginScreen extends javax.swing.JFrame
 {
@@ -25,9 +29,11 @@ public class LoginScreen extends javax.swing.JFrame
 
     private User homePlayer;
     private User visitorPlayer;
+    private boolean player1LoggedIn = false;
+    private boolean player2LoggedIn = false;
     private int boardSize;
     private String input;
-    Storage storage = new Storage();
+    private Storage storage = Storage.getStorageInstance();
 
     /** Creates new form LoginScreen */
     public LoginScreen()
@@ -37,35 +43,29 @@ public class LoginScreen extends javax.swing.JFrame
     // constructor used to create a new LoginScreen.  the constants NEW, ADMIN,
     // and STATS are used to create different versions of the LoginScreen,
     // depending on the application.
-    public LoginScreen (int selection) {
-            initComponents();
-            vsLabel.setVisible(false);
+
+    public LoginScreen(int selection) {
+        initComponents();
         // selection code 0 is used to instatiate a LoginScreen that allows 2
         // players to log in to a new game
-        if (selection == 0) {
-
-        // selection code 1 is used to instatiate a LoginScreen that allows an
-        // administrator to log in and perform administrative tasks.
-        } else if (selection == 1) {
-            
-        // selection code 2 is used to instatiate a LoginScreen that allows a
-        // user to log in and view statistics.
-        // any other selection code is invalid and will throw an unchecked 
-        // exception, crashing the program.
+        if (selection == NEW) {
+            vsLabel.setVisible(false);
+            // selection code 1 is used to instatiate a LoginScreen that allows an
+            // administrator to log in and perform administrative tasks.
+        } else if (selection == ADMIN) {
+            // selection code 2 is used to instatiate a LoginScreen that allows a
+            // user to log in and view statistics.
+        } else if (selection == STATS) {
+            // any other selection code is invalid and results in an
+            // InvalidParameterException.
         } else {
-
+            InvalidParameterException ipe = new InvalidParameterException("Invalid Selection Code");
         }
     }
     // constructor used to create a LoginScreen when loading a saved game
     public LoginScreen(String homePlayer, String visitorPlayer, Date timeStamp)
     {
         initComponents();
-    }
-
-    public ArrayList<User> getUserList ()
-    {
-        Storage storage = new Storage();
-        return storage.getUsers();
     }
 
     public boolean validatePassword (String input)
@@ -103,13 +103,13 @@ public class LoginScreen extends javax.swing.JFrame
         setResizable(false);
         getContentPane().setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Old English Text MT", 1, 36));
+        jLabel1.setFont(new java.awt.Font("Old English Text MT", 1, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("New Game - Log In");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(100, 20, 432, 62);
 
-        vsLabel.setFont(new java.awt.Font("Old English Text MT", 1, 64));
+        vsLabel.setFont(new java.awt.Font("Old English Text MT", 1, 64)); // NOI18N
         vsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         vsLabel.setText("VS");
         getContentPane().add(vsLabel);
@@ -133,8 +133,7 @@ public class LoginScreen extends javax.swing.JFrame
         });
         jPanel1.add(player1Button, java.awt.BorderLayout.CENTER);
 
-        player1NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14));
-        player1NameSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Player 1", "Player 2" }));
+        player1NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
         player1NameSelect.setMaximumSize(new java.awt.Dimension(170, 30));
         player1NameSelect.setMinimumSize(new java.awt.Dimension(170, 30));
         player1NameSelect.setPreferredSize(new java.awt.Dimension(170, 30));
@@ -151,7 +150,7 @@ public class LoginScreen extends javax.swing.JFrame
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        player2Button.setFont(new java.awt.Font("Old English Text MT", 0, 18));
+        player2Button.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
         player2Button.setText("Player 2 Login");
         player2Button.setMaximumSize(new java.awt.Dimension(125, 125));
         player2Button.setMinimumSize(new java.awt.Dimension(125, 125));
@@ -164,8 +163,7 @@ public class LoginScreen extends javax.swing.JFrame
         jPanel2.add(player2Button, java.awt.BorderLayout.CENTER);
         player2Button.setVisible(false);
 
-        player2NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14));
-        player2NameSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Player 1", "Player 2" }));
+        player2NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
         player2NameSelect.setMinimumSize(new java.awt.Dimension(125, 30));
         player2NameSelect.setPreferredSize(new java.awt.Dimension(125, 30));
         player2NameSelect.addActionListener(new java.awt.event.ActionListener() {
@@ -181,7 +179,6 @@ public class LoginScreen extends javax.swing.JFrame
 
         visitorPlayerNameDisplay.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
         visitorPlayerNameDisplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/PieceKingBlack.png"))); // NOI18N
-        visitorPlayerNameDisplay.setToolTipText("Player 1");
         visitorPlayerNameDisplay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         visitorPlayerNameDisplay.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -190,7 +187,7 @@ public class LoginScreen extends javax.swing.JFrame
         });
 
         playGameButton.setBackground(java.awt.Color.green);
-        playGameButton.setFont(new java.awt.Font("Old English Text MT", 0, 18));
+        playGameButton.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
         playGameButton.setText("Play Game!");
         playGameButton.setAlignmentX(0.5F);
         playGameButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -203,7 +200,6 @@ public class LoginScreen extends javax.swing.JFrame
         homePlayerNameDisplay.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
         homePlayerNameDisplay.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         homePlayerNameDisplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/PieceKingRed.png"))); // NOI18N
-        homePlayerNameDisplay.setToolTipText("Player 2");
         homePlayerNameDisplay.setAlignmentX(1.0F);
         homePlayerNameDisplay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         homePlayerNameDisplay.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -239,10 +235,22 @@ public class LoginScreen extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
     
     private void player2NameSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player2NameSelectActionPerformed
-        homePlayer = new User((String)player2NameSelect.getSelectedItem());
-        homePlayerNameDisplay.setText(homePlayer.toString());
-        homePlayerNameDisplay.setVisible(true);
-        playGameButton.setVisible(true);
+        homePlayer = (User) player2NameSelect.getSelectedItem();
+        String passwordEntry = JOptionPane.showInputDialog(this, homePlayer.getUserName() + ", please enter your password", "Password Entry", JOptionPane.QUESTION_MESSAGE);
+        if (!(passwordEntry == null)) {
+            if (!passwordEntry.equals(homePlayer.getPassword())) {
+                JOptionPane.showMessageDialog(this, "Incorrect Password!", "Password Incorrect", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            homePlayerNameDisplay.setText(homePlayer.toString());
+            homePlayerNameDisplay.setVisible(true);
+            player2LoggedIn = true;
+            if (player1LoggedIn && player2LoggedIn) {
+                playGameButton.setVisible(true);
+            }
+        } else {
+            return;
+        }
     }//GEN-LAST:event_player2NameSelectActionPerformed
 
     private void player2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player2ButtonActionPerformed
@@ -250,37 +258,33 @@ public class LoginScreen extends javax.swing.JFrame
         int selection = -1;
         while (selection == -1) {
             selection = JOptionPane.showOptionDialog(this, "Player 2, make a " +
-                "selection:", "Player 2 Login",
-    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
-                options[1]);
+                    "selection:", "Player 2 Login",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+                    options[1]);
         }
         if (selection == 1) { // Sign In selected
+            player2NameSelect.setModel(new DefaultComboBoxModel(storage.getUserList()));
             player2NameSelect.setVisible(true);
         } else { // New User selected
-            String newUserName = null;
-            while (newUserName == null) {
-            newUserName = JOptionPane.showInputDialog(this, "Player 2, " +
-                   "enter your name", "New User");
-            }
-           homePlayer = new User(newUserName);
-           homePlayerNameDisplay.setText(homePlayer.toString());
-           homePlayerNameDisplay.setVisible(true);
-           playGameButton.setVisible(true);
+                    player2NameSelect.setVisible(false);
+                    NewUserForm newForm = new NewUserForm(this, true);
+                    newForm.setVisible(true);
+                }
     }//GEN-LAST:event_player2ButtonActionPerformed
-    }
+
         private void playGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playGameButtonActionPerformed
-            Object[] options = {"10x10 Board", "8x8 Board",};
+            Object[] options = {"8x8 Board", "10x10 Board",};
             int boardSizeSelection = -1;
             while (boardSizeSelection == -1) {
                 boardSizeSelection = JOptionPane.showOptionDialog(this,
                     "Select a board size", "Board Size", JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             }
             int width = 0;
             if (boardSizeSelection == 0) {
-                width = 10;
-            } else {
                 width = 8;
+            } else {
+                width = 10;
             }
             //setVisible(false);
             new GameScreen(width, visitorPlayer.toString(), homePlayer.toString()).setVisible(true);
@@ -288,11 +292,24 @@ public class LoginScreen extends javax.swing.JFrame
         }//GEN-LAST:event_playGameButtonActionPerformed
 
         private void player1NameSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player1NameSelectActionPerformed
-            visitorPlayer = new User((String)player1NameSelect.getSelectedItem());
-            visitorPlayerNameDisplay.setText(visitorPlayer.toString());
-            visitorPlayerNameDisplay.setVisible(true);
-            vsLabel.setVisible(true);
-            player2Button.setVisible(true);
+            visitorPlayer = (User) player1NameSelect.getSelectedItem();
+            String passwordEntry = JOptionPane.showInputDialog(this, visitorPlayer.getUserName() + ", please enter your password", "Password Entry", JOptionPane.QUESTION_MESSAGE);
+            if (!(passwordEntry == null)) {
+                if (!passwordEntry.equals(visitorPlayer.getPassword())) {
+                    JOptionPane.showMessageDialog(this, "Incorrect Password!", "Password Incorrect", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                visitorPlayerNameDisplay.setText(visitorPlayer.toString());
+                visitorPlayerNameDisplay.setVisible(true);
+                vsLabel.setVisible(true);
+                player2Button.setVisible(true);
+                player1LoggedIn = true;
+                if (player1LoggedIn && player2LoggedIn) {
+                    playGameButton.setVisible(true);
+                }
+            } else {
+                return;
+            }
 }//GEN-LAST:event_player1NameSelectActionPerformed
 
         private void player1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player1ButtonActionPerformed
@@ -305,18 +322,12 @@ public class LoginScreen extends javax.swing.JFrame
                         options[1]);
             }
             if (selection == 1) { // Sign In selected
+                player1NameSelect.setModel(new DefaultComboBoxModel(storage.getUserList()));
                 player1NameSelect.setVisible(true);
             } else { // New User selected
-                String newUserName = null;
-                while (newUserName == null) {
-                    newUserName = JOptionPane.showInputDialog(this, "Player 1, " +
-                            "enter your name", "New User");
-                }
-                visitorPlayer = new User(newUserName);
-                visitorPlayerNameDisplay.setText(visitorPlayer.toString());
-                visitorPlayerNameDisplay.setVisible(true);
-                vsLabel.setVisible(true);
-                player2Button.setVisible(true);
+                player1NameSelect.setVisible(false);
+                NewUserForm newForm = new NewUserForm(this, true);
+                newForm.setVisible(true);
             }
 }//GEN-LAST:event_player1ButtonActionPerformed
 

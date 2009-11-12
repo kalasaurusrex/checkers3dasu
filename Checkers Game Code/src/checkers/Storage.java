@@ -1,29 +1,39 @@
 package checkers;
 
 import java.util.*;
+import javax.naming.*;
+import java.io.*;
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
 // #[regen=yes,id=DCE.489A3A6B-B4A5-65DC-5BA2-96A9B4A68D83]
-// </editor-fold> 
-public class Storage
+// </editor-fold>
+// the Storage class is a final, singleton class that implements the serializable
+// interface.  this allows a list of Users and Games to be stored that may be
+// required during subsequent runs of the program.
+public final class Storage implements Serializable
 {
-    private ArrayList<User> users;
-    private ArrayList games;
+    private Vector<User> users;
+    private ArrayList<Game> games;
+    
+    private static Storage instance = new Storage();
+    // private Storage constructor.  empty ArrayLists are created to store
+    // Users and Games.
 
-    // generic Storage constructor.  for testing purposes, a user list
-    // containing player1 and player 2 is created.
-    // 
-    public Storage () 
-    {
-        ArrayList<User> users = new ArrayList<User>();
-        User player1 = new User("player1");
-        User player2 = new User("player2");
-        users.add(player1);
-        users.add(player2);
-        users = new ArrayList<User>();
+    private Storage() {
+            users = new Vector<User>();
+            games = new ArrayList<Game>();
+        }
+    public static Storage getStorageInstance() {
+        return instance;
     }
-
-    public ArrayList getGames ()
+    public void addUser(User newUser) {
+        users.add(newUser);
+        Collections.sort((AbstractList) users);
+    }
+    private Object readResolve() {
+        return instance;
+    }
+    public ArrayList<Game> getGames ()
     {
         return games;
     }
@@ -33,16 +43,24 @@ public class Storage
         this.games = val;
     }
     // the getUsers method returns an ArrayList of all users that have been
-    // previously created in the system.  for testing purposes, this method now
-    // returns a list containing two generic Users, player1 & player2.
-    public ArrayList getUsers ()
+    // previously created in the system.
+    public Vector<User> getUserList ()
     {
        return users;
     }
-
-    public void setUsers (ArrayList val)
-    {
-        this.users = val;
+    // the saveStorage method is used to serialize a Storage Object for later
+    // use.  it will be used in Build 3.
+    public void saveStorage() {
+        try {
+            FileOutputStream fos = new FileOutputStream("store.storage");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this);
+            oos.close();
+            fos.close();
+        } catch (FileNotFoundException fne) {
+            System.out.println("File not found");
+        } catch (IOException io) {
+            System.out.println("IO Exception");
+        }
     }
 }
-
