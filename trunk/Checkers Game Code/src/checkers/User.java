@@ -3,6 +3,7 @@ package checkers;
 import javax.naming.*;
 import java.security.*;
 import java.io.*;
+import java.util.ArrayList;
 
 public class User implements Serializable, Comparable
 {
@@ -30,9 +31,31 @@ public class User implements Serializable, Comparable
             InvalidNameException ine = new InvalidNameException(userNamePrompt);
             throw ine;
         }
+        if (checkForDuplicates(name)) {
+            InvalidNameException taken = new InvalidNameException("A User already" +
+                    " exists with the chosen User Name.  Please select another.");
+            throw taken;
+        }
         userName = name;
         password = null;
         admin = false;
+    }
+    // chechForDuplicates is called when attempting to create a new User.
+    // if a User already exists in the system with the desired name (ignoring
+    // case), the method returns true.
+    // this is used to prevent duplicate and minimize confusing logins.
+    private static boolean checkForDuplicates(String nameDesired) {
+        boolean result = false;
+        ArrayList<String> names = new ArrayList<String>();
+        for (User user : Storage.getStorageInstance().getUserList()) {
+            names.add(user.toString());
+        }
+        for (String name : names) {
+            if (nameDesired.equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return result;
     }
 
     public boolean getAdmin ()
@@ -74,7 +97,7 @@ public class User implements Serializable, Comparable
         int result = 0;
         try {
             User otherUser = (User) other;
-            result = this.userName.compareTo(otherUser.userName);
+            result = this.userName.compareToIgnoreCase(otherUser.userName);
         } catch (ClassCastException e) {
             System.out.println("Illegal comparison!");
         }
