@@ -16,6 +16,7 @@ import javax.swing.*;
 import javax.naming.*;
 import java.security.InvalidParameterException;
 import java.io.*;
+import java.awt.Font;
 
 /**
  *
@@ -34,6 +35,29 @@ public class LoginScreen extends javax.swing.JFrame
     private int boardSize;
     private String input;
     private Storage storage = Storage.getStorageInstance();
+
+    //load the Old English font with a given size and type
+    private Font loadFont(int type, float size)
+    {
+        Font font = null;
+        try
+        {
+            InputStream input = this.getClass().getResourceAsStream("/OLDENGL.TTF");
+            font = Font.createFont(Font.PLAIN, input).deriveFont(type, size);
+        }
+        catch (Exception e)
+        {
+            System.err.println(e);
+            System.exit(1);
+        }
+        return font;
+    }
+    //load fonts
+    Font oldEnglish_12 = loadFont(Font.PLAIN, 12);
+    Font oldEnglish_14 = loadFont(Font.PLAIN, 14);
+    Font oldEnglish_18 = loadFont(Font.PLAIN, 18);
+    Font oldEnglish_36b = loadFont(Font.BOLD, 36);
+    Font oldEnglish_64b = loadFont(Font.BOLD, 64);
 
     /** Creates new form LoginScreen */
     public LoginScreen()
@@ -98,18 +122,19 @@ public class LoginScreen extends javax.swing.JFrame
         homePlayerNameDisplay = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("3D Checkers");
         setMinimumSize(new java.awt.Dimension(660, 445));
         setName("frame78"); // NOI18N
         setResizable(false);
         getContentPane().setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Old English Text MT", 1, 36)); // NOI18N
+        jLabel1.setFont(oldEnglish_36b);
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("New Game - Log In");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(100, 20, 432, 62);
 
-        vsLabel.setFont(new java.awt.Font("Old English Text MT", 1, 64)); // NOI18N
+        vsLabel.setFont(oldEnglish_64b);
         vsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         vsLabel.setText("VS");
         getContentPane().add(vsLabel);
@@ -120,7 +145,7 @@ public class LoginScreen extends javax.swing.JFrame
         jPanel1.setMinimumSize(new java.awt.Dimension(265, 135));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        player1Button.setFont(new java.awt.Font("Old English Text MT", 0, 18));
+        player1Button.setFont(oldEnglish_18);
         player1Button.setText("Player 1 Login");
         player1Button.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         player1Button.setMaximumSize(new java.awt.Dimension(170, 125));
@@ -133,7 +158,7 @@ public class LoginScreen extends javax.swing.JFrame
         });
         jPanel1.add(player1Button, java.awt.BorderLayout.CENTER);
 
-        player1NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
+        player1NameSelect.setFont(oldEnglish_14);
         player1NameSelect.setMaximumSize(new java.awt.Dimension(170, 30));
         player1NameSelect.setMinimumSize(new java.awt.Dimension(170, 30));
         player1NameSelect.setPreferredSize(new java.awt.Dimension(170, 30));
@@ -150,7 +175,7 @@ public class LoginScreen extends javax.swing.JFrame
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        player2Button.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
+        player2Button.setFont(oldEnglish_18);
         player2Button.setText("Player 2 Login");
         player2Button.setMaximumSize(new java.awt.Dimension(125, 125));
         player2Button.setMinimumSize(new java.awt.Dimension(125, 125));
@@ -163,7 +188,7 @@ public class LoginScreen extends javax.swing.JFrame
         jPanel2.add(player2Button, java.awt.BorderLayout.CENTER);
         player2Button.setVisible(false);
 
-        player2NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
+        player2NameSelect.setFont(oldEnglish_14);
         player2NameSelect.setMinimumSize(new java.awt.Dimension(125, 30));
         player2NameSelect.setPreferredSize(new java.awt.Dimension(125, 30));
         player2NameSelect.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +202,7 @@ public class LoginScreen extends javax.swing.JFrame
         getContentPane().add(jPanel2);
         jPanel2.setBounds(425, 90, 200, 200);
 
-        visitorPlayerNameDisplay.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
+        visitorPlayerNameDisplay.setFont(oldEnglish_18);
         visitorPlayerNameDisplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/PieceKingBlack.png"))); // NOI18N
         visitorPlayerNameDisplay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         visitorPlayerNameDisplay.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -187,7 +212,7 @@ public class LoginScreen extends javax.swing.JFrame
         });
 
         playGameButton.setBackground(java.awt.Color.green);
-        playGameButton.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
+        playGameButton.setFont(oldEnglish_18);
         playGameButton.setText("Play Game!");
         playGameButton.setAlignmentX(0.5F);
         playGameButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -197,7 +222,7 @@ public class LoginScreen extends javax.swing.JFrame
             }
         });
 
-        homePlayerNameDisplay.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
+        homePlayerNameDisplay.setFont(oldEnglish_18);
         homePlayerNameDisplay.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         homePlayerNameDisplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/PieceKingRed.png"))); // NOI18N
         homePlayerNameDisplay.setAlignmentX(1.0F);
@@ -286,7 +311,6 @@ public class LoginScreen extends javax.swing.JFrame
             } else {
                 width = 10;
             }
-            //setVisible(false);
             new GameScreen(width, visitorPlayer.toString(), homePlayer.toString()).setVisible(true);
             setVisible(false);
         }//GEN-LAST:event_playGameButtonActionPerformed

@@ -15,6 +15,8 @@ import javax.swing.*;
 import java.util.Arrays;
 import javax.naming.*;
 import java.security.*;
+import java.awt.Font;
+import java.io.*;
 
 /**
  *
@@ -23,6 +25,30 @@ import java.security.*;
 public class NewUserForm extends javax.swing.JDialog {
 
     Storage storage = Storage.getStorageInstance();
+
+     //load the Old English font with a given size and type
+    private Font loadFont(int type, float size)
+    {
+        Font font = null;
+        try
+        {
+            InputStream input = this.getClass().getResourceAsStream("/OLDENGL.TTF");
+            font = Font.createFont(Font.PLAIN, input).deriveFont(type, size);
+        }
+        catch (Exception e)
+        {
+            System.err.println(e);
+            System.exit(1);
+        }
+        return font;
+    }
+    //load fonts
+    Font oldEnglish_12 = loadFont(Font.PLAIN, 12);
+    Font oldEnglish_14 = loadFont(Font.PLAIN, 14);
+    Font oldEnglish_18 = loadFont(Font.PLAIN, 18);
+    Font oldEnglish_24 = loadFont(Font.PLAIN, 24);
+    Font oldEnglish_36b = loadFont(Font.BOLD, 36);
+    Font oldEnglish_64b = loadFont(Font.BOLD, 64);
     /** Creates new form NewUserForm */
     public NewUserForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -57,27 +83,27 @@ public class NewUserForm extends javax.swing.JDialog {
         getContentPane().add(jSeparator1);
         jSeparator1.setBounds(0, 50, 660, 20);
 
-        jLabel1.setFont(new java.awt.Font("Old English Text MT", 0, 24)); // NOI18N
+        jLabel1.setFont(oldEnglish_24);
         jLabel1.setText("New User");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel1.setPreferredSize(new java.awt.Dimension(125, 30));
         getContentPane().add(jLabel1);
         jLabel1.setBounds(280, 10, 125, 30);
 
-        jLabel2.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
+        jLabel2.setFont(oldEnglish_18);
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText(User.userNamePrompt);
         jLabel2.setPreferredSize(new java.awt.Dimension(350, 30));
 
         jFormattedTextField1.setPreferredSize(new java.awt.Dimension(125, 30));
 
-        jLabel3.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
+        jLabel3.setFont(oldEnglish_18);
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText(User.passwordPrompt);
 
         jPasswordField1.setPreferredSize(new java.awt.Dimension(125, 30));
 
-        jLabel4.setFont(new java.awt.Font("Old English Text MT", 0, 18)); // NOI18N
+        jLabel4.setFont(oldEnglish_18);
         jLabel4.setText("Please re-enter the password");
 
         jPasswordField2.setPreferredSize(new java.awt.Dimension(125, 30));
@@ -133,7 +159,7 @@ public class NewUserForm extends javax.swing.JDialog {
         jPanel1.setBounds(10, 60, 640, 190);
 
         jPanel2.setMinimumSize(new java.awt.Dimension(300, 100));
-        jPanel2.setLayout(new java.awt.GridLayout());
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         jButton1.setText("Cancel");
         jButton1.setPreferredSize(new java.awt.Dimension(150, 100));
@@ -174,7 +200,7 @@ public class NewUserForm extends javax.swing.JDialog {
                 storage.addUser(newUser);
                 this.setVisible(false);
             } catch (InvalidNameException ine) {
-                JOptionPane.showMessageDialog(this, User.userNamePrompt, "Invalid User Name", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, ine.getMessage(), "Invalid User Name", JOptionPane.WARNING_MESSAGE);
             } catch (InvalidParameterException ipe) {
                 JOptionPane.showMessageDialog(this, User.passwordPrompt, "Invalid Password", JOptionPane.WARNING_MESSAGE);
             }
