@@ -51,6 +51,11 @@ public class CoinToss extends javax.swing.JDialog
         return p1Home;
     }
 
+    public boolean randomSetup()
+    {
+        return randomSetup;
+    }
+
     private Font loadFont(int type, float size)
     {
         Font font = null;
@@ -109,7 +114,7 @@ public class CoinToss extends javax.swing.JDialog
         selectLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         selectLabel1.setText(player1 + ",");
         getContentPane().add(selectLabel1);
-        selectLabel1.setBounds(50, 70, 300, 30);
+        selectLabel1.setBounds(30, 70, 340, 30);
 
         selectLabel2.setFont(oldEnglish_18);
         selectLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -121,13 +126,13 @@ public class CoinToss extends javax.swing.JDialog
         headsRadio.setFont(oldEnglish_14);
         headsRadio.setText("Heads");
         getContentPane().add(headsRadio);
-        headsRadio.setBounds(110, 140, 70, 21);
+        headsRadio.setBounds(110, 140, 70, 23);
 
         headsTailsGroup.add(tailsRadio);
         tailsRadio.setFont(oldEnglish_14);
         tailsRadio.setText("Tails");
         getContentPane().add(tailsRadio);
-        tailsRadio.setBounds(220, 140, 70, 21);
+        tailsRadio.setBounds(220, 140, 70, 23);
 
         flipButton.setFont(oldEnglish_14);
         flipButton.setText("Flip It!");
@@ -143,14 +148,14 @@ public class CoinToss extends javax.swing.JDialog
         homeRadio.setFont(oldEnglish_14);
         homeRadio.setText("Home");
         getContentPane().add(homeRadio);
-        homeRadio.setBounds(110, 140, 70, 21);
+        homeRadio.setBounds(110, 140, 70, 23);
         homeRadio.setVisible(false);
 
         homeVisitorGroup.add(visitorRadio);
         visitorRadio.setFont(oldEnglish_14);
         visitorRadio.setText("Visitor");
         getContentPane().add(visitorRadio);
-        visitorRadio.setBounds(220, 140, 70, 21);
+        visitorRadio.setBounds(220, 140, 70, 23);
         visitorRadio.setVisible(false);
 
         confirmButton.setFont(oldEnglish_14);
@@ -192,14 +197,14 @@ public class CoinToss extends javax.swing.JDialog
         manualRadio.setFont(oldEnglish_14);
         manualRadio.setText("Manual");
         getContentPane().add(manualRadio);
-        manualRadio.setBounds(110, 140, 70, 21);
+        manualRadio.setBounds(110, 140, 70, 23);
         manualRadio.setVisible(false);
 
         manualRandomGroup.add(randomRadio);
         randomRadio.setFont(oldEnglish_14);
         randomRadio.setText("Random");
         getContentPane().add(randomRadio);
-        randomRadio.setBounds(220, 140, 70, 21);
+        randomRadio.setBounds(220, 140, 70, 23);
         randomRadio.setVisible(false);
 
         pack();

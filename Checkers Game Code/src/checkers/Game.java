@@ -21,7 +21,7 @@ public class Game
         if (width == 8)
             homePieces = visitorPieces = 10;
         else if (width == 10)
-            homePieces = visitorPieces = 15;
+            homePieces = visitorPieces = 2; //15
     }
 
     public String getHome ()
@@ -54,12 +54,26 @@ public class Game
         this.visitorTurn = val;
     }
 
-    public int getWidth()
+    public void decVisitorPieces()
     {
-        return width;
+        visitorPieces--;
     }
-    
-    /*The following modules will be implemented in later builds
+
+    public int getVisitorPieces()
+    {
+        return visitorPieces;
+    }
+
+    public void decHomePieces()
+    {
+        homePieces--;
+    }
+
+    public int getHomePieces()
+    {
+        return homePieces;
+    }
+
     public void storeMove () 
     {
 
@@ -69,6 +83,10 @@ public class Game
     {
 
     }
-    */
+
+    public int getWidth()
+    {
+        return width;
+    }
 }
 

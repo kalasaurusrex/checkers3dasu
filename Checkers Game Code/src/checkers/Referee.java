@@ -1,12 +1,12 @@
 package checkers;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class Referee
 {
     private final int ALLOWABLE_ROWS = 3;
     int width = 0;
-    int halfHeight = 0;
+    int halfBoard = 0;
     Square[] squareArray;
     Game game;
     int evenUpLeft;
@@ -24,7 +24,7 @@ public class Referee
         game = g;
 
         width = game.getWidth();
-        halfHeight = (width * width) / 2;
+        halfBoard = (width * width) / 2;
 
         evenUpLeft = -((width/2)+1);
         evenUpRight = -(width/2);
@@ -36,52 +36,318 @@ public class Referee
         oddDownRight = (width/2)+1;
     }
 
-    public int executeMove (Square start, Square destination, ArrayList m)
+    public Move executeMove (Square start, Square destination,
+            ArrayList<Square> movesList, Move move)
     {
-        int executeCode = 0; // returns 0 if error, 1 if valid move
-        //Square tempStart = start;
-        //Square tempDestination = destination;
-        ArrayList<Square> moves = m;
-        //int startIndex = start.getIndex();
-        int destinationIndex = destination.getIndex();
-        int tempIndex;
+        int sIndex = start.getIndex();
+        int dIndex = destination.getIndex();
+        int rowDifference = destination.getPosition().getRow() -
+                start.getPosition().getRow();
+        int columnDifference = destination.getPosition().getColumn() -
+                start.getPosition().getColumn();
+        int boardDifference = destination.getPosition().getBoard() -
+                start.getPosition().getBoard();
+        boolean landedOnMine = false;
 
-        for (int i = 0; i < moves.size(); i++ )
+        if (!move.moreJumps())
         {
-            tempIndex = moves.get(i).getIndex();
-            if (destinationIndex == tempIndex)
+            //check if the move is valid
+            if (inList(movesList, dIndex))
+                move.setValidMove(true);
+            else
+                move.setValidMove(false);
+
+            //valid move
+            if (move.isValidMove())
             {
-                if (destination.getMine() && destination.getVisitorMine() &&
-                      !game.getVisitorTurn())
+                //check if destination is an opponents smart mine
+                if (destination.getMine() && ((destination.getVisitorMine() &&
+                        !game.getVisitorTurn()) || (!destination.getVisitorMine() &&
+                        game.getVisitorTurn())))
                 {
-                    destination.setPiece(null);
-                    destination.setMine(false);
+                    landedOnMine = true;
                 }
-                else if (destination.getMine() && !destination.getVisitorMine() &&
-                      game.getVisitorTurn())
+
+                //check for a jump
+                if (rowDifference == 2)
                 {
-                    destination.setPiece(null);
+                    if (columnDifference == 2) //down and right
+                    {
+                        if (boardDifference == 1)
+                        {
+                            if (start.getPosition().getRow() % 2 == 1)
+                            {
+                                move.addJump(squareArray[sIndex + halfBoard + oddDownRight]);
+
+                                if (squareArray[sIndex + oddDownRight].getPiece() != null &&
+                                        !squareArray[sIndex + oddDownRight].getSafe())
+                                    move.addJump(squareArray[sIndex + oddDownRight]);
+                            }
+                            else
+                            {
+                                move.addJump(squareArray[sIndex + halfBoard + evenDownRight]);
+                                
+                                if (squareArray[sIndex + evenDownRight].getPiece() != null &&
+                                        !squareArray[sIndex + evenDownRight].getSafe())
+                                    move.addJump(squareArray[sIndex + evenDownRight]);
+                            }
+                        }
+                        else if (boardDifference == -1)
+                        {
+                            if (start.getPosition().getRow() % 2 == 1)
+                            {
+                                move.addJump(squareArray[sIndex - (halfBoard - oddDownRight)]);
+                                
+                                if (squareArray[sIndex + oddDownRight].getPiece() != null &&
+                                        !squareArray[sIndex + oddDownRight].getSafe())
+                                    move.addJump(squareArray[sIndex + oddDownRight]);
+                            }
+                            else
+                            {
+                                move.addJump(squareArray[sIndex - (halfBoard - evenDownRight)]);
+                                
+                                if (squareArray[sIndex + evenDownRight].getPiece() != null &&
+                                        !squareArray[sIndex + evenDownRight].getSafe())
+                                    move.addJump(squareArray[sIndex + evenDownRight]);
+                            }
+                        }
+                        else if(boardDifference == 0)
+                        {
+                            if (start.getPosition().getRow() % 2 == 1)
+                                move.addJump(squareArray[sIndex + oddDownRight]);
+                            else
+                                move.addJump(squareArray[sIndex + evenDownRight]);
+                        }
+                    }
+                    else if (columnDifference == -2) //down and left
+                    {
+                        if (boardDifference == 1)
+                        {
+                            if (start.getPosition().getRow() % 2 == 1)
+                            {
+                                move.addJump(squareArray[sIndex + halfBoard + oddDownLeft]);
+                                
+                                if (squareArray[sIndex + oddDownLeft].getPiece() != null &&
+                                        !squareArray[sIndex + oddDownLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + oddDownLeft]);
+                            }
+                            else
+                            {
+                                move.addJump(squareArray[sIndex + halfBoard + evenDownLeft]);
+
+                                if (squareArray[sIndex + evenDownLeft].getPiece() != null &&
+                                        !squareArray[sIndex + evenDownLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + evenDownLeft]);
+                            }
+                        }
+                        else if (boardDifference == -1)
+                        {
+                            if (start.getPosition().getRow() % 2 == 1)
+                            {
+                                move.addJump(squareArray[sIndex - (halfBoard - oddDownLeft)]);
+
+                                if (squareArray[sIndex + oddDownLeft].getPiece() != null &&
+                                        !squareArray[sIndex + oddDownLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + oddDownLeft]);
+                            }
+                            else
+                            {
+                                move.addJump(squareArray[sIndex - (halfBoard - evenDownLeft)]);
+
+                                if (squareArray[sIndex + evenDownLeft].getPiece() != null &&
+                                        !squareArray[sIndex + evenDownLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + evenDownLeft]);
+                            }
+                        }
+                        else if(boardDifference == 0)
+                        {
+                           if (start.getPosition().getRow() % 2 == 1)
+                               move.addJump(squareArray[sIndex + oddDownLeft]);
+                           else
+                               move.addJump(squareArray[sIndex + evenDownLeft]);
+                        }
+                    }
+                }
+                else if (rowDifference == -2)
+                {
+                    if (columnDifference == 2) //up and right
+                    {
+                        if (boardDifference == 1)
+                        {
+                            if (start.getPosition().getRow() % 2 == 1)
+                            {
+                                move.addJump(squareArray[sIndex + halfBoard + oddUpRight]);
+
+                                if (squareArray[sIndex + oddUpRight].getPiece() != null &&
+                                        !squareArray[sIndex + oddUpRight].getSafe())
+                                    move.addJump(squareArray[sIndex + oddUpRight]);
+                            }
+                            else
+                            {
+                                move.addJump(squareArray[sIndex + halfBoard + evenUpRight]);
+
+                                if (squareArray[sIndex + evenUpRight].getPiece() != null &&
+                                        !squareArray[sIndex + evenUpRight].getSafe())
+                                    move.addJump(squareArray[sIndex + evenUpRight]);
+                            }
+                        }
+                        else if (boardDifference == -1)
+                        {
+                            if (start.getPosition().getRow() % 2 == 1)
+                            {
+                                move.addJump(squareArray[sIndex - (halfBoard - oddUpRight)]);
+
+                                if (squareArray[sIndex + oddUpRight].getPiece() != null &&
+                                        !squareArray[sIndex + oddUpRight].getSafe())
+                                    move.addJump(squareArray[sIndex + oddUpRight]);
+                            }
+                            else
+                            {
+                                move.addJump(squareArray[sIndex - (halfBoard - evenUpRight)]);
+
+                                if (squareArray[sIndex + evenUpRight].getPiece() != null &&
+                                        !squareArray[sIndex + evenUpRight].getSafe())
+                                    move.addJump(squareArray[sIndex + evenUpRight]);
+                            }
+                        }
+                        else if(boardDifference == 0)
+                        {
+                           if (start.getPosition().getRow() % 2 == 1)
+                               move.addJump(squareArray[sIndex + oddUpRight]);
+                           else
+                               move.addJump(squareArray[sIndex + evenUpRight]);
+                        }
+                    }
+                    else if (columnDifference == -2) //up and left
+                    {
+                        if (boardDifference == 1)
+                        {
+                            if (start.getPosition().getRow() % 2 == 1)
+                            {
+                                move.addJump(squareArray[sIndex + halfBoard + oddUpLeft]);
+
+                                if (squareArray[sIndex + oddUpLeft].getPiece() != null &&
+                                        !squareArray[sIndex + oddUpLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + oddUpLeft]);
+                            }
+                            else
+                            {
+                                move.addJump(squareArray[sIndex + halfBoard + evenUpLeft]);
+
+                                if (squareArray[sIndex + evenUpLeft].getPiece() != null &&
+                                        !squareArray[sIndex + evenUpLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + evenUpLeft]);
+                            }
+                        }
+                        else if (boardDifference == -1)
+                        {
+                            if (start.getPosition().getRow() % 2 == 1)
+                            {
+                                move.addJump(squareArray[sIndex - (halfBoard - oddUpLeft)]);
+
+                                if (squareArray[sIndex + oddUpLeft].getPiece() != null &&
+                                        !squareArray[sIndex + oddUpLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + oddUpLeft]);
+                            }
+                            else
+                            {
+                                move.addJump(squareArray[sIndex - (halfBoard - evenUpLeft)]);
+
+                                if (squareArray[sIndex + evenUpLeft].getPiece() != null &&
+                                        !squareArray[sIndex + evenUpLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + evenUpLeft]);
+                            }
+                        }
+                        else if(boardDifference == 0)
+                        {
+                           if (start.getPosition().getRow() % 2 == 1)
+                               move.addJump(squareArray[sIndex + oddUpLeft]);
+                           else
+                               move.addJump(squareArray[sIndex + evenUpLeft]);
+                        }
+                    }
+                }
+
+                //update square properties and decrease applicable piece counts
+                if (landedOnMine)
+                {
                     destination.setMine(false);
+                    
+                    if (game.getVisitorTurn())
+                    {
+                        game.decVisitorPieces();
+                        
+                        if (game.getVisitorPieces() < 1)
+                            move.setGameOver(Main.HOME_WON);
+                    }
+                    else
+                    {
+                        game.decHomePieces();
+                        
+                        if (game.getHomePieces() < 1)
+                            move.setGameOver(Main.VISITOR_WON);
+                    }
                 }
                 else
                     destination.setPiece(start.getPiece());
 
+                if (move.jumpSize() == 1)
+                    move.getJump().get(0).setPiece(null);
+                
+                //decrease the piece count when a jump has occured
+                if (move.jumpSize() > 0)
+                {
+                    if (game.getVisitorTurn())
+                    {
+                        game.decHomePieces();
+
+                        if (game.getHomePieces() < 1)
+                            move.setGameOver(Main.VISITOR_WON);
+                    }
+                    else
+                    {
+                        game.decVisitorPieces();
+
+                        if (game.getVisitorPieces() < 1)
+                            move.setGameOver(Main.HOME_WON);
+                    }
+
+                }
+
                 start.setPiece(null);
                 
-                executeCode = 1;// a valid move
+                toggleTurn();
+            }
+            //invalid move
+            else
+            {
+                move.clearMove();
             }
         }
 
-        if (executeCode != 0) // make sure a move is going to be exectued and then change the turns
-        {
-            if (game.getVisitorTurn()== true)
-                game.setVisitorTurn(false);
-            else
-                game.setVisitorTurn(true);
-        }
-        
-        return executeCode;
+        return move;
+    }
 
+    public void removePiece(Square s)
+    {
+        s.setPiece(null);
+    }
+
+    private boolean inList(ArrayList<Square> moves, int index)
+    {
+        for (int i = 0; i < moves.size(); i++)
+            if (moves.get(i).getIndex() == index)
+                return true;
+
+        return false;
+    }
+
+    private void toggleTurn()
+    {
+        if (game.getVisitorTurn()== true)
+            game.setVisitorTurn(false);
+        else
+            game.setVisitorTurn(true);
     }
 
     public boolean executePlacement (Square selection, Square destination)
@@ -194,7 +460,7 @@ public class Referee
 
 
     // Returns true if the player with the correct turn is trying to see his
-    // moves and false otherwise.
+    // movesList and false otherwise.
     public boolean validateTurn (Piece piece)
     {
         //red(home) = 0, black(visitor) = 1
@@ -210,118 +476,143 @@ public class Referee
 
     public ArrayList showMoves (Square square)
     {
-        int positionBoard = square.getPosition().getBoard();
-        int positionColumn = square.getPosition().getColumn();
-        int positionRow = square.getPosition().getRow();
-
+        //int board = square.getPosition().getBoard();
+        int column = square.getPosition().getColumn();
+        int row = square.getPosition().getRow();
         //Square tempSquare = null;
-        ArrayList<Square> moves = new ArrayList();
         int index = square.getIndex();
         Piece piece = square.getPiece();
+        ArrayList<Square> movesList = new ArrayList();
+        boolean warpBlocked = false;
+        
 
         //see if warp move is available
-        if (index >= halfHeight && squareArray[index - halfHeight].getPiece() == null &&
-              !squareArray[index - halfHeight].getBlocked())
-            moves.add(squareArray[index - halfHeight]);
-        else if (index < halfHeight && squareArray[index + halfHeight].getPiece() == null &&
-              !squareArray[index + halfHeight].getBlocked())
-            moves.add(squareArray[index + halfHeight]);
+        if (index >= halfBoard && squareArray[index - halfBoard].getPiece() == null &&
+              !squareArray[index - halfBoard].getBlocked())
+        {
+            movesList.add(squareArray[index - halfBoard]);
+
+            warpBlocked = false;
+        }
+        else if (index < halfBoard && squareArray[index + halfBoard].getPiece() == null &&
+              !squareArray[index + halfBoard].getBlocked())
+        {
+            movesList.add(squareArray[index + halfBoard]);
+            
+            warpBlocked = false;
+        }
+        else
+            warpBlocked = true;
 
         //the logic for pieces in even rows
-        if (positionRow%2 == 0)
+        if (row%2 == 0)
         {  
             if (game.getVisitorTurn() == false || piece instanceof King) //check if it's home's turn or a king, i.e. the only two cases where you can move up
             {
-                if (positionRow != 1 && positionColumn != 1)//makes sure checker won't jump off board
+                if (row != 1 && column != 1)//makes sure checker won't jump off board
                 {
-                    //tempSquare = squareArray[index-((width/2)+1)];//up and left
                     if (squareArray[index + evenUpLeft].getPiece() == null &&
-                      !squareArray[index + evenUpLeft].getBlocked())//checks if the space is empty
-                        moves.add(squareArray[index + evenUpLeft]); //adds the square to the ArrayList that will be returned.
-                    
-                    if (piece instanceof King && index >= halfHeight &&
-                      !squareArray[(index - halfHeight) + evenUpLeft].getBlocked()) //up and left on board 1
+                            !squareArray[index + evenUpLeft].getBlocked())//checks if the space is empty
                     {
-                        if (squareArray[(index - halfHeight) + evenUpLeft].getPiece() == null)
-                            moves.add(squareArray[(index - halfHeight) + evenUpLeft]);
+                        movesList.add(squareArray[index + evenUpLeft]); //adds the square to the ArrayList that will be returned.
                     }
-                    else if (piece instanceof King && index < halfHeight &&
-                      !squareArray[(index + halfHeight) + evenUpLeft].getBlocked()) //up and left on board 2
+
+                    //if not blocked off check for available squares on other board
+                    if (squareArray[index + evenUpLeft].getPiece() == null || !warpBlocked)
                     {
-                        if (squareArray[(index + halfHeight) + evenUpLeft].getPiece() == null)
-                            moves.add(squareArray[(index + halfHeight)+ evenUpLeft]);
+                        if (piece instanceof King && index >= halfBoard &&
+                          !squareArray[(index - halfBoard) + evenUpLeft].getBlocked()) //up and left on board 1
+                        {
+                            if (squareArray[(index - halfBoard) + evenUpLeft].getPiece() == null)
+                                movesList.add(squareArray[(index - halfBoard) + evenUpLeft]);
+                        }
+                        else if (piece instanceof King && index < halfBoard &&
+                          !squareArray[(index + halfBoard) + evenUpLeft].getBlocked()) //up and left on board 2
+                        {
+                            if (squareArray[(index + halfBoard) + evenUpLeft].getPiece() == null)
+                                movesList.add(squareArray[(index + halfBoard)+ evenUpLeft]);
+                        }
                     }
                 }
 
-                if (positionRow != 1 && positionColumn != width)//makes sure checker won't jump off board
+                if (row != 1 && column != width)//makes sure checker won't jump off board
                 {
-                    //tempSquare = squareArray[index-(width/2)];//up and right
                     if (squareArray[index + evenUpRight].getPiece() == null &&
                       !squareArray[index + evenUpRight].getBlocked())
                     {
-                        moves.add(squareArray[index + evenUpRight]); //adds the square to the ArrayList that will be returned.
+                        movesList.add(squareArray[index + evenUpRight]); //adds the square to the ArrayList that will be returned.
                     }
 
-                    if (piece instanceof King && index >= halfHeight &&
-                      !squareArray[(index - halfHeight) + evenUpRight].getBlocked()) //up and right on board 1
+                    //if not blocked off check for available squares on other board
+                    if (squareArray[index + evenUpRight].getPiece() == null || !warpBlocked)
                     {
-                        if (squareArray[(index - halfHeight) + evenUpRight].getPiece() == null)
-                            moves.add(squareArray[(index - halfHeight) + evenUpRight]);
-                    }
-                    else if (piece instanceof King && index < halfHeight &&
-                      !squareArray[(index + halfHeight) + evenUpRight].getBlocked()) //up and right on board 2
-                    {
-                        if (squareArray[(index + halfHeight) + evenUpRight].getPiece() == null)
-                            moves.add(squareArray[(index + halfHeight) + evenUpRight]);
+                        if (piece instanceof King && index >= halfBoard &&
+                          !squareArray[(index - halfBoard) + evenUpRight].getBlocked()) //up and right on board 1
+                        {
+                            if (squareArray[(index - halfBoard) + evenUpRight].getPiece() == null)
+                                movesList.add(squareArray[(index - halfBoard) + evenUpRight]);
+                        }
+                        else if (piece instanceof King && index < halfBoard &&
+                          !squareArray[(index + halfBoard) + evenUpRight].getBlocked()) //up and right on board 2
+                        {
+                            if (squareArray[(index + halfBoard) + evenUpRight].getPiece() == null)
+                                movesList.add(squareArray[(index + halfBoard) + evenUpRight]);
+                        }
                     }
                 }
             }
 
             if (game.getVisitorTurn() == true || piece instanceof King) //checks if it's visitor's turn or a King, i.e. the only two cases where you can move down
             {
-                if (positionRow != width && positionColumn != 1)//makes sure checker won't jump off board
+                if (row != width && column != 1)//makes sure checker won't jump off board
                 {
-                    //tempSquare = squareArray[index+((width/2)-1)];//down and left
                     if (squareArray[index + evenDownLeft].getPiece() == null &&
                       !squareArray[index + evenDownLeft].getBlocked())
                     {
-                        moves.add(squareArray[index + evenDownLeft]); //adds the square to the ArrayList that will be returned.
+                        movesList.add(squareArray[index + evenDownLeft]); //adds the square to the ArrayList that will be returned.
                     }
 
-                    if (piece instanceof King && index >= halfHeight &&
-                      !squareArray[(index - halfHeight) + evenDownLeft].getBlocked()) //down and left on board 1
+                    //if not blocked off check for available squares on other board
+                    if (squareArray[index + evenDownLeft].getPiece() == null || !warpBlocked)
                     {
-                        if (squareArray[(index - halfHeight) + evenDownLeft].getPiece() == null)
-                            moves.add(squareArray[(index - halfHeight) + evenDownLeft]);
-                    }
-                    else if (piece instanceof King && index < halfHeight &&
-                      !squareArray[(index + halfHeight) + evenDownLeft].getBlocked()) //down and left on board 2
-                    {
-                        if (squareArray[(index + halfHeight) + evenDownLeft].getPiece() == null)
-                            moves.add(squareArray[(index + halfHeight) + evenDownLeft]);
+                        if (piece instanceof King && index >= halfBoard &&
+                          !squareArray[(index - halfBoard) + evenDownLeft].getBlocked()) //down and left on board 1
+                        {
+                            if (squareArray[(index - halfBoard) + evenDownLeft].getPiece() == null)
+                                movesList.add(squareArray[(index - halfBoard) + evenDownLeft]);
+                        }
+                        else if (piece instanceof King && index < halfBoard &&
+                          !squareArray[(index + halfBoard) + evenDownLeft].getBlocked()) //down and left on board 2
+                        {
+                            if (squareArray[(index + halfBoard) + evenDownLeft].getPiece() == null)
+                                movesList.add(squareArray[(index + halfBoard) + evenDownLeft]);
+                        }
                     }
                 }
 
-                if (positionRow != width && positionColumn != width)//makes sure checker won't jump off board
+                if (row != width && column != width)//makes sure checker won't jump off board
                 {
-                    //tempSquare = squareArray[index+(width/2)];//down and right
                     if (squareArray[index + evenDownRight].getPiece() == null &&
                       !squareArray[index + evenDownRight].getBlocked())
                     {
-                        moves.add(squareArray[index + evenDownRight]); //adds the square to the ArrayList that will be returned.
+                        movesList.add(squareArray[index + evenDownRight]); //adds the square to the ArrayList that will be returned.
                     }
 
-                    if (piece instanceof King && index >= halfHeight &&
-                      !squareArray[(index - halfHeight) + evenDownRight].getBlocked()) //down and right on board 1
+                    //if not blocked off check for available squares on other board
+                    if (squareArray[index + evenDownRight].getPiece() == null || !warpBlocked)
                     {
-                        if (squareArray[(index - halfHeight) + evenDownRight].getPiece() == null)
-                            moves.add(squareArray[(index - halfHeight) + evenDownRight]);
-                    }
-                    else if (piece instanceof King && index < halfHeight &&
-                      !squareArray[(index + halfHeight) + evenDownRight].getBlocked()) //down and right on board 2
-                    {
-                        if (squareArray[(index + halfHeight) + evenDownRight].getPiece() == null)
-                            moves.add(squareArray[(index + halfHeight) + evenDownRight]);
+                        if (piece instanceof King && index >= halfBoard &&
+                          !squareArray[(index - halfBoard) + evenDownRight].getBlocked()) //down and right on board 1
+                        {
+                            if (squareArray[(index - halfBoard) + evenDownRight].getPiece() == null)
+                                movesList.add(squareArray[(index - halfBoard) + evenDownRight]);
+                        }
+                        else if (piece instanceof King && index < halfBoard &&
+                          !squareArray[(index + halfBoard) + evenDownRight].getBlocked()) //down and right on board 2
+                        {
+                            if (squareArray[(index + halfBoard) + evenDownRight].getPiece() == null)
+                                movesList.add(squareArray[(index + halfBoard) + evenDownRight]);
+                        }
                     }
                 }
             }
@@ -331,106 +622,118 @@ public class Referee
         {
             if (game.getVisitorTurn() == false || piece instanceof King) //check if it's home's turn or a king, i.e. the only two cases where you can move up
             {
-                if (positionRow != 1 && positionColumn != 1)//makes sure checker won't jump off board
+                if (row != 1 && column != 1)//makes sure checker won't jump off board
                 {
-                    //tempSquare = squareArray[index-(width/2)];//up and left
                     if (squareArray[index + oddUpLeft].getPiece() == null &&
                       !squareArray[index + oddUpLeft].getBlocked())//checks if the space is empty
                     {
-                        moves.add(squareArray[index + oddUpLeft]); //adds the square to the ArrayList that will be returned.
+                        movesList.add(squareArray[index + oddUpLeft]); //adds the square to the ArrayList that will be returned.
                     }
 
-                    if (piece instanceof King && index >= halfHeight &&
-                      !squareArray[(index - halfHeight) + oddUpLeft].getBlocked()) //up and left on board 1
+                    //if not blocked off check for available squares on other board
+                    if (squareArray[index + oddUpLeft].getPiece() == null || !warpBlocked)
                     {
-                        if (squareArray[(index - halfHeight) + oddUpLeft].getPiece() == null)
-                            moves.add(squareArray[(index - halfHeight) + oddUpLeft]);
-                    }
-                    else if (piece instanceof King && index < halfHeight &&
-                      !squareArray[(index + halfHeight) + oddUpLeft].getBlocked()) //up and left on board 2
-                    {
-                        if (squareArray[(index + halfHeight) + oddUpLeft].getPiece() == null)
-                            moves.add(squareArray[(index + halfHeight) + oddUpLeft]);
+                        if (piece instanceof King && index >= halfBoard &&
+                          !squareArray[(index - halfBoard) + oddUpLeft].getBlocked()) //up and left on board 1
+                        {
+                            if (squareArray[(index - halfBoard) + oddUpLeft].getPiece() == null)
+                                movesList.add(squareArray[(index - halfBoard) + oddUpLeft]);
+                        }
+                        else if (piece instanceof King && index < halfBoard &&
+                          !squareArray[(index + halfBoard) + oddUpLeft].getBlocked()) //up and left on board 2
+                        {
+                            if (squareArray[(index + halfBoard) + oddUpLeft].getPiece() == null)
+                                movesList.add(squareArray[(index + halfBoard) + oddUpLeft]);
+                        }
                     }
                 }
 
-                if (positionRow != 1 && positionColumn != width)//makes sure checker won't jump off board
+                if (row != 1 && column != width)//makes sure checker won't jump off board
                 {
-                    //tempSquare = squareArray[index-(width/2)+1];//up and right
                     if (squareArray[index + oddUpRight].getPiece() == null &&
                       !squareArray[index + oddUpRight].getBlocked())
                     {
-                        moves.add(squareArray[index + oddUpRight]); //adds the square to the ArrayList that will be returned.
+                        movesList.add(squareArray[index + oddUpRight]); //adds the square to the ArrayList that will be returned.
                     }
 
-                    if (piece instanceof King && index >= halfHeight &&
-                      !squareArray[(index - halfHeight) + oddUpRight].getBlocked()) //up and right on board 1
+                    //if not blocked off check for available squares on other board
+                    if (squareArray[index + oddUpRight].getPiece() == null || !warpBlocked)
                     {
-                        if (squareArray[(index - halfHeight) + oddUpRight].getPiece() == null)
-                            moves.add(squareArray[(index - halfHeight) + oddUpRight]);
-                    }
-                    else if (piece instanceof King && index < halfHeight &&
-                      !squareArray[(index + halfHeight) + oddUpRight].getBlocked()) //up and right on board 2
-                    {
-                        if (squareArray[(index + halfHeight) + oddUpRight].getPiece() == null)
-                            moves.add(squareArray[(index + halfHeight) + oddUpRight]);
+                        if (piece instanceof King && index >= halfBoard &&
+                          !squareArray[(index - halfBoard) + oddUpRight].getBlocked()) //up and right on board 1
+                        {
+                            if (squareArray[(index - halfBoard) + oddUpRight].getPiece() == null)
+                                movesList.add(squareArray[(index - halfBoard) + oddUpRight]);
+                        }
+                        else if (piece instanceof King && index < halfBoard &&
+                          !squareArray[(index + halfBoard) + oddUpRight].getBlocked()) //up and right on board 2
+                        {
+                            if (squareArray[(index + halfBoard) + oddUpRight].getPiece() == null)
+                                movesList.add(squareArray[(index + halfBoard) + oddUpRight]);
+                        }
                     }
                 }
             }
 
             if (game.getVisitorTurn() == true || piece instanceof King) //check if it's visitor's turn or a king, i.e. the only two cases where you can move up
             {
-                if (positionRow != width && positionColumn != 1)//makes sure checker won't jump off board
+                if (row != width && column != 1)//makes sure checker won't jump off board
                 {
-                    //tempSquare = squareArray[index+(width/2)];//down and left
                     if (squareArray[index + oddDownLeft].getPiece() == null &&
                       !squareArray[index + oddDownLeft].getBlocked())
                     {
-                        moves.add(squareArray[index + oddDownLeft]); //adds the square to the ArrayList that will be returned.
+                        movesList.add(squareArray[index + oddDownLeft]); //adds the square to the ArrayList that will be returned.
                     }
 
-                    if (piece instanceof King && index >= halfHeight &&
-                      !squareArray[(index - halfHeight) + oddDownLeft].getBlocked()) //down and left on board 1
+                    //if not blocked off check for available squares on other board
+                    if (squareArray[index + oddDownLeft].getPiece() == null || !warpBlocked)
                     {
-                        if (squareArray[(index - halfHeight) + oddDownLeft].getPiece() == null)
-                            moves.add(squareArray[(index - halfHeight) + oddDownLeft]);
-                    }
-                    else if (piece instanceof King && index < halfHeight &&
-                      !squareArray[(index + halfHeight) + oddDownLeft].getBlocked()) //down and left on board 2
-                    {
-                        if (squareArray[(index + halfHeight) + oddDownLeft].getPiece() == null)
-                            moves.add(squareArray[(index + halfHeight) + oddDownLeft]);
+                        if (piece instanceof King && index >= halfBoard &&
+                          !squareArray[(index - halfBoard) + oddDownLeft].getBlocked()) //down and left on board 1
+                        {
+                            if (squareArray[(index - halfBoard) + oddDownLeft].getPiece() == null)
+                                movesList.add(squareArray[(index - halfBoard) + oddDownLeft]);
+                        }
+                        else if (piece instanceof King && index < halfBoard &&
+                          !squareArray[(index + halfBoard) + oddDownLeft].getBlocked()) //down and left on board 2
+                        {
+                            if (squareArray[(index + halfBoard) + oddDownLeft].getPiece() == null)
+                                movesList.add(squareArray[(index + halfBoard) + oddDownLeft]);
+                        }
                     }
                 }
 
-                if (positionRow != width && positionColumn != width)//makes sure checker won't jump off board
+                if (row != width && column != width)//makes sure checker won't jump off board
                 {
-                    //tempSquare = squareArray[index+((width/2)+1)];//down and right
                     if (squareArray[index + oddDownRight].getPiece() == null &&
                       !squareArray[index + oddDownRight].getBlocked())
                     {
-                        moves.add(squareArray[index + oddDownRight]); //adds the square to the ArrayList that will be returned.
+                        movesList.add(squareArray[index + oddDownRight]); //adds the square to the ArrayList that will be returned.
                     }
 
-                    if (piece instanceof King && index >= halfHeight &&
-                      !squareArray[(index - halfHeight) + oddDownRight].getBlocked()) //down and right on board 1
+                    //if not blocked off check for available squares on other board
+                    if (squareArray[index + oddDownRight].getPiece() == null || !warpBlocked)
                     {
-                        if (squareArray[(index - halfHeight) + oddDownRight].getPiece() == null)
-                            moves.add(squareArray[(index - halfHeight) + oddDownRight]);
-                    }
-                    else if (piece instanceof King && index < halfHeight &&
-                      !squareArray[(index + halfHeight) + oddDownRight].getBlocked()) //down and right on board 2
-                    {
-                        if (squareArray[(index + halfHeight) + oddDownRight].getPiece() == null)
-                            moves.add(squareArray[(index + halfHeight) + oddDownRight]);
+                        if (piece instanceof King && index >= halfBoard &&
+                          !squareArray[(index - halfBoard) + oddDownRight].getBlocked()) //down and right on board 1
+                        {
+                            if (squareArray[(index - halfBoard) + oddDownRight].getPiece() == null)
+                                movesList.add(squareArray[(index - halfBoard) + oddDownRight]);
+                        }
+                        else if (piece instanceof King && index < halfBoard &&
+                          !squareArray[(index + halfBoard) + oddDownRight].getBlocked()) //down and right on board 2
+                        {
+                            if (squareArray[(index + halfBoard) + oddDownRight].getPiece() == null)
+                                movesList.add(squareArray[(index + halfBoard) + oddDownRight]);
+                        }
                     }
                 }
             }
         }
 
-        moves.addAll(showJumps(square));
+        movesList.addAll(showJumps(square));
 
-        return moves;
+        return movesList;
     }
 
     public ArrayList showJumps (Square square)
@@ -438,38 +741,117 @@ public class Referee
         int index = square.getIndex();
         ArrayList<Square> squareJumps = new ArrayList();
         Piece piece = square.getPiece();
-        int positionRow = square.getPosition().getRow();
-        int positionColumn = square.getPosition().getColumn();
-        int positionBoard = square.getPosition().getBoard();
+        int row = square.getPosition().getRow();
+        int column = square.getPosition().getColumn();
+        int board = square.getPosition().getBoard();
+        boolean warpBlocked = false;
+
+        //see if warp move is available
+        if (index >= halfBoard && squareArray[index - halfBoard].getPiece() == null &&
+              !squareArray[index - halfBoard].getBlocked())
+        {
+            //squareJumps.add(squareArray[index - halfBoard]);
+
+            warpBlocked = false;
+        }
+        else if (index < halfBoard && squareArray[index + halfBoard].getPiece() == null &&
+              !squareArray[index + halfBoard].getBlocked())
+        {
+            //squareJumps.add(squareArray[index + halfBoard]);
+
+            warpBlocked = false;
+        }
+        else
+            warpBlocked = true;
 
         //even rows
-        if (square.getPosition().getRow()%2 == 0)
+        if (row % 2 == 0)
         {
             if (game.getVisitorTurn() == false || piece instanceof King) //check if it's home's turn or a king, i.e. the only two cases where you can move up
             {
-                if (positionRow > 2 && positionColumn > 2)//up left case. Makes sure checker won't jump off board
+                if (row > 2 && column > 2)//up left case. Makes sure checker won't jump off board
                 {
                     if (squareArray[index + evenUpLeft].getPiece() != null &&
                             squareArray[index + evenUpLeft].getPiece().getColor() != square.getPiece().getColor() &&
                             !squareArray[index + evenUpLeft].getSafe())//if up left square is the opposite color
                     {
-                        if(squareArray[index + evenUpLeft + oddUpLeft].getPiece() == null &&
+                        if (squareArray[index + evenUpLeft + oddUpLeft].getPiece() == null &&
                               !squareArray[index + evenUpLeft + oddUpLeft].getBlocked())//check the spot up and left of the piece
                         {
                             squareJumps.add(squareArray[index + evenUpLeft + oddUpLeft]);
                         }
                     }
+
+                    //if not blocked off check for available squares on other board
+                    if (!warpBlocked)
+                    {
+                        //check up and left on board other board
+                        if (piece instanceof King && board == 1 &&
+                            squareArray[index + halfBoard + evenUpLeft].getPiece() != null &&
+                            squareArray[index + halfBoard + evenUpLeft].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index + halfBoard + evenUpLeft].getSafe())
+                        {
+                            if (squareArray[index + halfBoard + evenUpLeft + oddUpLeft].getPiece() == null &&
+                                  !squareArray[index + halfBoard + evenUpLeft + oddUpLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenUpLeft + oddUpLeft]);
+                            }
+                        }
+                        else if (piece instanceof King && board == 2 &&
+                            squareArray[index - halfBoard + evenUpLeft].getPiece() != null &&
+                            squareArray[index - halfBoard + evenUpLeft].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index - halfBoard + evenUpLeft].getSafe())
+                        {
+                            if (squareArray[index - halfBoard + evenUpLeft + oddUpLeft].getPiece() == null &&
+                                  !squareArray[index - halfBoard + evenUpLeft + oddUpLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenUpLeft + oddUpLeft]);
+                            }
+                        }
+                    }
                 }
-                if (positionRow > 2 && positionColumn <= (width-2) )//up right case. Makes sure piece won't jump off board
+                if (row > 2 && column <= (width-2) )//up right case. Makes sure piece won't jump off board
                 {
                     if (squareArray[index + evenUpRight].getPiece() != null &&
                             squareArray[index + evenUpRight].getPiece().getColor() != square.getPiece().getColor() &&
-                            !squareArray[index + evenUpRight].getSafe())//if up left square is the opposite color
+                            !squareArray[index + evenUpRight].getSafe())//if up right square is the opposite color
                     {
                         if(squareArray[index + evenUpRight + oddUpRight].getPiece() == null&&
-                              !squareArray[index + evenUpRight + oddUpRight].getBlocked())//check the spot up and left of the piece
+                              !squareArray[index + evenUpRight + oddUpRight].getBlocked())//check the spot up and right of the piece
                         {
                             squareJumps.add(squareArray[index + evenUpRight + oddUpRight]);
+                        }
+                    }
+
+                    //if not blocked off check for available squares on other board
+                    if (!warpBlocked)
+                    {
+                        //check up and right on board other board
+                        if (piece instanceof King && board == 1 &&
+                            squareArray[index + halfBoard + evenUpRight].getPiece() != null &&
+                            squareArray[index + halfBoard + evenUpRight].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index + halfBoard + evenUpRight].getSafe())
+                        {
+                            if (squareArray[index + halfBoard + evenUpRight + oddUpRight].getPiece() == null &&
+                                  !squareArray[index + halfBoard + evenUpRight + oddUpRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenUpRight + oddUpRight]);
+                            }
+                        }
+                        else if (piece instanceof King && board == 2 &&
+                            squareArray[index - halfBoard + evenUpRight].getPiece() != null &&
+                            squareArray[index - halfBoard + evenUpRight].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index - halfBoard + evenUpRight].getSafe())
+                        {
+                            if (squareArray[index - halfBoard + evenUpRight + oddUpRight].getPiece() == null &&
+                                  !squareArray[index - halfBoard + evenUpRight + oddUpRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenUpRight + oddUpRight]);
+                            }
                         }
                     }
                 }
@@ -477,7 +859,7 @@ public class Referee
 
             if (game.getVisitorTurn() == true || piece instanceof King) //check if it's home's turn or a king, i.e. the only two cases where you can move down
             {
-                if (positionRow <= (width-2) && positionColumn > 2)//down left case. Makes sure checker won't jump off board
+                if (row <= (width-2) && column > 2)//down left case. Makes sure checker won't jump off board
                 {
                     if (squareArray[index + evenDownLeft].getPiece() != null &&
                             squareArray[index + evenDownLeft].getPiece().getColor() != square.getPiece().getColor() &&
@@ -489,8 +871,38 @@ public class Referee
                             squareJumps.add(squareArray[index + evenDownLeft + oddDownLeft]);
                         }
                     }
+
+                    //if not blocked off check for available squares on other board
+                    if (!warpBlocked)
+                    {
+                        //check down and left on board other board
+                        if (piece instanceof King && board == 1 &&
+                            squareArray[index + halfBoard + evenDownLeft].getPiece() != null &&
+                            squareArray[index + halfBoard + evenDownLeft].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index + halfBoard + evenDownLeft].getSafe())
+                        {
+                            if (squareArray[index + halfBoard + evenDownLeft + oddDownLeft].getPiece() == null &&
+                                  !squareArray[index + halfBoard + evenDownLeft + oddDownLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenDownLeft + oddDownLeft]);
+                            }
+                        }
+                        else if (piece instanceof King && board == 2 &&
+                            squareArray[index - halfBoard + evenDownLeft].getPiece() != null &&
+                            squareArray[index - halfBoard + evenDownLeft].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index - halfBoard + evenDownLeft].getSafe())
+                        {
+                            if (squareArray[index - halfBoard + evenDownLeft + oddDownLeft].getPiece() == null &&
+                                  !squareArray[index - halfBoard + evenDownLeft + oddDownLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenDownLeft + oddDownLeft]);
+                            }
+                        }
+                    }
                 }
-                if (positionRow <= (width-2) && positionColumn <= (width-2) )//down right case. Makes sure piece won't jump off board
+                if (row <= (width-2) && column <= (width-2) )//down right case. Makes sure piece won't jump off board
                 {
                     if (squareArray[index + evenDownRight].getPiece() != null &&
                             squareArray[index + evenDownRight].getPiece().getColor() != square.getPiece().getColor() &&
@@ -502,6 +914,36 @@ public class Referee
                             squareJumps.add(squareArray[index + evenDownRight + oddDownRight]);
                         }
                     }
+
+                    //if not blocked off check for available squares on other board
+                    if (!warpBlocked)
+                    {
+                        //check down and right on board other board
+                        if (piece instanceof King && board == 1 &&
+                            squareArray[index + halfBoard + evenDownRight].getPiece() != null &&
+                            squareArray[index + halfBoard + evenDownRight].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index + halfBoard + evenDownRight].getSafe())
+                        {
+                            if (squareArray[index + halfBoard + evenDownRight + oddDownRight].getPiece() == null &&
+                                  !squareArray[index + halfBoard + evenDownRight + oddDownRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenDownRight + oddDownRight]);
+                            }
+                        }
+                        else if (piece instanceof King && board == 2 &&
+                            squareArray[index - halfBoard + evenDownRight].getPiece() != null &&
+                            squareArray[index - halfBoard + evenDownRight].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index - halfBoard + evenDownRight].getSafe())
+                        {
+                            if (squareArray[index - halfBoard + evenDownRight + oddDownRight].getPiece() == null &&
+                                  !squareArray[index - halfBoard + evenDownRight + oddDownRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenDownRight + oddDownRight]);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -510,7 +952,7 @@ public class Referee
         {
             if (game.getVisitorTurn() == false || piece instanceof King) //check if it's home's turn or a king, i.e. the only two cases where you can move up
             {
-                if (positionRow > 2 && positionColumn > 2)//up left case. Makes sure checker won't jump off board
+                if (row > 2 && column > 2)//up left case. Makes sure checker won't jump off board
                 {
                     if (squareArray[index + oddUpLeft].getPiece() != null &&
                             squareArray[index + oddUpLeft].getPiece().getColor() != square.getPiece().getColor() &&
@@ -522,8 +964,38 @@ public class Referee
                             squareJumps.add(squareArray[index + oddUpLeft + evenUpLeft]);
                         }
                     }
+
+                    //if not blocked off check for available squares on other board
+                    if (!warpBlocked)
+                    {
+                        //check up and left on board other board
+                        if (piece instanceof King && board == 1 &&
+                            squareArray[index + halfBoard + oddUpLeft].getPiece() != null &&
+                            squareArray[index + halfBoard + oddUpLeft].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index + halfBoard + oddUpLeft].getSafe())
+                        {
+                            if (squareArray[index + halfBoard + evenUpLeft + oddUpLeft].getPiece() == null &&
+                                  !squareArray[index + halfBoard + evenUpLeft + oddUpLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenUpLeft + oddUpLeft]);
+                            }
+                        }
+                        else if (piece instanceof King && board == 2 &&
+                            squareArray[index - halfBoard + oddUpLeft].getPiece() != null &&
+                            squareArray[index - halfBoard + oddUpLeft].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index - halfBoard + oddUpLeft].getSafe())
+                        {
+                            if (squareArray[index - halfBoard + evenUpLeft + oddUpLeft].getPiece() == null &&
+                                  !squareArray[index - halfBoard + evenUpLeft + oddUpLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenUpLeft + oddUpLeft]);
+                            }
+                        }
+                    }
                 }
-                if (positionRow > 2 && positionColumn <= (width-2) )//up right case. Makes sure piece won't jump off board
+                if (row > 2 && column <= (width-2) )//up right case. Makes sure piece won't jump off board
                 {
                     if (squareArray[index + oddUpRight].getPiece() != null &&
                             squareArray[index + oddUpRight].getPiece().getColor() != square.getPiece().getColor() &&
@@ -535,12 +1007,42 @@ public class Referee
                             squareJumps.add(squareArray[index + oddUpRight + evenUpRight]);
                         }
                     }
+
+                    //if not blocked off check for available squares on other board
+                    if (!warpBlocked)
+                    {
+                        //check up and right on board other board
+                        if (piece instanceof King && board == 1 &&
+                            squareArray[index + halfBoard + oddUpRight].getPiece() != null &&
+                            squareArray[index + halfBoard + oddUpRight].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index + halfBoard + oddUpRight].getSafe())
+                        {
+                            if (squareArray[index + halfBoard + evenUpRight + oddUpRight].getPiece() == null &&
+                                  !squareArray[index + halfBoard + evenUpRight + oddUpRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenUpRight + oddUpRight]);
+                            }
+                        }
+                        else if (piece instanceof King && board == 2 &&
+                            squareArray[index - halfBoard + oddUpRight].getPiece() != null &&
+                            squareArray[index - halfBoard + oddUpRight].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index - halfBoard + oddUpRight].getSafe())
+                        {
+                            if (squareArray[index - halfBoard + evenUpRight + oddUpRight].getPiece() == null &&
+                                  !squareArray[index - halfBoard + evenUpRight + oddUpRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenUpRight + oddUpRight]);
+                            }
+                        }
+                    }
                 }
             }
 
             if (game.getVisitorTurn() == true || piece instanceof King) //check if it's home's turn or a king, i.e. the only two cases where you can move down
             {
-                if (positionRow <= (width-2) && positionColumn > 2)//down left case. Makes sure checker won't jump off board
+                if (row <= (width-2) && column > 2)//down left case. Makes sure checker won't jump off board
                 {
                     if (squareArray[index + oddDownLeft].getPiece() != null &&
                             squareArray[index + oddDownLeft].getPiece().getColor() != square.getPiece().getColor() &&
@@ -552,8 +1054,38 @@ public class Referee
                             squareJumps.add(squareArray[index + oddDownLeft + evenDownLeft]);
                         }
                     }
+
+                    //if not blocked off check for available squares on other board
+                    if (!warpBlocked)
+                    {
+                        //check down and left on board other board
+                        if (piece instanceof King && board == 1 &&
+                            squareArray[index + halfBoard + oddDownLeft].getPiece() != null &&
+                            squareArray[index + halfBoard + oddDownLeft].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index + halfBoard + oddDownLeft].getSafe())
+                        {
+                            if (squareArray[index + halfBoard + evenDownLeft + oddDownLeft].getPiece() == null &&
+                                  !squareArray[index + halfBoard + evenDownLeft + oddDownLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenDownLeft + oddDownLeft]);
+                            }
+                        }
+                        else if (piece instanceof King && board == 2 &&
+                            squareArray[index - halfBoard + oddDownLeft].getPiece() != null &&
+                            squareArray[index - halfBoard + oddDownLeft].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index - halfBoard + oddDownLeft].getSafe())
+                        {
+                            if (squareArray[index - halfBoard + evenDownLeft + oddDownLeft].getPiece() == null &&
+                                  !squareArray[index - halfBoard + evenDownLeft + oddDownLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenDownLeft + oddDownLeft]);
+                            }
+                        }
+                    }
                 }
-                if (positionRow <= (width-2) && positionColumn <= (width-2) )//down right case. Makes sure piece won't jump off board
+                if (row <= (width-2) && column <= (width-2) )//down right case. Makes sure piece won't jump off board
                 {
                     if (squareArray[index + oddDownRight].getPiece() != null &&
                             squareArray[index + oddDownRight].getPiece().getColor() != square.getPiece().getColor() &&
@@ -563,6 +1095,36 @@ public class Referee
                               !squareArray[index + oddDownRight + evenDownRight].getBlocked())//check the spot up and left of the piece
                         {
                             squareJumps.add(squareArray[index + oddDownRight + evenDownRight]);
+                        }
+                    }
+
+                    //if not blocked off check for available squares on other board
+                    if (!warpBlocked)
+                    {
+                        //check down and right on board other board
+                        if (piece instanceof King && board == 1 &&
+                            squareArray[index + halfBoard + oddDownRight].getPiece() != null &&
+                            squareArray[index + halfBoard + oddDownRight].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index + halfBoard + oddDownRight].getSafe())
+                        {
+                            if (squareArray[index + halfBoard + evenDownRight + oddDownRight].getPiece() == null &&
+                                  !squareArray[index + halfBoard + evenDownRight + oddDownRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenDownRight + oddDownRight]);
+                            }
+                        }
+                        else if (piece instanceof King && board == 2 &&
+                            squareArray[index - halfBoard + oddDownRight].getPiece() != null &&
+                            squareArray[index - halfBoard + oddDownRight].getPiece().getColor() !=
+                            square.getPiece().getColor() &&
+                            !squareArray[index - halfBoard + oddDownRight].getSafe())
+                        {
+                            if (squareArray[index - halfBoard + evenDownRight + oddDownRight].getPiece() == null &&
+                                  !squareArray[index - halfBoard + evenDownRight + oddDownRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenDownRight + oddDownRight]);
+                            }
                         }
                     }
                 }
