@@ -1,6 +1,8 @@
 /*
  * This class accepts three integer values as input that correspond to
  * the board, row and column location on a 3 dimensional checker board
+ *
+ * Author:  David Clark
  */
 
 package checkers;

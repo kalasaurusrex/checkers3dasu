@@ -140,6 +140,7 @@ public class WelcomeScreen extends javax.swing.JFrame
     private void NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextButtonActionPerformed
         if (NewGameButton.isSelected())
         {
+            //new GameScreen(10, "New Player 1", "New Player 2").setVisible(true);
             new LoginScreen(Main.NEW).setVisible(true);
             setVisible(false);
         }
