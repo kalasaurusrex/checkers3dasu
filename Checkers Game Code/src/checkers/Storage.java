@@ -14,24 +14,39 @@ public final class Storage implements Serializable
 {
     private Vector<User> users;
     private ArrayList<Game> games;
-    
     private static Storage instance = new Storage();
+
     // private Storage constructor.  empty ArrayLists are created to store
     // Users and Games.
-
     private Storage() {
             users = new Vector<User>();
             games = new ArrayList<Game>();
         }
     public static Storage getStorageInstance() {
         return instance;
+        // the commented code below attempts to preserve the user list between
+        // runs of the program.  it will be completed in Build 3.
+        /*Storage instance = null;
+        try {
+            FileInputStream fis = new FileInputStream("store.storage");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            instance = (Storage) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (Exception e) {
+            try {
+                instance = new Storage();
+            } catch (Exception ex) {
+
+            }
+        }
+        return instance; */
     }
     public void addUser(User newUser) {
         users.add(newUser);
         Collections.sort((AbstractList) users);
-    }
-    private Object readResolve() {
-        return instance;
+        //newUser.saveUser();
+        //this.saveStorage();
     }
     public ArrayList<Game> getGames ()
     {
