@@ -1363,6 +1363,7 @@ public class GameScreen extends javax.swing.JFrame
 
         boardMenuBar = new javax.swing.JMenuBar();
         gameMenu = new javax.swing.JMenu();
+        mainMenuItem = new javax.swing.JMenuItem();
         replayMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JSeparator();
         exitMenuItem = new javax.swing.JMenuItem();
@@ -1378,7 +1379,18 @@ public class GameScreen extends javax.swing.JFrame
         gameMenu.setText("Game");
         gameMenu.setFont(oldEnglish_16);
 
+        mainMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
+        mainMenuItem.setFont(oldEnglish_14);
+        mainMenuItem.setText("Main Menu");
+        mainMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainMenuItemActionPerformed(evt);
+            }
+        });
+        gameMenu.add(mainMenuItem);
+
         replayMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        replayMenuItem.setFont(oldEnglish_14);
         replayMenuItem.setText("Instant Replay");
         replayMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1422,12 +1434,18 @@ public class GameScreen extends javax.swing.JFrame
         setVisible(true);
     }//GEN-LAST:event_replayMenuItemActionPerformed
 
+    private void mainMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMenuItemActionPerformed
+        new WelcomeScreen().setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_mainMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar boardMenuBar;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu gameMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JMenuItem mainMenuItem;
     private javax.swing.JMenuItem replayMenuItem;
     // End of variables declaration//GEN-END:variables
 
