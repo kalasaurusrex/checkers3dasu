@@ -17,6 +17,7 @@ import javax.naming.*;
 import java.security.*;
 import java.awt.Font;
 import java.io.*;
+import javax.swing.plaf.basic.BasicButtonListener;
 
 /**
  *
@@ -25,6 +26,7 @@ import java.io.*;
 public class NewUserForm extends javax.swing.JDialog {
 
     Storage storage = Storage.getStorageInstance();
+    User newlyLoggedInPlayer = null;
 
      //load the Old English font with a given size and type
     private Font loadFont(int type, float size)
@@ -196,7 +198,6 @@ public class NewUserForm extends javax.swing.JDialog {
             try {
                 User newUser = new User(chosenUserName);
                 newUser.setPassword(jPasswordField1.getText());
-                JOptionPane.showMessageDialog(this, "Success! User " + chosenUserName + " created.  Please sign in.", "User Successfully Created", JOptionPane.INFORMATION_MESSAGE);
                 storage.addUser(newUser);
                 this.setVisible(false);
             } catch (InvalidNameException ine) {
