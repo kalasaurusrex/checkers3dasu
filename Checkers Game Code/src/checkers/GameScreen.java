@@ -226,7 +226,7 @@ public class GameScreen extends javax.swing.JFrame
         {
             tmp = random.nextInt((width*width)/2);
 
-            if(randomList[tmp].getPiece() == null)
+            if(randomList[tmp].getPiece() == null && !randomList[tmp].getBlocked())
             {
                 randomList[tmp].setBlocked(true);
                 randomList[tmp].setIcon(squareBlocked);
@@ -252,7 +252,9 @@ public class GameScreen extends javax.swing.JFrame
         {
             tmp = random.nextInt((width*width)/2);
 
-            if(randomList[tmp].getBlocked() == false && randomList[tmp].getSafe() == false)
+            if(randomList[tmp].getBlocked() == false && 
+                    randomList[tmp].getSafe() == false &&
+                    !randomList[tmp].getMine())
             {
                 randomList[tmp].setMine(true);
                 randomList[tmp].setVisitorMine(true);
@@ -336,7 +338,7 @@ public class GameScreen extends javax.swing.JFrame
         {
             tmp = random.nextInt((width*width)/2);
 
-            if(randomList[tmp].getPiece() == null)
+            if(randomList[tmp].getPiece() == null && !randomList[tmp].getMine())
             {
                 randomList[tmp].setBlocked(true);
                 randomList[tmp].setIcon(squareBlocked);
@@ -362,7 +364,9 @@ public class GameScreen extends javax.swing.JFrame
         {
             tmp = random.nextInt((width*width)/2);
 
-            if(randomList[tmp].getBlocked() != true && randomList[tmp].getSafe() != true)
+            if(randomList[tmp].getBlocked() != true && 
+                    randomList[tmp].getSafe() != true &&
+                    !randomList[tmp].getMine())
             {
                 randomList[tmp].setMine(true);
                 randomList[tmp].setVisitorMine(false);
