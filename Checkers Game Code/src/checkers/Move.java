@@ -15,6 +15,8 @@ public class Move
     private boolean validMove;
     private boolean moreJumps;
     private boolean requiredJump;
+    private boolean warped;
+    private boolean landedOnMine;
     private int gameOver;
 
     public Move()
@@ -23,6 +25,8 @@ public class Move
         validMove = false;
         moreJumps = false;
         requiredJump = false;
+        warped = false;
+        landedOnMine = false;
         gameOver = 0;
     }
 
@@ -32,6 +36,8 @@ public class Move
         validMove = false;
         moreJumps = false;
         requiredJump = false;
+        warped = false;
+        landedOnMine = false;
     }
 
     public void addJump(Square s)
@@ -84,6 +90,16 @@ public class Move
         return requiredJump;
     }
 
+    public void setWarp(boolean warp)
+    {
+        warped = warp;
+    }
+
+    public boolean hasWarped()
+    {
+        return warped;
+    }
+
     public void setGameOver(int over)
     {
         gameOver = over;
@@ -94,5 +110,13 @@ public class Move
         return gameOver;
     }
 
+    public void setLandedOnMine(boolean mine)
+    {
+        landedOnMine = mine;
+    }
 
+    public boolean landedOnMine()
+    {
+        return landedOnMine;
+    }
 }

@@ -22,7 +22,20 @@ public class Main
     public static final int STATS = 2;
     public static final int HOME_WON = 1;
     public static final int VISITOR_WON = 2;
+	public static final int SQ_BL = 1;
+    public static final int CK_BL = 2;
+    public static final int CK_RD = 3;
+    public static final int KG_BL = 4;
+    public static final int KG_RD = 5;
+    public static final int SQ_SF = 6;
+    public static final int SF_CK_BL = 7;
+    public static final int SF_CK_RD = 8;
+    public static final int SF_KG_BL = 9;
+    public static final int SF_KG_RD = 10;
+    public static final int SQ_BO = 11;
     public static Storage storage;
+	private static WelcomeScreen welcome;
+	
     /**
      * @param args the command line arguments
      */
@@ -39,6 +52,13 @@ public class Main
         } catch (ClassNotFoundException cne) {
             System.exit(2);
         }
-        new WelcomeScreen().setVisible(true);
+	
+        welcome = new WelcomeScreen();
+        welcome.setVisible(true);
+    }
+    
+    public static void restart()
+    {
+        welcome.setVisible(true);
     }
 }
