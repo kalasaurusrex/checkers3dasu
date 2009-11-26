@@ -1,5 +1,6 @@
 package checkers;
 
+import java.util.ArrayList;
 
 public class Game
 {
@@ -9,6 +10,7 @@ public class Game
     private String visitor;
     private String home;
     private boolean visitorTurn;
+    private ArrayList<int[]> movesList;
 
     public Game (Square[] s, int w, String v, String h)
     {
@@ -21,7 +23,9 @@ public class Game
         if (width == 8)
             homePieces = visitorPieces = 10;
         else if (width == 10)
-            homePieces = visitorPieces = 2; //15
+            homePieces = visitorPieces = 15;
+
+        movesList = new ArrayList();
     }
 
     public String getHome ()
@@ -74,14 +78,14 @@ public class Game
         return homePieces;
     }
 
-    public void storeMove () 
+    public void storeMove (int[] m)
     {
-
+        movesList.add(m);
     }
 
-    public void getBoardState () 
+    public ArrayList getMoves ()
     {
-
+        return movesList;
     }
 
     public int getWidth()

@@ -1,12 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * ReplayScreen.java
+ * The ReplayScreen class provides instant replay capabilities to a user
  *
- * Created on Nov 11, 2009, 9:57:11 PM
+ * Author: David Clark
  */
 
 package checkers;
@@ -14,13 +9,29 @@ package checkers;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+import java.awt.Frame;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ReplayScreen extends javax.swing.JDialog
 {
+    int maxMoves;
+    int currentMove;
     final int PIXELS = 40;
     private Square[] square;
     private int width = 0;
     private int boardSize = 0;
+    ArrayList<int[]> movesList;
 
     //load images
     ImageIcon board8X8 = new ImageIcon(getClass().getResource("/checkers/images/Board8x8.png"));
@@ -36,27 +47,28 @@ public class ReplayScreen extends javax.swing.JDialog
     ImageIcon safeKingBlack = new ImageIcon(getClass().getResource("/checkers/images/SafeKingBlack.png"));
     ImageIcon safeKingRed = new ImageIcon(getClass().getResource("/checkers/images/SafeKingRed.png"));
     ImageIcon squareBlocked = new ImageIcon(getClass().getResource("/checkers/images/SquareBlocked.png"));
+    ImageIcon displayLabel = new ImageIcon(getClass().getResource("/checkers/images/DisplayLabel.png"));
+    ImageIcon background = new ImageIcon(getClass().getResource("/checkers/images/Background.png"));
+
+    //load fonts
+    Font oldEnglish_16 = loadFont(Font.PLAIN, 16);
+    Font oldEnglish_14 = loadFont(Font.PLAIN, 14);
 
     /** Creates new form ReplayScreen */
-    public ReplayScreen(java.awt.Frame parent, boolean modal, int size)
+    public ReplayScreen(Frame parent, boolean modal, int size, ArrayList ml)
     {
         super(parent, modal);
 
         width = size;
         boardSize = width * width;
+        movesList = ml;
+        maxMoves = currentMove = movesList.size() - 1;
 
         initComponents();
         initBoard();
-    }
+        initExtras();
 
-    public void getBoardInfo ()
-    {
-
-    }
-
-    public void refreshBoard ()
-    {
-
+        refreshBoard(movesList.get(movesList.size() - 1));
     }
 
      private void initBoard()
@@ -65,10 +77,36 @@ public class ReplayScreen extends javax.swing.JDialog
         int row = 1;
         int col = 2;
         boolean halfFlag = false;
-        JLayeredPane lBoardPane = new JLayeredPane();
-        JLabel lBackgroundLabel = new JLabel();
-        JLayeredPane rBoardPane = new JLayeredPane();
-        JLabel rBackgroundLabel = new JLabel();
+        lMessagePane = new JLayeredPane();
+        lMessageLabel = new JLabel();
+        rMessagePane = new JLayeredPane();
+        rMessageLabel = new JLabel();
+        BackgroundPane = new JLayeredPane();
+        BackgroundLabel = new JLabel();
+        lBoardPane = new JLayeredPane();
+        lBackgroundLabel = new JLabel();
+        rBoardPane = new JLayeredPane();
+        rBackgroundLabel = new JLabel();
+
+        getContentPane().add(BackgroundPane);
+        BackgroundPane.setBounds(0, 0, 888, 640);
+        BackgroundPane.add(BackgroundLabel, -1);
+        BackgroundLabel.setIcon(background);
+        BackgroundLabel.setBounds(0, 0, 888, 640);
+
+        getContentPane().add(lMessagePane, 0);
+        lMessagePane.setBounds(40, 430, 340, 145);
+
+        getContentPane().add(rMessagePane, 0);
+        rMessagePane.setBounds(500, 20, 340, 145);
+
+        lMessageLabel.setIcon(displayLabel);
+        lMessageLabel.setBounds(0, 0, 340, 145);
+        lMessagePane.add(lMessageLabel, -1);
+
+        rMessageLabel.setIcon(displayLabel);
+        rMessageLabel.setBounds(0, 0, 340, 145);
+        rMessagePane.add(rMessageLabel, -1);
 
         //initialize the array of Squares
         square = new Square[boardSize];
@@ -77,10 +115,10 @@ public class ReplayScreen extends javax.swing.JDialog
         //the layered pane.
         lBackgroundLabel.setBounds(0, 0, PIXELS * width, PIXELS * width);
         lBoardPane.add(lBackgroundLabel, JLayeredPane.DEFAULT_LAYER);
-        getContentPane().add(lBoardPane);
+        BackgroundPane.add(lBoardPane, 0);
         rBackgroundLabel.setBounds(0, 0, PIXELS * width, PIXELS * width);
         rBoardPane.add(rBackgroundLabel, JLayeredPane.DEFAULT_LAYER);
-        getContentPane().add(rBoardPane);
+        BackgroundPane.add(rBoardPane, 0);
 
         if (width == 10)
         {
@@ -164,6 +202,146 @@ public class ReplayScreen extends javax.swing.JDialog
         }
     }
 
+    private void initExtras()
+    {
+        lastButton = new javax.swing.JButton();
+        firstButton = new javax.swing.JButton();
+        forwardButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
+        currentMoveText = new IntegerTextField();
+        maxMoveLabel = new JLabel("of  " + maxMoves);
+
+        firstButton.setText("<<");
+        firstButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                firstButtonActionPerformed(evt);
+            }
+        });
+        rMessagePane.add(firstButton, 0);
+        firstButton.setBounds(20, 70, 55, 55);
+
+        backButton.setText("<");
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+        rMessagePane.add(backButton, 0);
+        backButton.setBounds(85, 70, 55, 55);
+
+        forwardButton.setText(">");
+        forwardButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                forwardButtonActionPerformed(evt);
+            }
+        });
+        rMessagePane.add(forwardButton, 0);
+        forwardButton.setBounds(200, 70, 55, 55);
+
+        lastButton.setText(">>");
+        lastButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                lastButtonActionPerformed(evt);
+            }
+        });
+        rMessagePane.add(lastButton, 0);
+        lastButton.setBounds(265, 70, 55, 55);
+
+        currentMoveText.setText(Integer.toString(currentMove));
+        currentMoveText.setHorizontalAlignment(JTextField.CENTER);
+        currentMoveText.setBorder(new LineBorder(new Color(0, 0, 0), 1, false));
+        currentMoveText.setFont(oldEnglish_16);
+        currentMoveText.setBounds(120, 25, 45, 20);
+        rMessagePane.add(currentMoveText, 0);
+
+        maxMoveLabel.setFont(oldEnglish_16);
+        maxMoveLabel.setBounds(175, 25, 140, 20);
+        rMessagePane.add(maxMoveLabel, 0);
+    }
+
+    private void lastButtonActionPerformed(ActionEvent evt)
+    {
+        if (movesList.size() > 0)
+        {
+            refreshBoard(movesList.get(movesList.size() - 1));
+            currentMove = maxMoves;
+        }
+
+        currentMoveText.setText(Integer.toString(currentMove));
+    }
+
+    private void firstButtonActionPerformed(ActionEvent evt)
+    {
+        refreshBoard(movesList.get(0));
+        currentMove = 0;
+        currentMoveText.setText(Integer.toString(currentMove));
+    }
+
+    private void forwardButtonActionPerformed(ActionEvent evt)
+    {
+        if (currentMove < maxMoves)
+        {
+            currentMove++;
+            refreshBoard(movesList.get(currentMove));
+        }
+
+        currentMoveText.setText(Integer.toString(currentMove));
+    }
+
+    private void backButtonActionPerformed(ActionEvent evt)
+    {
+        if (currentMove > 0)
+        {
+            currentMove--;
+            refreshBoard(movesList.get(currentMove));
+        }
+
+        currentMoveText.setText(Integer.toString(currentMove));
+    }
+
+    private void refreshBoard(int[] board)
+    {
+        for (int i = 0; i < square.length; i++)
+        {
+            switch (board[i])
+            {
+                case Main.SQ_BL: square[i].setIcon(squareBlack); break;
+                case Main.CK_BL: square[i].setIcon(checkerBlack); break;
+                case Main.CK_RD: square[i].setIcon(checkerRed); break;
+                case Main.KG_BL: square[i].setIcon(kingBlack); break;
+                case Main.KG_RD: square[i].setIcon(kingRed); break;
+                case Main.SQ_SF: square[i].setIcon(squareSafe); break;
+                case Main.SF_CK_BL: square[i].setIcon(safeCheckerBlack); break;
+                case Main.SF_CK_RD: square[i].setIcon(safeCheckerRed); break;
+                case Main.SF_KG_BL: square[i].setIcon(safeKingBlack); break;
+                case Main.SF_KG_RD: square[i].setIcon(safeKingRed); break;
+                case Main.SQ_BO: square[i].setIcon(squareBlocked); break;
+            }
+        }
+    }
+
+    //load the Old English font with a given size and type
+    private Font loadFont(int type, float size)
+    {
+        Font font = null;
+        try
+        {
+            InputStream input = this.getClass().getResourceAsStream("/OLDENGL.TTF");
+            font = Font.createFont(Font.PLAIN, input).deriveFont(type, size);
+        }
+        catch (IOException ioe)
+        {
+            System.err.println(ioe);
+            System.exit(1);
+        }
+        catch (FontFormatException ffe)
+        {
+            System.err.println(ffe);
+            System.exit(1);
+        }
+        return font;
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -173,6 +351,10 @@ public class ReplayScreen extends javax.swing.JDialog
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        replayMenuBar = new javax.swing.JMenuBar();
+        replayMenu = new javax.swing.JMenu();
+        closeReplayMenuItem = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Instant Replay");
         setMinimumSize(new java.awt.Dimension(888, 640));
@@ -180,27 +362,87 @@ public class ReplayScreen extends javax.swing.JDialog
         setResizable(false);
         getContentPane().setLayout(null);
 
+        replayMenu.setText("Replay");
+        replayMenu.setFont(oldEnglish_16);
+
+        closeReplayMenuItem.setText("Close Replay");
+        closeReplayMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeReplayMenuItemActionPerformed(evt);
+            }
+        });
+        replayMenu.add(closeReplayMenuItem);
+        closeReplayMenuItem.setFont(oldEnglish_14);
+
+        replayMenuBar.add(replayMenu);
+
+        setJMenuBar(replayMenuBar);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-    * @param args the command line arguments
-    */
-//    public static void main(String args[]) {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                ReplayScreen dialog = new ReplayScreen(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
+    private void closeReplayMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeReplayMenuItemActionPerformed
+        dispose();
+}//GEN-LAST:event_closeReplayMenuItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem closeReplayMenuItem;
+    private javax.swing.JMenu replayMenu;
+    private javax.swing.JMenuBar replayMenuBar;
     // End of variables declaration//GEN-END:variables
 
+    //additional variables declaration
+    JLayeredPane BackgroundPane;
+    JLabel BackgroundLabel;
+    JLayeredPane lMessagePane;
+    JLabel lMessageLabel;
+    JLayeredPane rMessagePane;
+    JLabel rMessageLabel;
+    JLayeredPane lBoardPane;
+    JLabel lBackgroundLabel;
+    JLayeredPane rBoardPane;
+    JLabel rBackgroundLabel;
+    JButton backButton;
+    JButton firstButton;
+    JButton forwardButton;
+    JButton lastButton;
+    IntegerTextField currentMoveText;
+    JLabel maxMoveLabel;
+
+    class IntegerTextField extends JTextField
+    {
+        final static String invalid = "-`~!@#$%^&*()_+=\\|\"':;?/>.<, ";
+
+        @Override
+        public void processKeyEvent(KeyEvent ev)
+        {
+            char c = ev.getKeyChar();
+
+            //prevent entry of letter or special character
+            if (Character.isLetter(c) || invalid.indexOf(c) > -1)
+            {
+                ev.consume(); return;
+            }
+            //prevent entry of value greater than the total number of moves
+            else if (Character.isDigit(c) && Integer.parseInt(getText() + c) > maxMoves)
+            {
+                ev.consume(); return;
+            }
+            //prevent entry of multple zero's or numbers with a leading zero
+            else if (Character.isDigit(c) && getDocument().getLength() > 0 &&
+                    Integer.parseInt(getText()) == 0)
+            {
+                ev.consume();
+            }
+            //display the move number entered in the text field
+            else if (c == KeyEvent.VK_ENTER)
+            {
+                refreshBoard(movesList.get(Integer.parseInt(getText())));
+                currentMove = Integer.parseInt(getText());
+                return;
+            }
+
+            super.processKeyEvent(ev);
+        }
+    }
 }

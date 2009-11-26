@@ -47,10 +47,10 @@ public class Referee
                 start.getPosition().getColumn();
         int boardDifference = destination.getPosition().getBoard() -
                 start.getPosition().getBoard();
-        boolean landedOnMine = false;
+        //boolean landedOnMine = false;
 
-        if (!move.moreJumps())
-        {
+        //if (!move.moreJumps())
+        //{
             //check if the move is valid
             if (inList(movesList, dIndex))
                 move.setValidMove(true);
@@ -65,7 +65,8 @@ public class Referee
                         !game.getVisitorTurn()) || (!destination.getVisitorMine() &&
                         game.getVisitorTurn())))
                 {
-                    landedOnMine = true;
+                    //landedOnMine = true;
+                    move.setLandedOnMine(true);
                 }
 
                 //check for a jump
@@ -77,7 +78,11 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                move.addJump(squareArray[sIndex + halfBoard + oddDownRight]);
+                                //move.addJump(squareArray[sIndex + halfBoard + oddDownRight]);
+
+                                if (squareArray[sIndex + halfBoard + oddDownRight].getPiece() != null &&
+                                        !squareArray[sIndex + halfBoard + oddDownRight].getSafe())
+                                    move.addJump(squareArray[sIndex + halfBoard + oddDownRight]);
 
                                 if (squareArray[sIndex + oddDownRight].getPiece() != null &&
                                         !squareArray[sIndex + oddDownRight].getSafe())
@@ -85,7 +90,11 @@ public class Referee
                             }
                             else
                             {
-                                move.addJump(squareArray[sIndex + halfBoard + evenDownRight]);
+                                //move.addJump(squareArray[sIndex + halfBoard + evenDownRight]);
+
+                                if (squareArray[sIndex + halfBoard + evenDownRight].getPiece() != null &&
+                                        !squareArray[sIndex + halfBoard + evenDownRight].getSafe())
+                                    move.addJump(squareArray[sIndex + halfBoard + evenDownRight]);
                                 
                                 if (squareArray[sIndex + evenDownRight].getPiece() != null &&
                                         !squareArray[sIndex + evenDownRight].getSafe())
@@ -96,7 +105,11 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                move.addJump(squareArray[sIndex - (halfBoard - oddDownRight)]);
+                                //move.addJump(squareArray[sIndex - (halfBoard - oddDownRight)]);
+
+                                if (squareArray[sIndex - halfBoard + oddDownRight].getPiece() != null &&
+                                        !squareArray[sIndex - halfBoard + oddDownRight].getSafe())
+                                    move.addJump(squareArray[sIndex - halfBoard + oddDownRight]);
                                 
                                 if (squareArray[sIndex + oddDownRight].getPiece() != null &&
                                         !squareArray[sIndex + oddDownRight].getSafe())
@@ -104,7 +117,11 @@ public class Referee
                             }
                             else
                             {
-                                move.addJump(squareArray[sIndex - (halfBoard - evenDownRight)]);
+                                //move.addJump(squareArray[sIndex - (halfBoard - evenDownRight)]);
+
+                                if (squareArray[sIndex - halfBoard + evenDownRight].getPiece() != null &&
+                                        !squareArray[sIndex - halfBoard + evenDownRight].getSafe())
+                                    move.addJump(squareArray[sIndex - halfBoard + evenDownRight]);
                                 
                                 if (squareArray[sIndex + evenDownRight].getPiece() != null &&
                                         !squareArray[sIndex + evenDownRight].getSafe())
@@ -125,7 +142,11 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                move.addJump(squareArray[sIndex + halfBoard + oddDownLeft]);
+                                //move.addJump(squareArray[sIndex + halfBoard + oddDownLeft]);
+
+                                if (squareArray[sIndex + halfBoard + oddDownLeft].getPiece() != null &&
+                                        !squareArray[sIndex + halfBoard + oddDownLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + halfBoard + oddDownLeft]);
                                 
                                 if (squareArray[sIndex + oddDownLeft].getPiece() != null &&
                                         !squareArray[sIndex + oddDownLeft].getSafe())
@@ -133,7 +154,11 @@ public class Referee
                             }
                             else
                             {
-                                move.addJump(squareArray[sIndex + halfBoard + evenDownLeft]);
+                                //move.addJump(squareArray[sIndex + halfBoard + evenDownLeft]);
+
+                                if (squareArray[sIndex + halfBoard + evenDownLeft].getPiece() != null &&
+                                        !squareArray[sIndex + halfBoard + evenDownLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + halfBoard + evenDownLeft]);
 
                                 if (squareArray[sIndex + evenDownLeft].getPiece() != null &&
                                         !squareArray[sIndex + evenDownLeft].getSafe())
@@ -144,7 +169,11 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                move.addJump(squareArray[sIndex - (halfBoard - oddDownLeft)]);
+                                //move.addJump(squareArray[sIndex - (halfBoard - oddDownLeft)]);
+
+                                if (squareArray[sIndex - halfBoard + oddDownLeft].getPiece() != null &&
+                                        !squareArray[sIndex - halfBoard + oddDownLeft].getSafe())
+                                    move.addJump(squareArray[sIndex - halfBoard + oddDownLeft]);
 
                                 if (squareArray[sIndex + oddDownLeft].getPiece() != null &&
                                         !squareArray[sIndex + oddDownLeft].getSafe())
@@ -152,7 +181,11 @@ public class Referee
                             }
                             else
                             {
-                                move.addJump(squareArray[sIndex - (halfBoard - evenDownLeft)]);
+                                //move.addJump(squareArray[sIndex - (halfBoard - evenDownLeft)]);
+
+                                if (squareArray[sIndex - halfBoard + evenDownLeft].getPiece() != null &&
+                                        !squareArray[sIndex - halfBoard + evenDownLeft].getSafe())
+                                    move.addJump(squareArray[sIndex - halfBoard + evenDownLeft]);
 
                                 if (squareArray[sIndex + evenDownLeft].getPiece() != null &&
                                         !squareArray[sIndex + evenDownLeft].getSafe())
@@ -176,7 +209,11 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                move.addJump(squareArray[sIndex + halfBoard + oddUpRight]);
+                                //move.addJump(squareArray[sIndex + halfBoard + oddUpRight]);
+
+                                if (squareArray[sIndex + halfBoard + oddUpRight].getPiece() != null &&
+                                        !squareArray[sIndex + halfBoard + oddUpRight].getSafe())
+                                    move.addJump(squareArray[sIndex + halfBoard + oddUpRight]);
 
                                 if (squareArray[sIndex + oddUpRight].getPiece() != null &&
                                         !squareArray[sIndex + oddUpRight].getSafe())
@@ -184,7 +221,11 @@ public class Referee
                             }
                             else
                             {
-                                move.addJump(squareArray[sIndex + halfBoard + evenUpRight]);
+                                //move.addJump(squareArray[sIndex + halfBoard + evenUpRight]);
+
+                                if (squareArray[sIndex + halfBoard + evenUpRight].getPiece() != null &&
+                                        !squareArray[sIndex + halfBoard + evenUpRight].getSafe())
+                                    move.addJump(squareArray[sIndex + halfBoard + evenUpRight]);
 
                                 if (squareArray[sIndex + evenUpRight].getPiece() != null &&
                                         !squareArray[sIndex + evenUpRight].getSafe())
@@ -195,7 +236,11 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                move.addJump(squareArray[sIndex - (halfBoard - oddUpRight)]);
+                                //move.addJump(squareArray[sIndex - (halfBoard - oddUpRight)]);
+
+                                if (squareArray[sIndex - halfBoard + oddUpRight].getPiece() != null &&
+                                        !squareArray[sIndex - halfBoard + oddUpRight].getSafe())
+                                    move.addJump(squareArray[sIndex - halfBoard + oddUpRight]);
 
                                 if (squareArray[sIndex + oddUpRight].getPiece() != null &&
                                         !squareArray[sIndex + oddUpRight].getSafe())
@@ -203,7 +248,11 @@ public class Referee
                             }
                             else
                             {
-                                move.addJump(squareArray[sIndex - (halfBoard - evenUpRight)]);
+                                //move.addJump(squareArray[sIndex - (halfBoard - evenUpRight)]);
+
+                                if (squareArray[sIndex - halfBoard + evenUpRight].getPiece() != null &&
+                                        !squareArray[sIndex - halfBoard + evenUpRight].getSafe())
+                                    move.addJump(squareArray[sIndex - halfBoard + evenUpRight]);
 
                                 if (squareArray[sIndex + evenUpRight].getPiece() != null &&
                                         !squareArray[sIndex + evenUpRight].getSafe())
@@ -222,17 +271,25 @@ public class Referee
                     {
                         if (boardDifference == 1)
                         {
-                            if (start.getPosition().getRow() % 2 == 1)
+                            if (start.getPosition().getRow() % 2 == 1) //odd row
                             {
-                                move.addJump(squareArray[sIndex + halfBoard + oddUpLeft]);
+                                //move.addJump(squareArray[sIndex + halfBoard + oddUpLeft]);
+
+                                if (squareArray[sIndex + halfBoard + oddUpLeft].getPiece() != null &&
+                                        !squareArray[sIndex + halfBoard + oddUpLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + halfBoard + oddUpLeft]);
 
                                 if (squareArray[sIndex + oddUpLeft].getPiece() != null &&
                                         !squareArray[sIndex + oddUpLeft].getSafe())
                                     move.addJump(squareArray[sIndex + oddUpLeft]);
                             }
-                            else
+                            else //even row
                             {
-                                move.addJump(squareArray[sIndex + halfBoard + evenUpLeft]);
+                                //move.addJump(squareArray[sIndex + halfBoard + evenUpLeft]);
+
+                                if (squareArray[sIndex + halfBoard + evenUpLeft].getPiece() != null &&
+                                        !squareArray[sIndex + halfBoard + evenUpLeft].getSafe())
+                                    move.addJump(squareArray[sIndex + halfBoard + evenUpLeft]);
 
                                 if (squareArray[sIndex + evenUpLeft].getPiece() != null &&
                                         !squareArray[sIndex + evenUpLeft].getSafe())
@@ -243,7 +300,11 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                move.addJump(squareArray[sIndex - (halfBoard - oddUpLeft)]);
+                                //move.addJump(squareArray[sIndex - (halfBoard - oddUpLeft)]);
+
+                                if (squareArray[sIndex - halfBoard + oddUpLeft].getPiece() != null &&
+                                        !squareArray[sIndex - halfBoard + oddUpLeft].getSafe())
+                                    move.addJump(squareArray[sIndex - halfBoard + oddUpLeft]);
 
                                 if (squareArray[sIndex + oddUpLeft].getPiece() != null &&
                                         !squareArray[sIndex + oddUpLeft].getSafe())
@@ -251,8 +312,12 @@ public class Referee
                             }
                             else
                             {
-                                move.addJump(squareArray[sIndex - (halfBoard - evenUpLeft)]);
+                                //move.addJump(squareArray[sIndex - (halfBoard - evenUpLeft)]);
 
+                                if (squareArray[sIndex - halfBoard + evenUpLeft].getPiece() != null &&
+                                        !squareArray[sIndex - halfBoard + evenUpLeft].getSafe())
+                                    move.addJump(squareArray[sIndex - halfBoard + evenUpLeft]);
+                                
                                 if (squareArray[sIndex + evenUpLeft].getPiece() != null &&
                                         !squareArray[sIndex + evenUpLeft].getSafe())
                                     move.addJump(squareArray[sIndex + evenUpLeft]);
@@ -269,7 +334,7 @@ public class Referee
                 }
 
                 //update square properties and decrease applicable piece counts
-                if (landedOnMine)
+                if (move.landedOnMine())
                 {
                     destination.setMine(false);
                     
@@ -288,6 +353,12 @@ public class Referee
                             move.setGameOver(Main.VISITOR_WON);
                     }
                 }
+                else if (game.getVisitorTurn() && start.getPiece() instanceof Checker &&
+                        destination.getPosition().getRow() == width)
+                    destination.setPiece(new King(true));
+                else if (!game.getVisitorTurn() && start.getPiece() instanceof Checker &&
+                        destination.getPosition().getRow() == 1)
+                    destination.setPiece(new King(false));
                 else
                     destination.setPiece(start.getPiece());
 
@@ -314,16 +385,25 @@ public class Referee
 
                 }
 
+                //find out if a warp has occured
+                if (boardDifference == 1 || boardDifference == -1)
+                    move.setWarp(true);
+
                 start.setPiece(null);
-                
-                toggleTurn();
+
+                //if (move.jumpSize() == 0 || showJumps(destination).isEmpty())
+                //    toggleTurn();
             }
             //invalid move
-            else
-            {
-                move.clearMove();
-            }
-        }
+//            else
+//            {
+//                move.clearMove();
+//            }
+
+//            if ((move.isValidMove() && (move.jumpSize() == 0 || showJumps(destination).isEmpty())) ||
+//                  (!move.isValidMove() && move.moreJumps()))
+//                toggleTurn();
+        //}
 
         return move;
     }
@@ -342,7 +422,7 @@ public class Referee
         return false;
     }
 
-    private void toggleTurn()
+    public void toggleTurn()
     {
         if (game.getVisitorTurn()== true)
             game.setVisitorTurn(false);
@@ -474,7 +554,7 @@ public class Referee
             return false; //if the wrong player is trying to move
     }
 
-    public ArrayList showMoves (Square square)
+    public ArrayList showMoves (Square square, Move move)
     {
         //int board = square.getPosition().getBoard();
         int column = square.getPosition().getColumn();
@@ -731,12 +811,12 @@ public class Referee
             }
         }
 
-        movesList.addAll(showJumps(square));
+        movesList.addAll(showJumps(square, move));
 
         return movesList;
     }
 
-    public ArrayList showJumps (Square square)
+    public ArrayList showJumps (Square square, Move move)
     {
         int index = square.getIndex();
         ArrayList<Square> squareJumps = new ArrayList();
@@ -771,19 +851,35 @@ public class Referee
             {
                 if (row > 2 && column > 2)//up left case. Makes sure checker won't jump off board
                 {
+                    //check if adjacent square is occupied
                     if (squareArray[index + evenUpLeft].getPiece() != null &&
                             squareArray[index + evenUpLeft].getPiece().getColor() != square.getPiece().getColor() &&
                             !squareArray[index + evenUpLeft].getSafe())//if up left square is the opposite color
                     {
+                        //check if jump is available
                         if (squareArray[index + evenUpLeft + oddUpLeft].getPiece() == null &&
                               !squareArray[index + evenUpLeft + oddUpLeft].getBlocked())//check the spot up and left of the piece
                         {
                             squareJumps.add(squareArray[index + evenUpLeft + oddUpLeft]);
+
+                            //check if jump then warp is available
+                            if (piece instanceof King && board == 1 && !move.hasWarped() &&
+                                    squareArray[index + halfBoard + evenUpLeft + oddUpLeft].getPiece() == null &&
+                                    !squareArray[index + halfBoard + evenUpLeft + oddUpLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenUpLeft + oddUpLeft]);
+                            }
+                            else if (piece instanceof King && board == 2 && !move.hasWarped() &&
+                                    squareArray[index - halfBoard + evenUpLeft + oddUpLeft].getPiece() == null &&
+                                    !squareArray[index - halfBoard + evenUpLeft + oddUpLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenUpLeft + oddUpLeft]);
+                            }
                         }
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (!warpBlocked)
+                    if (!warpBlocked && !move.hasWarped())
                     {
                         //check up and left on board other board
                         if (piece instanceof King && board == 1 &&
@@ -814,19 +910,35 @@ public class Referee
                 }
                 if (row > 2 && column <= (width-2) )//up right case. Makes sure piece won't jump off board
                 {
+                    //check if adjacent square is occupied
                     if (squareArray[index + evenUpRight].getPiece() != null &&
                             squareArray[index + evenUpRight].getPiece().getColor() != square.getPiece().getColor() &&
                             !squareArray[index + evenUpRight].getSafe())//if up right square is the opposite color
                     {
+                        //check if jump is available
                         if(squareArray[index + evenUpRight + oddUpRight].getPiece() == null&&
                               !squareArray[index + evenUpRight + oddUpRight].getBlocked())//check the spot up and right of the piece
                         {
                             squareJumps.add(squareArray[index + evenUpRight + oddUpRight]);
+
+                            //check if jump then warp is available
+                            if (piece instanceof King && board == 1 && !move.hasWarped() &&
+                                    squareArray[index + halfBoard + evenUpRight + oddUpRight].getPiece() == null &&
+                                    !squareArray[index + halfBoard + evenUpRight + oddUpRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenUpRight + oddUpRight]);
+                            }
+                            else if (piece instanceof King && board == 2 && !move.hasWarped() &&
+                                    squareArray[index - halfBoard + evenUpRight + oddUpRight].getPiece() == null &&
+                                    !squareArray[index - halfBoard + evenUpRight + oddUpRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenUpRight + oddUpRight]);
+                            }
                         }
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (!warpBlocked)
+                    if (!warpBlocked && !move.hasWarped())
                     {
                         //check up and right on board other board
                         if (piece instanceof King && board == 1 &&
@@ -861,19 +973,35 @@ public class Referee
             {
                 if (row <= (width-2) && column > 2)//down left case. Makes sure checker won't jump off board
                 {
+                    //check if adjacent square is occupied
                     if (squareArray[index + evenDownLeft].getPiece() != null &&
                             squareArray[index + evenDownLeft].getPiece().getColor() != square.getPiece().getColor() &&
                             !squareArray[index + evenDownLeft].getSafe())//if up left square is the opposite color
                     {
+                        //check if jump is available
                         if(squareArray[index + evenDownLeft + oddDownLeft].getPiece() == null&&
                               !squareArray[index + evenDownLeft + oddDownLeft].getBlocked())//check the spot up and left of the piece
                         {
                             squareJumps.add(squareArray[index + evenDownLeft + oddDownLeft]);
+
+                            //check if jump then warp is available
+                            if (piece instanceof King && board == 1 && !move.hasWarped() &&
+                                    squareArray[index + halfBoard + evenDownLeft + oddDownLeft].getPiece() == null &&
+                                    !squareArray[index + halfBoard + evenDownLeft + oddDownLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenDownLeft + oddDownLeft]);
+                            }
+                            else if (piece instanceof King && board == 2 && !move.hasWarped() &&
+                                    squareArray[index - halfBoard + evenDownLeft + oddDownLeft].getPiece() == null &&
+                                    !squareArray[index - halfBoard + evenDownLeft + oddDownLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenDownLeft + oddDownLeft]);
+                            }
                         }
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (!warpBlocked)
+                    if (!warpBlocked && !move.hasWarped())
                     {
                         //check down and left on board other board
                         if (piece instanceof King && board == 1 &&
@@ -904,19 +1032,35 @@ public class Referee
                 }
                 if (row <= (width-2) && column <= (width-2) )//down right case. Makes sure piece won't jump off board
                 {
+                    //check if adjacent square is occupied
                     if (squareArray[index + evenDownRight].getPiece() != null &&
                             squareArray[index + evenDownRight].getPiece().getColor() != square.getPiece().getColor() &&
                             !squareArray[index + evenDownRight].getSafe())//if up left square is the opposite color
                     {
+                        //check if jump is available
                         if(squareArray[index + evenDownRight + oddDownRight].getPiece() == null&&
                               !squareArray[index + evenDownRight + oddDownRight].getBlocked())//check the spot up and left of the piece
                         {
                             squareJumps.add(squareArray[index + evenDownRight + oddDownRight]);
+
+                            //check if jump then warp is available
+                            if (piece instanceof King && board == 1 && !move.hasWarped() &&
+                                    squareArray[index + halfBoard + evenDownRight + oddDownRight].getPiece() == null &&
+                                    !squareArray[index + halfBoard + evenDownRight + oddDownRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenDownRight + oddDownRight]);
+                            }
+                            else if (piece instanceof King && board == 2 && !move.hasWarped() &&
+                                    squareArray[index - halfBoard + evenDownRight + oddDownRight].getPiece() == null &&
+                                    !squareArray[index - halfBoard + evenDownRight + oddDownRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenDownRight + oddDownRight]);
+                            }
                         }
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (!warpBlocked)
+                    if (!warpBlocked && !move.hasWarped())
                     {
                         //check down and right on board other board
                         if (piece instanceof King && board == 1 &&
@@ -954,19 +1098,35 @@ public class Referee
             {
                 if (row > 2 && column > 2)//up left case. Makes sure checker won't jump off board
                 {
+                    //check if adjacent square is occupied
                     if (squareArray[index + oddUpLeft].getPiece() != null &&
                             squareArray[index + oddUpLeft].getPiece().getColor() != square.getPiece().getColor() &&
                             !squareArray[index + oddUpLeft].getSafe())//if up left square is the opposite color
                     {
+                        //check if jump is available
                         if(squareArray[index + oddUpLeft + evenUpLeft].getPiece() == null &&
                               !squareArray[index + oddUpLeft + evenUpLeft].getBlocked())//check the spot up and left of the piece
                         {
                             squareJumps.add(squareArray[index + oddUpLeft + evenUpLeft]);
+
+                            //check if jump then warp is available
+                            if (piece instanceof King && board == 1 && !move.hasWarped() &&
+                                    squareArray[index + halfBoard + evenUpLeft + oddUpLeft].getPiece() == null &&
+                                    !squareArray[index + halfBoard + evenUpLeft + oddUpLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenUpLeft + oddUpLeft]);
+                            }
+                            else if (piece instanceof King && board == 2 && !move.hasWarped() &&
+                                    squareArray[index - halfBoard + evenUpLeft + oddUpLeft].getPiece() == null &&
+                                    !squareArray[index - halfBoard + evenUpLeft + oddUpLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenUpLeft + oddUpLeft]);
+                            }
                         }
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (!warpBlocked)
+                    if (!warpBlocked && !move.hasWarped())
                     {
                         //check up and left on board other board
                         if (piece instanceof King && board == 1 &&
@@ -997,19 +1157,35 @@ public class Referee
                 }
                 if (row > 2 && column <= (width-2) )//up right case. Makes sure piece won't jump off board
                 {
+                    //check if adjacent square is occupied
                     if (squareArray[index + oddUpRight].getPiece() != null &&
                             squareArray[index + oddUpRight].getPiece().getColor() != square.getPiece().getColor() &&
                             !squareArray[index + oddUpRight].getSafe())//if up left square is the opposite color
                     {
+                        //check if jump is available
                         if(squareArray[index + oddUpRight + evenUpRight].getPiece() == null &&
                               !squareArray[index + oddUpRight + evenUpRight].getBlocked())//check the spot up and left of the piece
                         {
                             squareJumps.add(squareArray[index + oddUpRight + evenUpRight]);
+
+                            //check if jump then warp is available
+                            if (piece instanceof King && board == 1 && !move.hasWarped() &&
+                                    squareArray[index + halfBoard + evenUpRight + oddUpRight].getPiece() == null &&
+                                    !squareArray[index + halfBoard + evenUpRight + oddUpRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenUpRight + oddUpRight]);
+                            }
+                            else if (piece instanceof King && board == 2 && !move.hasWarped() &&
+                                    squareArray[index - halfBoard + evenUpRight + oddUpRight].getPiece() == null &&
+                                    !squareArray[index - halfBoard + evenUpRight + oddUpRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenUpRight + oddUpRight]);
+                            }
                         }
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (!warpBlocked)
+                    if (!warpBlocked && !move.hasWarped())
                     {
                         //check up and right on board other board
                         if (piece instanceof King && board == 1 &&
@@ -1044,19 +1220,35 @@ public class Referee
             {
                 if (row <= (width-2) && column > 2)//down left case. Makes sure checker won't jump off board
                 {
+                    //check if adjacent square is occupied
                     if (squareArray[index + oddDownLeft].getPiece() != null &&
                             squareArray[index + oddDownLeft].getPiece().getColor() != square.getPiece().getColor() &&
                             !squareArray[index + oddDownLeft].getSafe())//if up left square is the opposite color
                     {
+                        //check if jump is available
                         if(squareArray[index + oddDownLeft + evenDownLeft].getPiece() == null &&
                               !squareArray[index + oddDownLeft + evenDownLeft].getBlocked())//check the spot up and left of the piece
                         {
                             squareJumps.add(squareArray[index + oddDownLeft + evenDownLeft]);
+
+                            //check if jump then warp is available
+                            if (piece instanceof King && board == 1 && !move.hasWarped() &&
+                                    squareArray[index + halfBoard + evenDownLeft + oddDownLeft].getPiece() == null &&
+                                    !squareArray[index + halfBoard + evenDownLeft + oddDownLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenDownLeft + oddDownLeft]);
+                            }
+                            else if (piece instanceof King && board == 2 && !move.hasWarped() &&
+                                    squareArray[index - halfBoard + evenDownLeft + oddDownLeft].getPiece() == null &&
+                                    !squareArray[index - halfBoard + evenDownLeft + oddDownLeft].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenDownLeft + oddDownLeft]);
+                            }
                         }
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (!warpBlocked)
+                    if (!warpBlocked && !move.hasWarped())
                     {
                         //check down and left on board other board
                         if (piece instanceof King && board == 1 &&
@@ -1087,19 +1279,35 @@ public class Referee
                 }
                 if (row <= (width-2) && column <= (width-2) )//down right case. Makes sure piece won't jump off board
                 {
+                    //check if adjacent square is occupied
                     if (squareArray[index + oddDownRight].getPiece() != null &&
                             squareArray[index + oddDownRight].getPiece().getColor() != square.getPiece().getColor() &&
                             !squareArray[index + oddDownRight].getSafe())//if up left square is the opposite color
                     {
+                        //check if jump is available
                         if(squareArray[index + oddDownRight + evenDownRight].getPiece() == null &&
                               !squareArray[index + oddDownRight + evenDownRight].getBlocked())//check the spot up and left of the piece
                         {
                             squareJumps.add(squareArray[index + oddDownRight + evenDownRight]);
+
+                            //check if jump then warp is available
+                            if (piece instanceof King && board == 1 && !move.hasWarped() &&
+                                    squareArray[index + halfBoard + evenDownRight + oddDownRight].getPiece() == null &&
+                                    !squareArray[index + halfBoard + evenDownRight + oddDownRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index + halfBoard + evenDownRight + oddDownRight]);
+                            }
+                            else if (piece instanceof King && board == 2 && !move.hasWarped() &&
+                                    squareArray[index - halfBoard + evenDownRight + oddDownRight].getPiece() == null &&
+                                    !squareArray[index - halfBoard + evenDownRight + oddDownRight].getBlocked())
+                            {
+                                squareJumps.add(squareArray[index - halfBoard + evenDownRight + oddDownRight]);
+                            }
                         }
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (!warpBlocked)
+                    if (!warpBlocked && !move.hasWarped())
                     {
                         //check down and right on board other board
                         if (piece instanceof King && board == 1 &&
