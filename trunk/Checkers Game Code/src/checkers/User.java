@@ -5,6 +5,13 @@ import java.security.*;
 import java.io.*;
 import java.util.ArrayList;
 
+// the User class represents an individual who interacts with the program.
+// Users can be players and/or administrators.  an administrator user has
+// additional capabilities but may also play games vs. other Users.
+// this class implements the Serializable interface, so that User data can be
+// preserved for subsequent runs of the program.
+// this class implements the Comparable interface, allowing the list of users to
+// remain sorted in alphabetical order.
 public class User implements Serializable, Comparable
 {
     // the constants MIN_NAME_LENGTH and MAX_NAME_LENGTH are used to restrict
@@ -19,12 +26,16 @@ public class User implements Serializable, Comparable
                     " a User Name between " + MIN_NAME_LENGTH + " and " +
                     MAX_NAME_LENGTH + " characters";
     public final static String passwordPrompt = "Please specify a password" +
-                    " between " + MIN_PW_LENGTH + " and " + MAX_PW_LENGTH + " characters";
+          " between " + MIN_PW_LENGTH + " and " + MAX_PW_LENGTH + " characters";
     private String userName;
     private String password;
     private boolean admin;
 
-    // generic constructor of a new User object.  the maximum
+    // generic constructor of a new User object.
+    // checks are made to validate the length of the User's selected password.
+    // the checkForDuplicates helper method is called to ensure that multiple
+    // Users with the same name are not allowed.
+    // User names are not case sensitive.
     public User (String name) throws InvalidNameException
     {
         if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
@@ -47,7 +58,7 @@ public class User implements Serializable, Comparable
     private static boolean checkForDuplicates(String nameDesired) {
         boolean result = false;
         ArrayList<String> names = new ArrayList<String>();
-        for (User user : Storage.getStorageInstance().getUserList()) {
+        for (User user : Main.storage.getUsers()) {
             names.add(user.toString());
         }
         for (String name : names) {
@@ -57,42 +68,47 @@ public class User implements Serializable, Comparable
         }
         return result;
     }
-
+    // getAdmin method checks the administrator flag of a User object.
     public boolean getAdmin ()
     {
         return admin;
     }
-
+    // setAdmin sets the administrator flag of a User object.
     public void setAdmin (boolean val)
     {
         this.admin = val;
     }
-
+    // getPassword returns the User object's password field.
     public String getPassword ()
     {
         return password;
     }
-
-    public void setPassword (String selectedPW) throws InvalidParameterException {
-        if (selectedPW.length() < MIN_PW_LENGTH || selectedPW.length() > MAX_PW_LENGTH) {
-            InvalidParameterException ipe = new InvalidParameterException(passwordPrompt);
+    // setPassword sets the User object's password field.
+    // an InvalidParameterException is thrown if the selected password does not
+    // meet the specified length parameters.
+    public void setPassword (String selectedPW) throws InvalidParameterException
+        {
+        if (selectedPW.length() < MIN_PW_LENGTH || selectedPW.length()
+                > MAX_PW_LENGTH) {
+            InvalidParameterException ipe =
+                                  new InvalidParameterException(passwordPrompt);
             throw ipe;
         }
         password = selectedPW;
     }
-
+    // accessor method for the userName field.
     public String getUserName ()
     {
         return userName;
     }
-
+    // the toString method returns the specified User's name.
     public String toString() {
         return userName;
     }
-    public void setUserName (String val)
-    {
-        this.userName = val;
-    }
+    // compareTo method, specified by the Comparable interface.  User objects
+    // are compared based on the User's userName field, ignoring case.  this
+    // allows the list of Users to remain sorted, in alphabetical order, as new
+    // Users are added to the system.
     public int compareTo(Object other) {
         int result = 0;
         try {
@@ -102,17 +118,6 @@ public class User implements Serializable, Comparable
             System.out.println("Illegal comparison!");
         }
         return result;
-    }
-    public void saveUser() {
-        try {
-            File user = new File(userName);
-            FileOutputStream fos = new FileOutputStream(user);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(this);
-            oos.close();
-        } catch (Exception e) {
-            System.out.println("Error saving User!");
-        }
     }
 }
 

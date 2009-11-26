@@ -22,6 +22,10 @@ import java.awt.Font;
  *
  * @author kalamath
  */
+// the LoginScreen class is a GUI class, used to allow Users to log in to play
+// a new game, load a saved game, or view statistics.
+// the new game and load game versions require 2 players to log in, while the
+// statistics version requires only a single player to log in.
 public class LoginScreen extends javax.swing.JFrame
 {
     private static final int NEW = 0;
@@ -34,7 +38,6 @@ public class LoginScreen extends javax.swing.JFrame
     private boolean player2LoggedIn = false;
     private int boardSize;
     private String input;
-    private Storage storage = Storage.getStorageInstance();
 
     //load the Old English font with a given size and type
     private Font loadFont(int type, float size)
@@ -42,7 +45,8 @@ public class LoginScreen extends javax.swing.JFrame
         Font font = null;
         try
         {
-            InputStream input = this.getClass().getResourceAsStream("/OLDENGL.TTF");
+            InputStream input =
+                            this.getClass().getResourceAsStream("/OLDENGL.TTF");
             font = Font.createFont(Font.PLAIN, input).deriveFont(type, size);
         }
         catch (Exception e)
@@ -71,19 +75,21 @@ public class LoginScreen extends javax.swing.JFrame
 
     public LoginScreen(int selection) {
         initComponents();
-        // selection code 0 is used to instatiate a LoginScreen that allows 2
+        // selection code NEW is used to instatiate a LoginScreen that allows 2
         // players to log in to a new game
         if (selection == NEW) {
-            // selection code 1 is used to instatiate a LoginScreen that allows an
-            // administrator to log in and perform administrative tasks.
+            // selection code ADMIN is used to instatiate a LoginScreen that
+            // allows an administrator to log in and perform administrative
+            // tasks.
         } else if (selection == ADMIN) {
-            // selection code 2 is used to instatiate a LoginScreen that allows a
-            // user to log in and view statistics.
+            // selection code STATS is used to instatiate a LoginScreen that
+            // allows a user to log in and view statistics.
         } else if (selection == STATS) {
             // any other selection code is invalid and results in an
             // InvalidParameterException.
         } else {
-            InvalidParameterException ipe = new InvalidParameterException("Invalid Selection Code");
+            InvalidParameterException ipe =
+                        new InvalidParameterException("Invalid Selection Code");
         }
     }
     // constructor used to create a LoginScreen when loading a saved game
@@ -106,12 +112,12 @@ public class LoginScreen extends javax.swing.JFrame
         jSeparator1 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
         player1Button = new javax.swing.JButton();
-        player1NameSelect = new javax.swing.JComboBox(storage.getUserList());
+        player1NameSelect = new javax.swing.JComboBox(Main.storage.getUsers());
         jPasswordField1 = new javax.swing.JPasswordField();
         player1OKbutton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         player2Button = new javax.swing.JButton();
-        player2NameSelect = new javax.swing.JComboBox(storage.getUserList());
+        player2NameSelect = new javax.swing.JComboBox(Main.storage.getUsers());
         jPasswordField2 = new javax.swing.JPasswordField();
         player2OKbutton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -322,7 +328,7 @@ public class LoginScreen extends javax.swing.JFrame
     }//GEN-LAST:event_player2NameSelectActionPerformed
 
     private void player2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player2ButtonActionPerformed
-            player2NameSelect.setModel(new DefaultComboBoxModel(storage.getUserList()));
+            player2NameSelect.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
             player2NameSelect.setVisible(true);                
     }//GEN-LAST:event_player2ButtonActionPerformed
 
@@ -351,7 +357,7 @@ public class LoginScreen extends javax.swing.JFrame
 }//GEN-LAST:event_player1NameSelectActionPerformed
 
         private void player1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player1ButtonActionPerformed
-                player1NameSelect.setModel(new DefaultComboBoxModel(storage.getUserList()));
+                player1NameSelect.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
                 player1NameSelect.setVisible(true);
                 
 }//GEN-LAST:event_player1ButtonActionPerformed
@@ -367,8 +373,8 @@ public class LoginScreen extends javax.swing.JFrame
         private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
             NewUserForm newForm = new NewUserForm(this, true);
             newForm.setVisible(true);
-            player1NameSelect.setModel(new DefaultComboBoxModel(storage.getUserList()));
-            player2NameSelect.setModel(new DefaultComboBoxModel(storage.getUserList()));
+            player1NameSelect.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
+            player2NameSelect.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
         }//GEN-LAST:event_jButton1ActionPerformed
 
         private void player1OKbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player1OKbuttonActionPerformed
