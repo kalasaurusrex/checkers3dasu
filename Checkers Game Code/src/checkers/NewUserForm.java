@@ -1,14 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * NewUserForm.java
- *
- * Created on Nov 10, 2009, 10:06:44 PM
- */
-
 package checkers;
 
 import javax.swing.*;
@@ -17,24 +6,28 @@ import javax.naming.*;
 import java.security.*;
 import java.awt.Font;
 import java.io.*;
-import javax.swing.plaf.basic.BasicButtonListener;
 
 /**
  *
  * @author kalamath
  */
+
+// the newUserForm is a GUI class that allows a player to enter a user name
+// and password to create a new User on the system.
+// User names are required to be between 2 and 12 characters.  passwords are
+// required to be between 4 and 8 characters.
+// the NewUserForm checks the password entry and looks for an attempt to create
+// a duplicate User.
+// User names are not case-sensitive.
 public class NewUserForm extends javax.swing.JDialog {
-
-    Storage storage = Storage.getStorageInstance();
-    User newlyLoggedInPlayer = null;
-
      //load the Old English font with a given size and type
     private Font loadFont(int type, float size)
     {
         Font font = null;
         try
         {
-            InputStream input = this.getClass().getResourceAsStream("/OLDENGL.TTF");
+            InputStream input =
+                        this.getClass().getResourceAsStream("/OLDENGL.TTF");
             font = Font.createFont(Font.PLAIN, input).deriveFont(type, size);
         }
         catch (Exception e)
@@ -193,22 +186,21 @@ public class NewUserForm extends javax.swing.JDialog {
         char[] confirmPassword = jPasswordField2.getPassword();
         boolean passwordMatch = Arrays.equals(typedPassword, confirmPassword);
         if (!passwordMatch) {
-            JOptionPane.showMessageDialog(this, "The passwords do not match", "Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "The passwords do not match",
+                    "Error", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
                 User newUser = new User(chosenUserName);
                 newUser.setPassword(jPasswordField1.getText());
-                storage.addUser(newUser);
+                Main.storage.addUser(newUser);
                 this.setVisible(false);
             } catch (InvalidNameException ine) {
-                JOptionPane.showMessageDialog(this, ine.getMessage(), "Invalid User Name", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, ine.getMessage(),
+                        "Invalid User Name", JOptionPane.WARNING_MESSAGE);
             } catch (InvalidParameterException ipe) {
-                JOptionPane.showMessageDialog(this, User.passwordPrompt, "Invalid Password", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, User.passwordPrompt,
+                        "Invalid Password", JOptionPane.WARNING_MESSAGE);
             }
-            // if any of the three fields are empty, a NullPointerException will occur
-            //} catch (NullPointerException npe) {
-            //  JOptionPane.showMessageDialog(this, "There was a problem with the " +
-            //        "Username or password that you entered", "Error", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_jButton2MouseClicked
     }
         private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -221,7 +213,8 @@ public class NewUserForm extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                NewUserForm dialog = new NewUserForm(new javax.swing.JFrame(), true);
+                NewUserForm dialog =
+                        new NewUserForm(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);

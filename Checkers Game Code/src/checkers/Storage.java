@@ -7,64 +7,53 @@ import java.io.*;
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
 // #[regen=yes,id=DCE.489A3A6B-B4A5-65DC-5BA2-96A9B4A68D83]
 // </editor-fold>
-// the Storage class is a final, singleton class that implements the serializable
-// interface.  this allows a list of Users and Games to be stored that may be
-// required during subsequent runs of the program.
-public final class Storage implements Serializable
-{
+// the Storage class is a final class that implements the
+// serializable interface.  this allows a list of Users and Games to be stored
+// that may be required during subsequent runs of the program.
+public final class Storage implements Serializable {
+
     private Vector<User> users;
     private ArrayList<Game> games;
-    private static Storage instance = new Storage();
 
-    // private Storage constructor.  empty ArrayLists are created to store
+    // Storage constructor.  empty ArrayLists are created to store
     // Users and Games.
-    private Storage() {
-            users = new Vector<User>();
-            games = new ArrayList<Game>();
-        }
-    public static Storage getStorageInstance() {
-        return instance;
-        // the commented code below attempts to preserve the user list between
-        // runs of the program.  it will be completed in Build 3.
-        /*Storage instance = null;
-        try {
-            FileInputStream fis = new FileInputStream("store.storage");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            instance = (Storage) ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (Exception e) {
-            try {
-                instance = new Storage();
-            } catch (Exception ex) {
-
-            }
-        }
-        return instance; */
-    }
-    public void addUser(User newUser) {
-        users.add(newUser);
-        Collections.sort((AbstractList) users);
-        //newUser.saveUser();
-        //this.saveStorage();
-    }
-    public ArrayList<Game> getGames ()
-    {
-        return games;
-    }
-
-    public void setGames (ArrayList val)
-    {
-        this.games = val;
+    public Storage() {
+        users = new Vector<User>();
+        games = new ArrayList<Game>();
     }
     // the getUsers method returns an ArrayList of all users that have been
     // previously created in the system.
-    public Vector<User> getUserList ()
-    {
-       return users;
+
+    public Vector<User> getUsers() {
+        return users;
+    }
+    // the addUser method adds a new User to the list of users.  the list is
+    // then sorted, so that names appear in alphabetical order when logging in.
+    // each time a new User is added, the saveStorage method is called, which
+    // serializes the Storage to a file for use during subsequent runs of the
+    // program.
+
+    public void addUser(User newUser) {
+        users.add(newUser);
+        Collections.sort((AbstractList) users);
+        this.saveStorage();
+    }
+    // returns a list of saved Games. each time a new Game is added, the
+    // saveStorage method is called, which serializes the Storage to a file for
+    // use during subsequent runs of the program.
+
+    public ArrayList<Game> getGames() {
+        return games;
+    }
+    // the addGame method adds a new Game to the list of games.
+
+    public void addGame(Game newGame) {
+        games.add(newGame);
+        this.saveStorage();
     }
     // the saveStorage method is used to serialize a Storage Object for later
-    // use.  it will be used in Build 3.
+    // use.
+
     public void saveStorage() {
         try {
             FileOutputStream fos = new FileOutputStream("store.storage");
