@@ -17,6 +17,7 @@ public class Move
     private boolean requiredJump;
     private boolean warped;
     private boolean landedOnMine;
+    private boolean kinged;
     private int gameOver;
 
     public Move()
@@ -27,6 +28,7 @@ public class Move
         requiredJump = false;
         warped = false;
         landedOnMine = false;
+        kinged = false;
         gameOver = 0;
     }
 
@@ -38,6 +40,7 @@ public class Move
         requiredJump = false;
         warped = false;
         landedOnMine = false;
+        kinged = false;
     }
 
     public void addJump(Square s)
@@ -118,5 +121,15 @@ public class Move
     public boolean landedOnMine()
     {
         return landedOnMine;
+    }
+
+    public void setKinged(boolean king)
+    {
+        kinged = king;
+    }
+
+    public boolean gotKinged()
+    {
+        return kinged;
     }
 }
