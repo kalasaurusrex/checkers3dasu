@@ -1,21 +1,22 @@
 package checkers;
 
 import java.util.ArrayList;
+import java.io.*;
 
-public class Game
+public class Game implements Serializable
 {
     private int homePieces, visitorPieces;
     private int width;
-    private Square[] square;
+    private Square[] board;
     private String visitor;
     private String home;
     private boolean visitorTurn;
     private ArrayList<int[]> movesList;
 
-    public Game (Square[] s, int w, String v, String h)
+    public Game (/*Square[] s, */int w, String v, String h)
     {
         visitorTurn = true;
-        square = s;
+        //square = s;
         visitor = v;
         home = h;
         width = w;
@@ -26,6 +27,11 @@ public class Game
             homePieces = visitorPieces = 15;
 
         movesList = new ArrayList();
+    }
+
+    public Game()
+    {
+
     }
 
     public String getHome ()
@@ -91,6 +97,34 @@ public class Game
     public int getWidth()
     {
         return width;
+    }
+
+    public Square[] getBoard()
+    {
+        return board;
+    }
+
+    public void saveGame(Square[] b, String fileName)
+    {
+        board = b;
+
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(fileName);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this);
+            oos.close();
+            fos.close();
+        }
+        catch (FileNotFoundException fnfe)
+        {
+            System.out.println("File not found");
+        }
+        catch (IOException ioe)
+        {
+            System.out.println("IO Exception");
+            ioe.printStackTrace();
+        }
     }
 }
 
