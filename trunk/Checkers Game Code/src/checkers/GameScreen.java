@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 
 public class GameScreen extends javax.swing.JFrame
 {
@@ -94,14 +95,55 @@ public class GameScreen extends javax.swing.JFrame
     /** Creates new form GameScreen */
     public GameScreen(Game savedGame)
     {
-        //In Build 3:
-        //get saved game info and load it
-        
-        initComponents();
-        initBoard();
         game = savedGame;
+        square = game.getBoard();
+        width = game.getWidth();
+        boardSize = width * width;
+        visitorPlayer = game.getVisitor();
+        homePlayer = game.getHome();
         referee = new Referee(square, game);
         move = new Move();
+
+        initComponents();
+        //initBoard();
+        initBackground();
+
+        for (int i = 0; i < boardSize / 2; i++)
+        {
+            square[i].addMouseListener(new java.awt.event.MouseAdapter()
+            {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt)
+                {
+                    Square mySquare =  (Square) evt.getSource();
+                    squareClicked(mySquare);
+                }
+            });
+            updateIcon(square[i]);
+            lBoardPane.add(square[i], JLayeredPane.DEFAULT_LAYER);
+        }
+
+        for (int i = boardSize / 2; i < boardSize; i++)
+        {
+            square[i].addMouseListener(new java.awt.event.MouseAdapter()
+            {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt)
+                {
+                    Square mySquare =  (Square) evt.getSource();
+                    squareClicked(mySquare);
+                }
+            });
+            updateIcon(square[i]);
+            rBoardPane.add(square[i], JLayeredPane.DEFAULT_LAYER);
+        }
+
+        initBoardExtras();
+        initGamePlay();
+
+        //setup defaults to visitor's turn, so if it's home's turn, toggle player
+        if (!game.getVisitorTurn())
+            togglePlayer();
     }
 
     public GameScreen(int size, String player1, String player2)
@@ -115,14 +157,17 @@ public class GameScreen extends javax.swing.JFrame
         else if (size == 10)
             visitorCheckers = homeCheckers = 14;
 
+        square = new Square[boardSize];
+
         initComponents();
+        initBackground();
         initBoard();
 
         setVisible(true);
         coinToss(player1, player2);
         initBoardExtras();
         
-        game = new Game(square, width, visitorPlayer, homePlayer);
+        game = new Game(/*square, */width, visitorPlayer, homePlayer);
         referee = new Referee(square, game);
         move = new Move();
         
@@ -407,31 +452,16 @@ public class GameScreen extends javax.swing.JFrame
         else
             randomSetup = false;
     }
-    
-    //************************ initialize the board ***********************//
-    // The board is initialized as an array of Square objects (a Square is //
-    // an extension of the JLabel object).  The Square objects are         //
-    // initialized with a black background and are placed in every other   //
-    // spot on the game board.                                             //
-    // Each Square is given a 3-Dimensional position in the format         //
-    // (board, row, column), with board referring to the board number      //
-    // (1 or 2), row referring to the row number (1 through the height of  //
-    // board) and column referring to the column number (1 through the     //
-    // width of the board).                                                //
-    /////////////////////////////////////////////////////////////////////////
-    private void initBoard()
+
+    private void initBackground()
     {
-        int board = 1;
-        int row = 1;
-        int col = 2;
-        boolean halfFlag = false;
-        JLayeredPane lBoardPane = new JLayeredPane();
-        JLabel lBackgroundLabel = new JLabel();
-        JLayeredPane rBoardPane = new JLayeredPane();
-        JLabel rBackgroundLabel = new JLabel();
+        lBoardPane = new JLayeredPane();
+        lBackgroundLabel = new JLabel();
+        rBoardPane = new JLayeredPane();
+        rBackgroundLabel = new JLabel();
 
         //initialize the array of Squares
-        square = new Square[boardSize];
+        //square = new Square[boardSize];
 
         BackgroundPane = new JLayeredPane();
         BackgroundLabel = new JLabel();
@@ -471,6 +501,71 @@ public class GameScreen extends javax.swing.JFrame
             lBackgroundLabel.setIcon(board8X8);
             rBackgroundLabel.setIcon(board8X8);
         }
+    }
+
+    //************************ initialize the board ***********************//
+    // The board is initialized as an array of Square objects (a Square is //
+    // an extension of the JLabel object).  The Square objects are         //
+    // initialized with a black background and are placed in every other   //
+    // spot on the game board.                                             //
+    // Each Square is given a 3-Dimensional position in the format         //
+    // (board, row, column), with board referring to the board number      //
+    // (1 or 2), row referring to the row number (1 through the height of  //
+    // board) and column referring to the column number (1 through the     //
+    // width of the board).                                                //
+    /////////////////////////////////////////////////////////////////////////
+    private void initBoard()
+    {
+        int board = 1;
+        int row = 1;
+        int col = 2;
+        boolean halfFlag = false;
+//        lBoardPane = new JLayeredPane();
+//        lBackgroundLabel = new JLabel();
+//        rBoardPane = new JLayeredPane();
+//        rBackgroundLabel = new JLabel();
+//
+//        //initialize the array of Squares
+//        square = new Square[boardSize];
+//
+//        BackgroundPane = new JLayeredPane();
+//        BackgroundLabel = new JLabel();
+//        getContentPane().add(BackgroundPane);
+//        BackgroundPane.setBounds(0, 0, 888, 640);
+//        BackgroundPane.add(BackgroundLabel, -1);
+//        BackgroundLabel.setIcon(background);
+//        BackgroundLabel.setBounds(0, 0, 888, 640);
+//
+//        //set the size and location of the background labels and add them to
+//        //the layered pane.
+//        lBackgroundLabel.setBounds(0, 0, PIXELS * width, PIXELS * width);
+//        lBoardPane.add(lBackgroundLabel, JLayeredPane.DEFAULT_LAYER);
+//        BackgroundPane.add(lBoardPane, 0);
+//        rBackgroundLabel.setBounds(0, 0, PIXELS * width, PIXELS * width);
+//        rBoardPane.add(rBackgroundLabel, JLayeredPane.DEFAULT_LAYER);
+//        BackgroundPane.add(rBoardPane, 0);
+//
+//        if (width == 10)
+//        {
+//            //define the placement of the 10x10 board
+//            lBoardPane.setBounds(12, 10, PIXELS * width, PIXELS * width);
+//            rBoardPane.setBounds(470, 180, PIXELS * width, PIXELS * width);
+//
+//            //add the background picture to the label
+//            lBackgroundLabel.setIcon(board10X10);
+//            rBackgroundLabel.setIcon(board10X10);
+//        }
+//        else if (width == 8)
+//        {
+//            //define the placement of the 8x8 board
+//            //the PIXELS offset is added in order to center the smaller board
+//            lBoardPane.setBounds(12 + PIXELS, 10 + PIXELS, PIXELS * width, PIXELS * width);
+//            rBoardPane.setBounds(470 + PIXELS, 180 + PIXELS, PIXELS * width, PIXELS * width);
+//
+//            //add the background picture to the label
+//            lBackgroundLabel.setIcon(board8X8);
+//            rBackgroundLabel.setIcon(board8X8);
+//        }
 
         //the vert and horiz values are manipulated in the 'for' loop to place
         //the black squares between the red squares on the board
@@ -509,9 +604,9 @@ public class GameScreen extends javax.swing.JFrame
             //if half the squares have been placed, add the square to board 2,
             //otherwise add the square to board 1
             if (halfFlag)
-                rBoardPane.add(this.square[i], javax.swing.JLayeredPane.DEFAULT_LAYER);
+                rBoardPane.add(this.square[i], JLayeredPane.DEFAULT_LAYER);
             else
-                lBoardPane.add(this.square[i], javax.swing.JLayeredPane.DEFAULT_LAYER);
+                lBoardPane.add(this.square[i], JLayeredPane.DEFAULT_LAYER);
 
             //There are two cases for reaching the end of a row:
             //case 1 - the square has been added to the last spot on the row
@@ -611,7 +706,10 @@ public class GameScreen extends javax.swing.JFrame
                         firstSelectMove = secondSelectMove;
 
                         //check for additional jumps
-                        availableMoves = referee.showJumps(firstSelectMove, move);
+                        if (move.landedOnMine() || move.gotKinged())
+                            availableMoves.clear();
+                        else
+                            availableMoves = referee.showJumps(firstSelectMove, move);
 
                         if (!availableMoves.isEmpty())
                             move.setMoreJumps(true);
@@ -627,7 +725,7 @@ public class GameScreen extends javax.swing.JFrame
                         firstSelectMove = secondSelectMove;
 
                         //check for additional jumps
-                        if (move.landedOnMine())
+                        if (move.landedOnMine()  || move.gotKinged())
                             availableMoves.clear();
                         else
                             availableMoves = referee.showJumps(firstSelectMove, move);
@@ -745,7 +843,11 @@ public class GameScreen extends javax.swing.JFrame
     //update the icon on a square that has been manipulated by the referee
     private void updateIcon(Square square)
     {
-        if (square.getSafe()) //is safe zone
+        if (square.getBlocked())
+        {
+            square.setIcon(squareBlocked);
+        }
+        else if (square.getSafe()) //is safe zone
         {
             if (square.getPiece() == null) //empty safe
                 square.setIcon(squareSafe);
@@ -910,6 +1012,7 @@ public class GameScreen extends javax.swing.JFrame
         rMessageLabel.setIcon(displayLabel);
         rMessageLabel.setBounds(0, 0, 340, 145);
         rMessagePane.add(rMessageLabel, -1);
+
         visitorIconLabel.setBounds(20, 20, 40, 40);
         rMessagePane.add(visitorIconLabel, 0);
         visitorIconLabel.setVisible(false);
@@ -1107,6 +1210,12 @@ public class GameScreen extends javax.swing.JFrame
         homeMineLabel.setVisible(false);
 
         initGamePlay();
+
+        //inform the user that the board setup phase is over
+        //javax.swing.UIManager.put("OptionPane.messageFont", oldEnglish_16);
+        JOptionPane.showMessageDialog(this, "Board setup is complete!\n" +
+              visitorPlayer + " has the first move.", "Board Setup",
+              JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void initGamePlay()
@@ -1133,11 +1242,13 @@ public class GameScreen extends javax.swing.JFrame
 
         lTextLabel.setText("Play game!");
 
-        //inform the user that the board setup phase is over
         javax.swing.UIManager.put("OptionPane.messageFont", oldEnglish_16);
-        JOptionPane.showMessageDialog(this, "Board setup is complete!\n" +
-              visitorPlayer + " has the first move.", "Board Setup",
-              JOptionPane.INFORMATION_MESSAGE);
+
+//        //inform the user that the board setup phase is over
+//        javax.swing.UIManager.put("OptionPane.messageFont", oldEnglish_16);
+//        JOptionPane.showMessageDialog(this, "Board setup is complete!\n" +
+//              visitorPlayer + " has the first move.", "Board Setup",
+//              JOptionPane.INFORMATION_MESSAGE);
     }
 
     //handle mouse click on Squares
@@ -1415,9 +1526,14 @@ public class GameScreen extends javax.swing.JFrame
 
         boardMenuBar = new javax.swing.JMenuBar();
         gameMenu = new javax.swing.JMenu();
-        replayMenuItem = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
+        closeMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JSeparator();
         exitMenuItem = new javax.swing.JMenuItem();
+        optionsMenu = new javax.swing.JMenu();
+        replayMenuItem = new javax.swing.JMenuItem();
+        drawMenuItem = new javax.swing.JMenuItem();
+        forfeitMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1430,16 +1546,25 @@ public class GameScreen extends javax.swing.JFrame
         gameMenu.setText("Game");
         gameMenu.setFont(oldEnglish_16);
 
-        replayMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
-        replayMenuItem.setText("Instant Replay");
-        replayMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuItem.setFont(oldEnglish_14);
+        saveMenuItem.setText("Save Game");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                replayMenuItemActionPerformed(evt);
+                saveMenuItemActionPerformed(evt);
             }
         });
-        gameMenu.add(replayMenuItem);
-        replayMenuItem.setFont(oldEnglish_14);
-        //replayMenuItem.setEnabled(false);
+        gameMenu.add(saveMenuItem);
+
+        closeMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        closeMenuItem.setFont(oldEnglish_14);
+        closeMenuItem.setText("Close");
+        closeMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeMenuItemActionPerformed(evt);
+            }
+        });
+        gameMenu.add(closeMenuItem);
         gameMenu.add(jSeparator1);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
@@ -1453,6 +1578,31 @@ public class GameScreen extends javax.swing.JFrame
         gameMenu.add(exitMenuItem);
 
         boardMenuBar.add(gameMenu);
+
+        optionsMenu.setText("Options");
+        optionsMenu.setFont(oldEnglish_16);
+
+        replayMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        replayMenuItem.setFont(oldEnglish_14);
+        replayMenuItem.setText("Instant Replay");
+        replayMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                replayMenuItemActionPerformed(evt);
+            }
+        });
+        optionsMenu.add(replayMenuItem);
+
+        drawMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        drawMenuItem.setFont(oldEnglish_14);
+        drawMenuItem.setText("Request Draw");
+        optionsMenu.add(drawMenuItem);
+
+        forfeitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        forfeitMenuItem.setFont(oldEnglish_14);
+        forfeitMenuItem.setText("Forfeit");
+        optionsMenu.add(forfeitMenuItem);
+
+        boardMenuBar.add(optionsMenu);
 
         helpMenu.setText("Help");
         helpMenu.setFont(oldEnglish_16);
@@ -1474,16 +1624,42 @@ public class GameScreen extends javax.swing.JFrame
         setVisible(true);
     }//GEN-LAST:event_replayMenuItemActionPerformed
 
+    private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
+        Main.restart();
+        dispose();
+    }//GEN-LAST:event_closeMenuItemActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy_HHmmss");
+        String strDate = sdf.format(date);
+
+        String fileName = visitorPlayer + "_vs_" + homePlayer + "_" + strDate + ".game";
+
+        game.saveGame(square, fileName);
+        Main.storage.addGame(fileName);
+        System.out.println(Main.storage.getGames().firstElement());
+    }//GEN-LAST:event_saveMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar boardMenuBar;
+    private javax.swing.JMenuItem closeMenuItem;
+    private javax.swing.JMenuItem drawMenuItem;
     private javax.swing.JMenuItem exitMenuItem;
+    private javax.swing.JMenuItem forfeitMenuItem;
     private javax.swing.JMenu gameMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JMenu optionsMenu;
     private javax.swing.JMenuItem replayMenuItem;
+    private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
 
     //additional variable declarations
+    JLayeredPane lBoardPane;
+    JLabel lBackgroundLabel;
+    JLayeredPane rBoardPane;
+    JLabel rBackgroundLabel;
     JLayeredPane BackgroundPane;
     JLabel BackgroundLabel;
     JLabel lMessageLabel;

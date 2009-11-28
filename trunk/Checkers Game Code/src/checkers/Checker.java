@@ -8,8 +8,9 @@
 
 package checkers;
 
+import java.io.Serializable;
 
-public class Checker extends Piece
+public class Checker extends Piece implements Serializable
 {
     //Attributes///////////////////////////////////////////////////////////
 
@@ -21,5 +22,10 @@ public class Checker extends Piece
     public Checker (boolean visitorTurn)
     {
         super(visitorTurn);
+    }
+
+    public Checker ()
+    {
+        //super();
     }
 }

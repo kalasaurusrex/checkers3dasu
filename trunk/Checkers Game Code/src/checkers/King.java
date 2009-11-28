@@ -7,8 +7,9 @@
 //----------------------------------------------------------------------
 package checkers;
 
+import java.io.Serializable;
 
-public class King extends Piece
+public class King extends Piece implements Serializable
 {
     //Attributes////////////////////////////////////////////////////////
 
@@ -21,4 +22,8 @@ public class King extends Piece
         super(visitorTurn);
     }
 
+    public King()
+    {
+        
+    }
 }

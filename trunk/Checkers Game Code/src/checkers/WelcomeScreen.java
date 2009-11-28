@@ -13,8 +13,8 @@ package checkers;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+//import java.io.InputStream;
 
 public class WelcomeScreen extends javax.swing.JFrame
 {
@@ -91,7 +91,6 @@ public class WelcomeScreen extends javax.swing.JFrame
         buttonGroup.add(LoadGameButton);
         LoadGameButton.setFont(oldEnglish_16);
         LoadGameButton.setText("Load Game");
-        LoadGameButton.setEnabled(false);
         getContentPane().add(LoadGameButton);
         LoadGameButton.setBounds(160, 120, 140, 24);
 
@@ -140,8 +139,49 @@ public class WelcomeScreen extends javax.swing.JFrame
     private void NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextButtonActionPerformed
         if (NewGameButton.isSelected())
         {
-            //new GameScreen(10, "New Player 1", "New Player 2").setVisible(true);
-            new LoginScreen(Main.NEW).setVisible(true);
+            new GameScreen(10, "New Player 1", "New Player 2").setVisible(true);
+            //new LoginScreen(Main.NEW).setVisible(true);
+
+            setVisible(false);
+        }
+        else if (LoadGameButton.isSelected())
+        {
+            //new LoadScreen().setVisible(true);
+
+            try
+            {
+                FileInputStream fis = new FileInputStream("New Player 2_vs_New Player 1_11-26-09_224816.game");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                Game game = (Game) ois.readObject();
+                new GameScreen(game).setVisible(true);
+            }
+            catch (FileNotFoundException fne)
+            {
+                System.out.println("File Not Found");
+                //storage = new Storage();
+            }
+            catch (IOException ioe)
+            {
+                //System.exit(1);
+                ioe.printStackTrace();
+            }
+            catch (ClassNotFoundException cne)
+            {
+                System.exit(2);
+            }
+
+            setVisible(false);
+        }
+        else if (AdminButton.isSelected())
+        {
+            new LoginScreen(Main.ADMIN).setVisible(true);
+
+            setVisible(false);
+        }
+        else if (StatsButton.isSelected())
+        {
+            new LoginScreen(Main.STATS).setVisible(true);
+
             setVisible(false);
         }
     }//GEN-LAST:event_NextButtonActionPerformed

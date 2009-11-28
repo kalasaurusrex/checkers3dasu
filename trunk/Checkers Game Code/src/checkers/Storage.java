@@ -13,13 +13,13 @@ import java.io.*;
 public final class Storage implements Serializable {
 
     private Vector<User> users;
-    private ArrayList<Game> games;
+    private Vector<String> games;
 
     // Storage constructor.  empty ArrayLists are created to store
     // Users and Games.
     public Storage() {
         users = new Vector<User>();
-        games = new ArrayList<Game>();
+        games = new Vector<String>();
     }
     // the getUsers method returns an ArrayList of all users that have been
     // previously created in the system.
@@ -42,12 +42,12 @@ public final class Storage implements Serializable {
     // saveStorage method is called, which serializes the Storage to a file for
     // use during subsequent runs of the program.
 
-    public ArrayList<Game> getGames() {
+    public Vector<String> getGames() {
         return games;
     }
     // the addGame method adds a new Game to the list of games.
 
-    public void addGame(Game newGame) {
+    public void addGame(String newGame) {
         games.add(newGame);
         this.saveStorage();
     }

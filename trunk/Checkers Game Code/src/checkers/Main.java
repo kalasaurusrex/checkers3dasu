@@ -22,7 +22,7 @@ public class Main
     public static final int STATS = 2;
     public static final int HOME_WON = 1;
     public static final int VISITOR_WON = 2;
-	public static final int SQ_BL = 1;
+    public static final int SQ_BL = 1;
     public static final int CK_BL = 2;
     public static final int CK_RD = 3;
     public static final int KG_BL = 4;
@@ -34,14 +34,14 @@ public class Main
     public static final int SF_KG_RD = 10;
     public static final int SQ_BO = 11;
     public static Storage storage;
-	private static WelcomeScreen welcome;
-	
+    private static WelcomeScreen welcome;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args)
     {
-        try {
+	try {
             FileInputStream fis = new FileInputStream("store.storage");
             ObjectInputStream ois = new ObjectInputStream(fis);
             storage = (Storage) ois.readObject();
@@ -52,13 +52,14 @@ public class Main
         } catch (ClassNotFoundException cne) {
             System.exit(2);
         }
-	
-        welcome = new WelcomeScreen();
+	    
+        welcome = new WelcomeScreen();//.setVisible(true);
         welcome.setVisible(true);
     }
-    
+
     public static void restart()
     {
+        //welcome = new WelcomeScreen();//.setVisible(true);
         welcome.setVisible(true);
     }
 }
