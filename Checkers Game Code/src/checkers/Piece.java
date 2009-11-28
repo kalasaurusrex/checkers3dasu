@@ -9,8 +9,9 @@
 
 package checkers;
 
+import java.io.Serializable;
 
-public abstract class Piece
+public abstract class Piece implements Serializable
 {
     //Attributes////////////////////////////////////////////////////////////
     private static final int RED = 0;
@@ -32,6 +33,11 @@ public abstract class Piece
             color = BLACK;
         else
             color = RED;
+    }
+
+    public Piece()
+    {
+
     }
 
     //-----------------------------------------------------------------------
