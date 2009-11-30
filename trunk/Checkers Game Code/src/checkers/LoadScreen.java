@@ -1,11 +1,10 @@
-//-----------------------------------------------------------------------------
-//FileName: LoadScreen.java
-//
+//----------------------------------------------------------------------------
+//FileName: LoginScreen.java
+//Project: 3D Checkers
 //Author: Byron Lunt
-//
-//Description: This GUI represents our screen that is used for loading
-//              and deleting saved games
-//-----------------------------------------------------------------------------
+//Description: This GUI loads a saved game
+//----------------------------------------------------------------------------
+
 
 package checkers;
 
@@ -96,7 +95,9 @@ public class LoadScreen extends javax.swing.JFrame
                 FileInputStream fis = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 Game game = (Game) ois.readObject();
-                new GameScreen(game).setVisible(true);
+                new LoadGameLogin(game, game.getHome(), game.getVisitor()).setVisible(true);
+                dispose();
+
             }
             catch (FileNotFoundException fne)
             {
@@ -113,13 +114,14 @@ public class LoadScreen extends javax.swing.JFrame
                 System.exit(2);
             }
             }
-        }
+        
            else
            {
                 //the Cancel button was pressed
                 new WelcomeScreen().setVisible(true);
-                this.setVisible(false);
+                dispose();
            }
+        }
     }//GEN-LAST:event_GameLoaderActionPerformed
 
 
