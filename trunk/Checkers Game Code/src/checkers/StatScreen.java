@@ -119,6 +119,9 @@ public class StatScreen extends javax.swing.JFrame
         jLabel1.setBounds(130, 20, 320, 60);
 
         BackButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/Back_Button.png"))); // NOI18N
+        BackButton.setBorder(null);
+        BackButton.setBorderPainted(false);
+        BackButton.setContentAreaFilled(false);
         BackButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BackButtonActionPerformed(evt);

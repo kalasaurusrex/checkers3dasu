@@ -308,6 +308,9 @@ public class LoginScreen extends javax.swing.JFrame
         backButton.setFont(oldEnglish_12);
         backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/back_button.png"))); // NOI18N
         backButton.setToolTipText("Back");
+        backButton.setBorder(null);
+        backButton.setBorderPainted(false);
+        backButton.setContentAreaFilled(false);
         backButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         backButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         backButton.addActionListener(new java.awt.event.ActionListener() {

@@ -69,7 +69,7 @@ public class WelcomeScreen extends javax.swing.JFrame
         ExitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("3D Checkers");
+        setTitle("3D Checkers - Welcome");
         setMinimumSize(new java.awt.Dimension(440, 330));
         setResizable(false);
         getContentPane().setLayout(null);
