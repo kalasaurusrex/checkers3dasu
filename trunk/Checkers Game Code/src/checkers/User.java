@@ -4,6 +4,7 @@ import javax.naming.*;
 import java.security.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 // the User class represents an individual who interacts with the program.
 // Users can be players and/or administrators.  an administrator user has
@@ -25,11 +26,15 @@ public class User implements Serializable, Comparable
     public final static String userNamePrompt = "Please specify" +
                     " a User Name between " + MIN_NAME_LENGTH + " and " +
                     MAX_NAME_LENGTH + " characters";
+    public final static String adminNamePrompt = "Please specify" +
+                    " the Administrator's name (" + MIN_NAME_LENGTH + " to " +
+                    MAX_NAME_LENGTH + " characters)";
     public final static String passwordPrompt = "Please specify a password" +
           " between " + MIN_PW_LENGTH + " and " + MAX_PW_LENGTH + " characters";
     private String userName;
     private String password;
     private boolean admin;
+    private StatRecord stats;
 
     // generic constructor of a new User object.
     // checks are made to validate the length of the User's selected password.
@@ -50,6 +55,7 @@ public class User implements Serializable, Comparable
         userName = name;
         password = null;
         admin = false;
+        stats = new StatRecord();
     }
     // chechForDuplicates is called when attempting to create a new User.
     // if a User already exists in the system with the desired name (ignoring
@@ -100,6 +106,17 @@ public class User implements Serializable, Comparable
     public String getUserName ()
     {
         return userName;
+    }
+    // accessor method for a User's statistics
+    public StatRecord getStats() {
+        return stats;
+    }
+    // the clearStats method is used to reset a User's overall and PvP records
+    public void clearStats() {
+        stats.wins = 0;
+        stats.losses = 0;
+        stats.ties = 0;
+        stats.pvpRecords = new HashMap<User, Record>();
     }
     // the toString method returns the specified User's name.
     public String toString() {
