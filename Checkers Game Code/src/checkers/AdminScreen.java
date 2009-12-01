@@ -1,44 +1,53 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * AdminScreen.java
- *
- * Created on Oct 15, 2009, 9:26:55 AM
- */
-
 package checkers;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.swing.*;
 /**
  *
- * @author clarkcito
+ * @author kalamath
  */
 public class AdminScreen extends javax.swing.JFrame
 {
+    User admin = null;
+    User selected = null;
+    User opponent = null;
 
+    //load the Old English font with a given size and type
+    private Font loadFont(int type, float size)
+    {
+        Font font = null;
+        try
+        {
+            InputStream input = this.getClass().getResourceAsStream("/OLDENGL.TTF");
+            font = Font.createFont(Font.PLAIN, input).deriveFont(type, size);
+        }
+        catch (IOException ioe)
+        {
+            System.err.println(ioe);
+            System.exit(1);
+        }
+        catch (FontFormatException ffe)
+        {
+            System.err.println(ffe);
+            System.exit(1);
+        }
+        return font;
+    }
+    //load fonts
+    Font oldEnglish_12 = loadFont(Font.PLAIN, 12);
+    Font oldEnglish_14 = loadFont(Font.PLAIN, 14);
+    Font oldEnglish_16 = loadFont(Font.PLAIN, 16);
+    Font oldEnglish_18 = loadFont(Font.PLAIN, 18);
+    Font oldEnglish_36b = loadFont(Font.BOLD, 36);
+    Font oldEnglish_48b = loadFont(Font.BOLD, 64);
     /** Creates new form AdminScreen */
     public AdminScreen()
     {
         initComponents();
     }
-
-    public void changeStats ()
-    {
-
-    }
-
-    public void clearStats ()
-    {
-
-    }
-
-    public void deletePlayer ()
-    {
-
-    }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -48,21 +57,677 @@ public class AdminScreen extends javax.swing.JFrame
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jLabel1 = new javax.swing.JLabel();
+        backButton = new javax.swing.JButton();
+        adminNameDisplay = new javax.swing.JLabel();
+        adminNameDisplay.setVisible(false);
+        jSeparator1 = new javax.swing.JSeparator();
+        jPanel1 = new javax.swing.JPanel();
+        deletePlayerButton = new javax.swing.JRadioButton();
+        changeStatsButton = new javax.swing.JRadioButton();
+        clearStatsButton = new javax.swing.JRadioButton();
+        jPanel2 = new javax.swing.JPanel();
+        adminButton = new javax.swing.JButton();
+        adminNameSelect = new javax.swing.JComboBox(Main.storage.getUsers());
+        jPasswordField1 = new javax.swing.JPasswordField();
+        adminOKbutton = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel14 = new javax.swing.JPanel();
+        playerNameSelect = new javax.swing.JComboBox();
+        jPasswordField2 = new javax.swing.JPasswordField();
+        OKbutton = new javax.swing.JButton();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        selectedPlayer = new javax.swing.JComboBox();
+        wins = new javax.swing.JLabel();
+        losses = new javax.swing.JLabel();
+        ties = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        selectedOpponent = new javax.swing.JComboBox();
+        pvpWins = new javax.swing.JLabel();
+        pvpLosses = new javax.swing.JLabel();
+        pvpTies = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        addWinButton = new javax.swing.JButton();
+        removeWinButton = new javax.swing.JButton();
+        addLossButton = new javax.swing.JButton();
+        removeLossButton = new javax.swing.JButton();
+        addTieButton = new javax.swing.JButton();
+        removeTieButton = new javax.swing.JButton();
+        jPanel13 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jPasswordField3 = new javax.swing.JPasswordField();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        clearStats = new javax.swing.JButton();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        buttonGroup1.add(deletePlayerButton);
+        buttonGroup1.add(changeStatsButton);
+        buttonGroup1.add(clearStatsButton);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("3D Checkers - Administration");
+        setMinimumSize(new java.awt.Dimension(660, 445));
+        getContentPane().setLayout(null);
+
+        jLabel1.setFont(oldEnglish_36b);
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Administration");
+        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel1.setPreferredSize(new java.awt.Dimension(200, 30));
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(125, 10, 432, 62);
+
+        backButton.setFont(oldEnglish_12);
+        backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/back_button.png"))); // NOI18N
+        backButton.setToolTipText("Back");
+        backButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        backButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(backButton);
+        backButton.setBounds(10, 10, 55, 55);
+
+        adminNameDisplay.setFont(oldEnglish_18);
+        adminNameDisplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/SafeKingBlack.png"))); // NOI18N
+        getContentPane().add(adminNameDisplay);
+        adminNameDisplay.setBounds(20, 290, 170, 80);
+        getContentPane().add(jSeparator1);
+        jSeparator1.setBounds(0, 65, 660, 20);
+
+        jPanel1.setVisible(false);
+
+        deletePlayerButton.setFont(oldEnglish_18);
+        deletePlayerButton.setText("Delete Player");
+        deletePlayerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletePlayerButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(deletePlayerButton);
+
+        changeStatsButton.setFont(oldEnglish_18);
+        changeStatsButton.setText("Change Stats");
+        changeStatsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeStatsButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(changeStatsButton);
+
+        clearStatsButton.setFont(oldEnglish_18);
+        clearStatsButton.setText("Clear Stats");
+        clearStatsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearStatsButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(clearStatsButton);
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(220, 80, 440, 30);
+
+        jPanel2.setMinimumSize(new java.awt.Dimension(265, 135));
+
+        adminButton.setFont(oldEnglish_18);
+        adminButton.setText("Admin Login");
+        adminButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        adminButton.setMaximumSize(new java.awt.Dimension(170, 125));
+        adminButton.setMinimumSize(new java.awt.Dimension(170, 125));
+        adminButton.setPreferredSize(new java.awt.Dimension(170, 125));
+        adminButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adminButtonActionPerformed(evt);
+            }
+        });
+        jPanel2.add(adminButton);
+
+        adminNameSelect.setFont(oldEnglish_14);
+        adminNameSelect.setMaximumSize(new java.awt.Dimension(170, 30));
+        adminNameSelect.setMinimumSize(new java.awt.Dimension(170, 30));
+        adminNameSelect.setPreferredSize(new java.awt.Dimension(170, 30));
+        adminNameSelect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adminNameSelectActionPerformed(evt);
+            }
+        });
+        jPanel2.add(adminNameSelect);
+        adminNameSelect.setVisible(false);
+
+        jPasswordField1.setPreferredSize(new java.awt.Dimension(116, 20));
+        jPanel2.add(jPasswordField1);
+        jPasswordField1.setVisible(false);
+
+        adminOKbutton.setText("OK");
+        adminOKbutton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        adminOKbutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adminOKbuttonActionPerformed(evt);
+            }
+        });
+        jPanel2.add(adminOKbutton);
+        adminOKbutton.setVisible(false);
+
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(10, 85, 200, 200);
+
+        jPanel3.setVisible(false);
+        jPanel3.setLayout(null);
+
+        playerNameSelect.setFont(oldEnglish_14);
+        playerNameSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        playerNameSelect.setMaximumSize(new java.awt.Dimension(170, 30));
+        playerNameSelect.setMinimumSize(new java.awt.Dimension(170, 30));
+        playerNameSelect.setPreferredSize(new java.awt.Dimension(170, 30));
+        playerNameSelect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playerNameSelectActionPerformed(evt);
+            }
+        });
+        jPanel14.add(playerNameSelect);
+
+        jPasswordField2.setVisible(false);
+        jPasswordField2.setPreferredSize(new java.awt.Dimension(116, 20));
+        jPanel14.add(jPasswordField2);
+        jPasswordField1.setVisible(false);
+
+        OKbutton.setVisible(false);
+        OKbutton.setText("OK");
+        OKbutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OKbuttonActionPerformed(evt);
+            }
+        });
+        jPanel14.add(OKbutton);
+        OKbutton.setVisible(false);
+
+        jPanel3.add(jPanel14);
+        jPanel14.setBounds(0, 160, 200, 100);
+
+        jLabel7.setFont(oldEnglish_18);
+        jLabel7.setText("Select a User Below.");
+        jPanel15.add(jLabel7);
+
+        jPanel3.add(jPanel15);
+        jPanel15.setBounds(0, 20, 400, 40);
+
+        jLabel8.setFont(oldEnglish_18);
+        jLabel8.setText("Enter your Administrator Password");
+        jPanel16.add(jLabel8);
+
+        jPanel3.add(jPanel16);
+        jPanel16.setBounds(0, 60, 400, 40);
+
+        jLabel9.setFont(oldEnglish_18);
+        jLabel9.setText("to delete the selected User.");
+        jPanel17.add(jLabel9);
+
+        jPanel3.add(jPanel17);
+        jPanel17.setBounds(0, 100, 400, 40);
+
+        getContentPane().add(jPanel3);
+        jPanel3.setBounds(210, 110, 450, 280);
+
+        jPanel4.setVisible(false);
+        jPanel4.setLayout(null);
+
+        jLabel5.setFont(oldEnglish_18);
+        jLabel5.setText("Select a User Below to edit statistics.");
+        jPanel8.add(jLabel5);
+
+        jPanel4.add(jPanel8);
+        jPanel8.setBounds(0, 10, 400, 40);
+
+        jPanel9.setLayout(new java.awt.GridLayout(1, 0));
+
+        selectedPlayer.setFont(oldEnglish_14);
+        selectedPlayer.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
+        selectedPlayer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectedPlayerActionPerformed(evt);
+            }
+        });
+        jPanel9.add(selectedPlayer);
+
+        wins.setFont(oldEnglish_14);
+        wins.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel9.add(wins);
+
+        losses.setFont(oldEnglish_14);
+        losses.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel9.add(losses);
+
+        ties.setFont(oldEnglish_14);
+        ties.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel9.add(ties);
+
+        jPanel4.add(jPanel9);
+        jPanel9.setBounds(0, 90, 400, 50);
+
+        jPanel10.setLayout(new java.awt.GridLayout(1, 0));
+
+        selectedOpponent.setFont(oldEnglish_14);
+        selectedOpponent.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
+        selectedOpponent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectedOpponentActionPerformed(evt);
+            }
+        });
+        jPanel10.add(selectedOpponent);
+
+        pvpWins.setFont(oldEnglish_14);
+        pvpWins.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel10.add(pvpWins);
+
+        pvpLosses.setFont(oldEnglish_14);
+        pvpLosses.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel10.add(pvpLosses);
+
+        pvpTies.setFont(oldEnglish_14);
+        pvpTies.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel10.add(pvpTies);
+
+        jPanel4.add(jPanel10);
+        jPanel10.setBounds(0, 230, 400, 50);
+
+        jLabel6.setFont(oldEnglish_18);
+        jLabel6.setText("Select an Opponent Below to edit P.v.P statistics.");
+        jPanel11.add(jLabel6);
+
+        jPanel4.add(jPanel11);
+        jPanel11.setBounds(0, 160, 400, 40);
+
+        jPanel12.setVisible(false);
+        jPanel12.setLayout(new java.awt.GridLayout(1, 0));
+
+        addWinButton.setFont(oldEnglish_12);
+        addWinButton.setText("Win +");
+        addWinButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addWinButtonActionPerformed(evt);
+            }
+        });
+        jPanel12.add(addWinButton);
+
+        removeWinButton.setFont(oldEnglish_12);
+        removeWinButton.setText("Win -");
+        removeWinButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeWinButtonActionPerformed(evt);
+            }
+        });
+        jPanel12.add(removeWinButton);
+
+        addLossButton.setFont(oldEnglish_12);
+        addLossButton.setText("Loss +");
+        addLossButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addLossButtonActionPerformed(evt);
+            }
+        });
+        jPanel12.add(addLossButton);
+
+        removeLossButton.setFont(oldEnglish_12);
+        removeLossButton.setText("Loss -");
+        removeLossButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeLossButtonActionPerformed(evt);
+            }
+        });
+        jPanel12.add(removeLossButton);
+
+        addTieButton.setFont(oldEnglish_12);
+        addTieButton.setText("Tie +");
+        addTieButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTieButtonActionPerformed(evt);
+            }
+        });
+        jPanel12.add(addTieButton);
+
+        removeTieButton.setFont(oldEnglish_12);
+        removeTieButton.setText("Tie -");
+        removeTieButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeTieButtonActionPerformed(evt);
+            }
+        });
+        jPanel12.add(removeTieButton);
+
+        jPanel4.add(jPanel12);
+        jPanel12.setBounds(0, 60, 430, 20);
+
+        jPanel13.setVisible(false);
+        jPanel13.setLayout(new java.awt.GridLayout(1, 0));
+
+        jButton5.setFont(oldEnglish_12);
+        jButton5.setText("Win +");
+        jPanel13.add(jButton5);
+
+        jButton11.setFont(oldEnglish_12);
+        jButton11.setText("Win -");
+        jPanel13.add(jButton11);
+
+        jButton6.setFont(oldEnglish_12);
+        jButton6.setText("Loss +");
+        jPanel13.add(jButton6);
+
+        jButton12.setFont(oldEnglish_12);
+        jButton12.setText("Loss -");
+        jPanel13.add(jButton12);
+
+        jButton7.setFont(oldEnglish_12);
+        jButton7.setText("Tie +");
+        jPanel13.add(jButton7);
+
+        jButton13.setFont(oldEnglish_12);
+        jButton13.setText("Tie -");
+        jPanel13.add(jButton13);
+
+        jPanel4.add(jPanel13);
+        jPanel13.setBounds(0, 200, 430, 20);
+
+        getContentPane().add(jPanel4);
+        jPanel4.setBounds(210, 110, 450, 280);
+
+        jPanel5.setVisible(false);
+        jPanel5.setLayout(null);
+
+        jPasswordField3.setText("jPasswordField3");
+        jPanel5.add(jPasswordField3);
+        jPasswordField3.setBounds(280, 150, 150, 20);
+
+        jLabel2.setFont(oldEnglish_18);
+        jLabel2.setText("Enter your Administrator Password below");
+        jPanel6.add(jLabel2);
+
+        jLabel3.setFont(oldEnglish_18);
+        jLabel3.setText("to clear all users' stats.");
+        jPanel6.add(jLabel3);
+
+        jLabel4.setFont(oldEnglish_18);
+        jLabel4.setForeground(java.awt.Color.red);
+        jLabel4.setText("WARNING:  this action cannot be undone.");
+        jPanel6.add(jLabel4);
+
+        jPanel5.add(jPanel6);
+        jPanel6.setBounds(0, 20, 450, 130);
+
+        jPanel7.setPreferredSize(new java.awt.Dimension(300, 100));
+        jPanel7.setLayout(new java.awt.GridLayout(1, 0));
+
+        jButton1.setText("Cancel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel7.add(jButton1);
+
+        clearStats.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/Mine.png"))); // NOI18N
+        clearStats.setText("OK");
+        clearStats.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearStatsActionPerformed(evt);
+            }
+        });
+        jPanel7.add(clearStats);
+
+        jPanel5.add(jPanel7);
+        jPanel7.setBounds(130, 177, 300, 100);
+
+        getContentPane().add(jPanel5);
+        jPanel5.setBounds(210, 110, 450, 280);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void adminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminButtonActionPerformed
+        adminNameSelect.setModel(new DefaultComboBoxModel(Main.storage.getAdmins()));
+        adminNameSelect.setVisible(true);
+    }//GEN-LAST:event_adminButtonActionPerformed
+
+    private void adminNameSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminNameSelectActionPerformed
+        jPasswordField1.setText(null);
+        jPasswordField1.setVisible(true);
+        adminOKbutton.setVisible(true);
+}//GEN-LAST:event_adminNameSelectActionPerformed
+
+    private void adminOKbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminOKbuttonActionPerformed
+        admin = (User) adminNameSelect.getSelectedItem();
+        String passwordEntry = jPasswordField1.getText();
+        if (!(passwordEntry == null)) {
+            if (!passwordEntry.equals(admin.getPassword())) {
+                JOptionPane.showMessageDialog(this, "Incorrect Password!", "Password Incorrect", JOptionPane.WARNING_MESSAGE);
+                admin = null;
+                return;
+            }
+            adminButton.setEnabled(false);
+            adminNameSelect.setEnabled(false);
+            jPasswordField1.setEnabled(false);
+            adminOKbutton.setEnabled(false);
+            adminNameDisplay.setText(admin.toString());
+            adminNameDisplay.setVisible(true);
+            jPanel1.setVisible(true);
+}//GEN-LAST:event_adminOKbuttonActionPerformed
+    }
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        Main.restart();
+        this.dispose();
+}//GEN-LAST:event_backButtonActionPerformed
+
+    private void deletePlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletePlayerButtonActionPerformed
+        jPanel4.setVisible(false);
+        jPanel5.setVisible(false);
+        jPanel3.setVisible(true);
+        playerNameSelect.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
+    }//GEN-LAST:event_deletePlayerButtonActionPerformed
+
+    private void playerNameSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playerNameSelectActionPerformed
+        jPasswordField2.setText(null);
+        jPasswordField2.setVisible(true);
+        OKbutton.setVisible(true);
+    }//GEN-LAST:event_playerNameSelectActionPerformed
+
+    private void OKbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKbuttonActionPerformed
+        User playerToDelete = (User) playerNameSelect.getSelectedItem();
+        String passwordEntry = jPasswordField2.getText();
+        if (!(passwordEntry == null)) {
+            if (!passwordEntry.equals(admin.getPassword())) {
+                JOptionPane.showMessageDialog(this, "Incorrect Password!", "Password Incorrect", JOptionPane.WARNING_MESSAGE);
+                return;
+            } else if (playerToDelete.getAdmin()) {
+                JOptionPane.showMessageDialog(this, "You cannot delete an administrator User.", "Cannot Delete Administrator", JOptionPane.WARNING_MESSAGE);
+                return;
+            } else {
+                Main.storage.removeUser(playerToDelete);
+                Main.storage.saveStorage();
+                playerNameSelect.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
+                jPasswordField2.setText(null);
+                JOptionPane.showMessageDialog(this, "User " + playerToDelete + " has been deleted.", "Player Deleted", JOptionPane.INFORMATION_MESSAGE);
+}//GEN-LAST:event_OKbuttonActionPerformed
+        }
+    }
+            private void changeStatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeStatsButtonActionPerformed
+                jPanel3.setVisible(false);
+                jPanel5.setVisible(false);
+                jPanel4.setVisible(true);
+            }//GEN-LAST:event_changeStatsButtonActionPerformed
+
+            private void clearStatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearStatsButtonActionPerformed
+                jPanel3.setVisible(false);
+                jPanel4.setVisible(false);
+                jPanel5.setVisible(true);
+                jPasswordField3.setText(null);
+            }//GEN-LAST:event_clearStatsButtonActionPerformed
+
+            private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+                jPanel5.setVisible(false);
+            }//GEN-LAST:event_jButton1ActionPerformed
+
+            private void clearStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearStatsActionPerformed
+                String passwordEntry = jPasswordField3.getText();
+                boolean passwordMatch = passwordEntry.equals(admin.getPassword());
+                if (!passwordMatch) {
+                    JOptionPane.showMessageDialog(this, "The passwords do not match",
+                            "Error", JOptionPane.WARNING_MESSAGE);
+                }
+                for (User user : Main.storage.getUsers()) {
+                    user.clearStats();
+                }
+                JOptionPane.showMessageDialog(this, "All users' stats have been reset.", "Statistics Reset", JOptionPane.INFORMATION_MESSAGE);
+                Main.storage.saveStorage();
+                refreshStatsView();
+                jPanel5.setVisible(false);
+            }//GEN-LAST:event_clearStatsActionPerformed
+
+            private void selectedPlayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectedPlayerActionPerformed
+                selected = (User) selectedPlayer.getSelectedItem();
+                wins.setText("Wins: " + selected.getStats().getWins());
+                wins.setVisible(true);
+                losses.setText("Losses: " + selected.getStats().getLosses());
+                losses.setVisible(true);
+                ties.setText("Ties: " + selected.getStats().getTies());
+                ties.setVisible(true);
+                 if (selected != null) {
+                    opponent = (User) selectedOpponent.getSelectedItem();
+                    // PvP stats for a player vs. himself do not make sense
+                    if (selected.equals(opponent)) {
+                        pvpWins.setText("Wins: N/A");
+                        pvpLosses.setText("Losses: N/A");
+                        pvpTies.setText("Ties: N/A");
+                    } else if (selected.getStats().pvpRecords.containsKey(opponent)) {
+                        pvpWins.setText("Wins: " + selected.getStats().pvpRecords.get(opponent).getWins());
+                        pvpLosses.setText("Losses: " + selected.getStats().pvpRecords.get(opponent).getLosses());
+                        pvpTies.setText("Ties: " + selected.getStats().pvpRecords.get(opponent).getTies());
+                    } else {
+                        pvpWins.setText("Wins: 0");
+                        pvpLosses.setText("Losses: 0");
+                        pvpTies.setText("Ties: 0");
+                    }
+                    pvpWins.setVisible(true);
+                    pvpLosses.setVisible(true);
+                    pvpTies.setVisible(true);
+                    jPanel12.setVisible(true);
+                    if (selected != null && opponent != null) {
+                        jPanel13.setVisible(true);
+                    }
+            }
+            }//GEN-LAST:event_selectedPlayerActionPerformed
+          private void refreshStatsView() {
+        wins.setText("Wins: " + selected.getStats().getWins());
+        losses.setText("Losses: " + selected.getStats().getLosses());
+        ties.setText("Ties: " + selected.getStats().getTies());
+        if (selected != null) {
+            opponent = (User) selectedOpponent.getSelectedItem();
+            // PvP stats for a player vs. himself do not make sense
+            if (selected.equals(opponent)) {
+                pvpWins.setText("Wins: N/A");
+                pvpLosses.setText("Losses: N/A");
+                pvpTies.setText("Ties: N/A");
+            } else if (selected.getStats().pvpRecords.containsKey(opponent)) {
+                pvpWins.setText("Wins: " + selected.getStats().pvpRecords.get(opponent).getWins());
+                pvpLosses.setText("Losses: " + selected.getStats().pvpRecords.get(opponent).getLosses());
+                pvpTies.setText("Ties: " + selected.getStats().pvpRecords.get(opponent).getTies());
+            } else {
+                pvpWins.setText("Wins: 0");
+                pvpLosses.setText("Losses: 0");
+                pvpTies.setText("Ties: 0");
+            }
+        }
+    }
+            private void selectedOpponentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectedOpponentActionPerformed
+                if (selected != null) {
+                    opponent = (User) selectedOpponent.getSelectedItem();
+                    // PvP stats for a player vs. himself do not make sense
+                    if (selected.equals(opponent)) {
+                        pvpWins.setText("Wins: N/A");
+                        pvpLosses.setText("Losses: N/A");
+                        pvpTies.setText("Ties: N/A");
+                    } else if (selected.getStats().pvpRecords.containsKey(opponent)) {
+                        pvpWins.setText("Wins: " + selected.getStats().pvpRecords.get(opponent).getWins());
+                        pvpLosses.setText("Losses: " + selected.getStats().pvpRecords.get(opponent).getLosses());
+                        pvpTies.setText("Ties: " + selected.getStats().pvpRecords.get(opponent).getTies());
+                    } else {
+                        pvpWins.setText("Wins: 0");
+                        pvpLosses.setText("Losses: 0");
+                        pvpTies.setText("Ties: 0");
+                    }
+                    pvpWins.setVisible(true);
+                    pvpLosses.setVisible(true);
+                    pvpTies.setVisible(true);
+                }
+            }//GEN-LAST:event_selectedOpponentActionPerformed
+
+                private void addWinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addWinButtonActionPerformed
+                    selected.getStats().addWin();
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_addWinButtonActionPerformed
+
+                private void removeWinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeWinButtonActionPerformed
+                    selected.getStats().removeWin();
+                    if (selected.getStats().wins < 0) {
+                        selected.getStats().wins = 0;
+                    }
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_removeWinButtonActionPerformed
+
+                private void addLossButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLossButtonActionPerformed
+                    selected.getStats().addLoss();
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_addLossButtonActionPerformed
+
+                private void removeLossButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLossButtonActionPerformed
+                    selected.getStats().removeLoss();
+                    if (selected.getStats().losses < 0) {
+                        selected.getStats().losses = 0;
+                    }
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_removeLossButtonActionPerformed
+
+                private void addTieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTieButtonActionPerformed
+                    selected.getStats().addTie();
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_addTieButtonActionPerformed
+
+                private void removeTieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeTieButtonActionPerformed
+                    selected.getStats().removeTie();
+                    if (selected.getStats().ties < 0) {
+                        selected.getStats().ties = 0;
+                    }
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_removeTieButtonActionPerformed
 
     /**
     * @param args the command line arguments
@@ -79,6 +744,69 @@ public class AdminScreen extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton OKbutton;
+    private javax.swing.JButton addLossButton;
+    private javax.swing.JButton addTieButton;
+    private javax.swing.JButton addWinButton;
+    private javax.swing.JButton adminButton;
+    private javax.swing.JLabel adminNameDisplay;
+    public javax.swing.JComboBox adminNameSelect;
+    private javax.swing.JButton adminOKbutton;
+    private javax.swing.JButton backButton;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton changeStatsButton;
+    private javax.swing.JButton clearStats;
+    private javax.swing.JRadioButton clearStatsButton;
+    private javax.swing.JRadioButton deletePlayerButton;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JPasswordField jPasswordField3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel losses;
+    private javax.swing.JComboBox playerNameSelect;
+    private javax.swing.JLabel pvpLosses;
+    private javax.swing.JLabel pvpTies;
+    private javax.swing.JLabel pvpWins;
+    private javax.swing.JButton removeLossButton;
+    private javax.swing.JButton removeTieButton;
+    private javax.swing.JButton removeWinButton;
+    private javax.swing.JComboBox selectedOpponent;
+    private javax.swing.JComboBox selectedPlayer;
+    private javax.swing.JLabel ties;
+    private javax.swing.JLabel wins;
     // End of variables declaration//GEN-END:variables
 
 }
