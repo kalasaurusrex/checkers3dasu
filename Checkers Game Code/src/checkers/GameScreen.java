@@ -768,7 +768,36 @@ public class GameScreen extends javax.swing.JFrame
                 JOptionPane.showMessageDialog(this, "GAME OVER!\n" +
                       homePlayer + " has won the game!", "Game Over",
                       JOptionPane.INFORMATION_MESSAGE, setupKingRed);
-
+                // update statistics based on the home player winning the game,
+                // and the visitor player losing the game
+                User homeUser = null;
+                User visitorUser = null;
+                for (User user : Main.storage.getUsers()) {
+                    if (user.getUserName().equals(homePlayer)) {
+                        homeUser = user;
+                    }
+                }
+                for (User user : Main.storage.getUsers()) {
+                    if (user.getUserName().equals(visitorPlayer)) {
+                        visitorUser = user;
+                    }
+                }
+                // record the win for the home player, and the loss for the
+                // visitor player
+                homeUser.getStats().addWin();
+                visitorUser.getStats().addLoss();
+                // update the players' pvp records
+                if (homeUser.getStats().pvpRecords.containsKey(visitorUser)) {
+                   homeUser.getStats().pvpRecords.get(visitorUser).addWin();
+                } else {
+                     homeUser.getStats().pvpRecords.put(visitorUser, new Record(1,0,0));
+                }
+                if (visitorUser.getStats().pvpRecords.containsKey(homeUser)) {
+                    visitorUser.getStats().pvpRecords.get(homeUser).addLoss();
+                } else {
+                    visitorUser.getStats().pvpRecords.put(homeUser, new Record(0,1,0));
+                }
+                Main.storage.saveStorage();
                 Main.restart();
                 dispose();
             }
@@ -777,7 +806,36 @@ public class GameScreen extends javax.swing.JFrame
                 JOptionPane.showMessageDialog(this, "GAME OVER!\n" +
                       visitorPlayer + " has won the game!", "Game Over",
                       JOptionPane.INFORMATION_MESSAGE, setupKingBlack);
-
+                // update statistics based on the visitor player winning the
+                // game, and the home player losing the game
+                User homeUser = null;
+                User visitorUser = null;
+                for (User user : Main.storage.getUsers()) {
+                    if (user.getUserName().equals(homePlayer)) {
+                        homeUser = user;
+                    }
+                }
+                for (User user : Main.storage.getUsers()) {
+                    if (user.getUserName().equals(visitorPlayer)) {
+                        visitorUser = user;
+                    }
+                }
+                // record the win for the visitor player, and the loss for the
+                // home player
+                visitorUser.getStats().addWin();
+                homeUser.getStats().addLoss();
+                // update the players' pvp records
+                if (homeUser.getStats().pvpRecords.containsKey(visitorUser)) {
+                   homeUser.getStats().pvpRecords.get(visitorUser).addLoss();
+                } else {
+                     homeUser.getStats().pvpRecords.put(visitorUser, new Record(0,1,0));
+                }
+                if (visitorUser.getStats().pvpRecords.containsKey(homeUser)) {
+                    visitorUser.getStats().pvpRecords.get(homeUser).addWin();
+                } else {
+                    visitorUser.getStats().pvpRecords.put(homeUser, new Record(1,0,0));
+                }
+                Main.storage.saveStorage();
                 Main.restart();
                 dispose();
             }
@@ -1600,6 +1658,11 @@ public class GameScreen extends javax.swing.JFrame
         forfeitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         forfeitMenuItem.setFont(oldEnglish_14);
         forfeitMenuItem.setText("Forfeit");
+        forfeitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forfeitMenuItemActionPerformed(evt);
+            }
+        });
         optionsMenu.add(forfeitMenuItem);
 
         boardMenuBar.add(optionsMenu);
@@ -1637,9 +1700,35 @@ public class GameScreen extends javax.swing.JFrame
         String fileName = visitorPlayer + "_vs_" + homePlayer + "_" + strDate + ".game";
 
         game.saveGame(square, fileName);
-        Main.storage.addGame(fileName);
-        System.out.println(Main.storage.getGames().firstElement());
     }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void forfeitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forfeitMenuItemActionPerformed
+        ForfeitDialog forfeit = new ForfeitDialog(this, true);
+        User visitorUser = null;
+        User homeUser = null;
+        for (User user : Main.storage.getUsers()) {
+            if (user.getUserName().equalsIgnoreCase(visitorPlayer)) {
+                visitorUser = user;
+            }
+        }
+        for (User user : Main.storage.getUsers()) {
+            if (user.getUserName().equalsIgnoreCase(homePlayer)) {
+                homeUser = user;
+            }
+        }
+        if (game.getVisitorTurn()) {
+            forfeit.user = visitorUser;
+            forfeit.otherUser = homeUser;
+            forfeit.setLabelText(visitorPlayer);
+            forfeit.setLabelIcon(true);
+        } else {
+            forfeit.user = homeUser;
+            forfeit.otherUser = visitorUser;
+            forfeit.setLabelText(homePlayer);
+            forfeit.setLabelIcon(false);
+        }
+        forfeit.setVisible(true);
+    }//GEN-LAST:event_forfeitMenuItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar boardMenuBar;
