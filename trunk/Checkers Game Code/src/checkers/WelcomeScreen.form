@@ -92,7 +92,6 @@
           <Connection code="oldEnglish_16" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Statistics"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -109,7 +108,6 @@
           <Connection code="oldEnglish_16" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Administration"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
