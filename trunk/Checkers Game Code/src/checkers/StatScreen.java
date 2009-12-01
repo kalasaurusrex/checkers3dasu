@@ -83,26 +83,7 @@ public class StatScreen extends javax.swing.JFrame
         }
     }
 
-    public void refreshStatScreen()
-    {
-       if (selected != null) {
-            opponent = (User) CompareList.getSelectedItem();
-            // PvP stats for a player vs. himself do not make sense
-            if (selected.equals(opponent)) {
-                WinsLabel.setText("");
-                LossesLabel.setText("");
-                TiesLabel.setText("");
-            } else if (selected.getStats().pvpRecords.containsKey(opponent)) {
-                WinsLabel.setText("" + selected.getStats().pvpRecords.get(opponent).getWins());
-                LossesLabel.setText("" + selected.getStats().pvpRecords.get(opponent).getLosses());
-                TiesLabel.setText("" + selected.getStats().pvpRecords.get(opponent).getTies());
-            } else {
-                WinsLabel.setText("");
-                LossesLabel.setText("");
-                TiesLabel.setText("");
-            }
-        }
-    }
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -228,7 +209,7 @@ public class StatScreen extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        new WelcomeScreen().setVisible(true);
+        Main.restart();
         dispose();
 }//GEN-LAST:event_BackButtonActionPerformed
 
@@ -278,6 +259,7 @@ public class StatScreen extends javax.swing.JFrame
     private void PvPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PvPButtonActionPerformed
         CompareList.setVisible(true);
         CompareLabel.setVisible(true);
+        pvpStats(selected, (User)CompareList.getItemAt(0));
     }//GEN-LAST:event_PvPButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

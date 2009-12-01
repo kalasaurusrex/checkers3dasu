@@ -118,7 +118,7 @@ public class LoadScreen extends javax.swing.JFrame
            else
            {
                 //the Cancel button was pressed
-                new WelcomeScreen().setVisible(true);
+                Main.restart();
                 dispose();
            }
         }
