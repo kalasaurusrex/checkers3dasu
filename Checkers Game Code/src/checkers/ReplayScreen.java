@@ -34,21 +34,46 @@ public class ReplayScreen extends javax.swing.JDialog
     ArrayList<int[]> movesList;
 
     //load images
-    ImageIcon board8X8 = new ImageIcon(getClass().getResource("/checkers/images/Board8x8.png"));
-    ImageIcon board10X10 = new ImageIcon(getClass().getResource("/checkers/images/Board10x10.png"));
-    ImageIcon squareBlack = new ImageIcon(getClass().getResource("/checkers/images/SquareBlack.png"));
-    ImageIcon checkerBlack = new ImageIcon(getClass().getResource("/checkers/images/CheckerBlack.png"));
-    ImageIcon checkerRed = new ImageIcon(getClass().getResource("/checkers/images/CheckerRed.png"));
-    ImageIcon kingBlack = new ImageIcon(getClass().getResource("/checkers/images/KingBlack.png"));
-    ImageIcon kingRed = new ImageIcon(getClass().getResource("/checkers/images/KingRed.png"));
-    ImageIcon squareSafe = new ImageIcon(getClass().getResource("/checkers/images/SquareSafe.png"));
-    ImageIcon safeCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/SafeCheckerBlack.png"));
-    ImageIcon safeCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/SafeCheckerRed.png"));
-    ImageIcon safeKingBlack = new ImageIcon(getClass().getResource("/checkers/images/SafeKingBlack.png"));
-    ImageIcon safeKingRed = new ImageIcon(getClass().getResource("/checkers/images/SafeKingRed.png"));
-    ImageIcon squareBlocked = new ImageIcon(getClass().getResource("/checkers/images/SquareBlocked.png"));
-    ImageIcon displayLabel = new ImageIcon(getClass().getResource("/checkers/images/DisplayLabel.png"));
-    ImageIcon background = new ImageIcon(getClass().getResource("/checkers/images/Background.png"));
+    ImageIcon board8X8 = new ImageIcon(getClass().
+            getResource("/checkers/images/Board8x8.png"));
+    ImageIcon board10X10 = new ImageIcon(getClass().
+            getResource("/checkers/images/Board10x10.png"));
+    ImageIcon squareBlack = new ImageIcon(getClass().
+            getResource("/checkers/images/SquareBlack.png"));
+    ImageIcon checkerBlack = new ImageIcon(getClass().
+            getResource("/checkers/images/CheckerBlack.png"));
+    ImageIcon checkerRed = new ImageIcon(getClass().
+            getResource("/checkers/images/CheckerRed.png"));
+    ImageIcon kingBlack = new ImageIcon(getClass().
+            getResource("/checkers/images/KingBlack.png"));
+    ImageIcon kingRed = new ImageIcon(getClass().
+            getResource("/checkers/images/KingRed.png"));
+    ImageIcon squareSafe = new ImageIcon(getClass().
+            getResource("/checkers/images/SquareSafe.png"));
+    ImageIcon safeCheckerBlack = new ImageIcon(getClass().
+            getResource("/checkers/images/SafeCheckerBlack.png"));
+    ImageIcon safeCheckerRed = new ImageIcon(getClass().
+            getResource("/checkers/images/SafeCheckerRed.png"));
+    ImageIcon safeKingBlack = new ImageIcon(getClass().
+            getResource("/checkers/images/SafeKingBlack.png"));
+    ImageIcon safeKingRed = new ImageIcon(getClass().
+            getResource("/checkers/images/SafeKingRed.png"));
+    ImageIcon squareBlocked = new ImageIcon(getClass().
+            getResource("/checkers/images/SquareBlocked.png"));
+    ImageIcon displayLabel = new ImageIcon(getClass().
+            getResource("/checkers/images/DisplayLabel.png"));
+    ImageIcon background = new ImageIcon(getClass().
+            getResource("/checkers/images/Background.png"));
+    ImageIcon forwardIcon = new ImageIcon(getClass().
+            getResource("/checkers/images/ForwardButton.png"));
+    ImageIcon backIcon = new ImageIcon(getClass().
+            getResource("/checkers/images/BackButton.png"));
+    ImageIcon firstIcon = new ImageIcon(getClass().
+            getResource("/checkers/images/FirstButton.png"));
+    ImageIcon lastIcon = new ImageIcon(getClass().
+            getResource("/checkers/images/LastButton.png"));
+    ImageIcon exitSign = new ImageIcon(getClass().
+            getResource("/checkers/images/ExitSign.png"));
 
     //load fonts
     Font oldEnglish_16 = loadFont(Font.PLAIN, 16);
@@ -202,16 +227,21 @@ public class ReplayScreen extends javax.swing.JDialog
         }
     }
 
+     //display navigation buttons
     private void initExtras()
     {
         lastButton = new javax.swing.JButton();
         firstButton = new javax.swing.JButton();
         forwardButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
+        exitButton = new javax.swing.JButton();
         currentMoveText = new IntegerTextField();
         maxMoveLabel = new JLabel("of  " + maxMoves);
 
-        firstButton.setText("<<");
+        //firstButton.setText("<<");
+        firstButton.setIcon(firstIcon);
+        firstButton.setContentAreaFilled(false);
+        firstButton.setBorder(null);
         firstButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 firstButtonActionPerformed(evt);
@@ -220,7 +250,10 @@ public class ReplayScreen extends javax.swing.JDialog
         rMessagePane.add(firstButton, 0);
         firstButton.setBounds(20, 70, 55, 55);
 
-        backButton.setText("<");
+        backButton.setIcon(backIcon);
+        backButton.setContentAreaFilled(false);
+        backButton.setBorder(null);
+        //backButton.setText("<");
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 backButtonActionPerformed(evt);
@@ -229,7 +262,10 @@ public class ReplayScreen extends javax.swing.JDialog
         rMessagePane.add(backButton, 0);
         backButton.setBounds(85, 70, 55, 55);
 
-        forwardButton.setText(">");
+        forwardButton.setIcon(forwardIcon);
+        forwardButton.setContentAreaFilled(false);
+        forwardButton.setBorder(null);
+        //forwardButton.setText(">");
         forwardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 forwardButtonActionPerformed(evt);
@@ -238,7 +274,10 @@ public class ReplayScreen extends javax.swing.JDialog
         rMessagePane.add(forwardButton, 0);
         forwardButton.setBounds(200, 70, 55, 55);
 
-        lastButton.setText(">>");
+        lastButton.setIcon(lastIcon);
+        lastButton.setContentAreaFilled(false);
+        lastButton.setBorder(null);
+        //lastButton.setText(">>");
         lastButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 lastButtonActionPerformed(evt);
@@ -246,6 +285,16 @@ public class ReplayScreen extends javax.swing.JDialog
         });
         rMessagePane.add(lastButton, 0);
         lastButton.setBounds(265, 70, 55, 55);
+
+        //exitButton.setText("X");
+        exitButton.setIcon(exitSign);
+        exitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
+        lMessagePane.add(exitButton, 0);
+        exitButton.setBounds(25, 25, 290, 95);
 
         currentMoveText.setText(Integer.toString(currentMove));
         currentMoveText.setHorizontalAlignment(JTextField.CENTER);
@@ -259,6 +308,7 @@ public class ReplayScreen extends javax.swing.JDialog
         rMessagePane.add(maxMoveLabel, 0);
     }
 
+    //display the last move in the list
     private void lastButtonActionPerformed(ActionEvent evt)
     {
         if (movesList.size() > 0)
@@ -270,6 +320,7 @@ public class ReplayScreen extends javax.swing.JDialog
         currentMoveText.setText(Integer.toString(currentMove));
     }
 
+    //display the first move in the list
     private void firstButtonActionPerformed(ActionEvent evt)
     {
         refreshBoard(movesList.get(0));
@@ -277,6 +328,7 @@ public class ReplayScreen extends javax.swing.JDialog
         currentMoveText.setText(Integer.toString(currentMove));
     }
 
+    //display the next move in the list
     private void forwardButtonActionPerformed(ActionEvent evt)
     {
         if (currentMove < maxMoves)
@@ -288,6 +340,7 @@ public class ReplayScreen extends javax.swing.JDialog
         currentMoveText.setText(Integer.toString(currentMove));
     }
 
+    //display the previous move in the list
     private void backButtonActionPerformed(ActionEvent evt)
     {
         if (currentMove > 0)
@@ -299,6 +352,13 @@ public class ReplayScreen extends javax.swing.JDialog
         currentMoveText.setText(Integer.toString(currentMove));
     }
 
+    //exit the replay screen
+    private void exitButtonActionPerformed(ActionEvent evt)
+    {
+        dispose();
+    }
+
+    //display the given move
     private void refreshBoard(int[] board)
     {
         for (int i = 0; i < square.length; i++)
@@ -356,7 +416,7 @@ public class ReplayScreen extends javax.swing.JDialog
         closeReplayMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Instant Replay");
+        setTitle("3D Checkers - Instant Replay");
         setMinimumSize(new java.awt.Dimension(888, 640));
         setModal(true);
         setResizable(false);
@@ -406,9 +466,11 @@ public class ReplayScreen extends javax.swing.JDialog
     JButton firstButton;
     JButton forwardButton;
     JButton lastButton;
+    JButton exitButton;
     IntegerTextField currentMoveText;
     JLabel maxMoveLabel;
 
+    //restrict the values that a user can input in the text box
     class IntegerTextField extends JTextField
     {
         final static String invalid = "-`~!@#$%^&*()_+=\\|\"':;?/>.<, ";
