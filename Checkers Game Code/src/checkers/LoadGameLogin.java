@@ -55,6 +55,7 @@ public class LoadGameLogin extends javax.swing.JFrame {
         VisitorLabel.setText(visitorPlayer);
         HomeLabel.setText(homePlayer);
         HPasswordField.setVisible(false);
+        hPassword.setVisible(false);
         VPasswordField.setText(null);
         HPasswordField.setText(null);
         homeOK.setVisible(false);
@@ -62,7 +63,7 @@ public class LoadGameLogin extends javax.swing.JFrame {
         visitorPlayerNameDisplay.setVisible(true);
         homePlayerNameDisplay.setVisible(false);
 
-        //get the user objects for use in the login screen
+        //get the User objects for use in the login screen
         for(int i = 0; i < Main.storage.getUsers().size(); i++)
         {
             if(homePlayer.equals(Main.storage.getUsers().get(i).getUserName()))
@@ -99,6 +100,8 @@ public class LoadGameLogin extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         visitorPlayerNameDisplay = new javax.swing.JLabel();
         homePlayerNameDisplay = new javax.swing.JLabel();
+        hPassword = new javax.swing.JLabel();
+        vPassword = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("3D Checkers - Log In");
@@ -234,6 +237,18 @@ public class LoadGameLogin extends javax.swing.JFrame {
         getContentPane().add(jPanel3);
         jPanel3.setBounds(30, 310, 600, 100);
 
+        hPassword.setFont(oldEnglish_14);
+        hPassword.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        hPassword.setText("Password:");
+        getContentPane().add(hPassword);
+        hPassword.setBounds(380, 200, 60, 20);
+
+        vPassword.setFont(oldEnglish_14);
+        vPassword.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        vPassword.setText("Password:");
+        getContentPane().add(vPassword);
+        vPassword.setBounds(0, 200, 60, 20);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -246,12 +261,16 @@ public class LoadGameLogin extends javax.swing.JFrame {
 }//GEN-LAST:event_homePlayerNameDisplayComponentShown
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
+        //if back button is pressed return user to the load screen
         new LoadScreen().setVisible(true);
         dispose();
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void visitorOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorOKActionPerformed
-       String passwordEntry = VPasswordField.getText();
+       //get the password the user entered, if incorrect, display error message
+       //if correct, enable the home players password field and disable the 
+       // visitor player's controls.
+        String passwordEntry = VPasswordField.getText();
        loggedIn = false;
        while(!loggedIn)
        {
@@ -270,6 +289,7 @@ public class LoadGameLogin extends javax.swing.JFrame {
         VPasswordField.setEnabled(false);
         visitorOK.setEnabled(false);
         visitorPlayerNameDisplay.setVisible(false);
+        hPassword.setVisible(true);
         HomeLabel.setEnabled(true);
         HPasswordField.setEnabled(true);
         homeOK.setEnabled(true);
@@ -282,7 +302,9 @@ public class LoadGameLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_visitorOKActionPerformed
 
     private void homeOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeOKActionPerformed
-       String passwordEntry = HPasswordField.getText();
+       //same as visitor, except if password is correct, send game file to 
+       //the gamescreen constructor and resume gameplay.
+        String passwordEntry = HPasswordField.getText();
        loggedIn = false;
        while(!loggedIn)
        {
@@ -318,11 +340,13 @@ public class LoadGameLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField VPasswordField;
     private javax.swing.JLabel VSLabel;
     private javax.swing.JLabel VisitorLabel;
+    private javax.swing.JLabel hPassword;
     private javax.swing.JButton homeOK;
     private javax.swing.JLabel homePlayerNameDisplay;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel vPassword;
     private javax.swing.JButton visitorOK;
     private javax.swing.JLabel visitorPlayerNameDisplay;
     // End of variables declaration//GEN-END:variables
