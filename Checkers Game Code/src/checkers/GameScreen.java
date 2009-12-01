@@ -1653,6 +1653,11 @@ public class GameScreen extends javax.swing.JFrame
         drawMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
         drawMenuItem.setFont(oldEnglish_14);
         drawMenuItem.setText("Request Draw");
+        drawMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                drawMenuItemActionPerformed(evt);
+            }
+        });
         optionsMenu.add(drawMenuItem);
 
         forfeitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
@@ -1729,6 +1734,27 @@ public class GameScreen extends javax.swing.JFrame
         }
         forfeit.setVisible(true);
     }//GEN-LAST:event_forfeitMenuItemActionPerformed
+
+    private void drawMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawMenuItemActionPerformed
+        DrawDialog draw = new DrawDialog(this, true);
+        User visitorUser = null;
+        User homeUser = null;
+        for (User user : Main.storage.getUsers()) {
+            if (user.getUserName().equalsIgnoreCase(visitorPlayer)) {
+                visitorUser = user;
+            }
+        }
+        for (User user : Main.storage.getUsers()) {
+            if (user.getUserName().equalsIgnoreCase(homePlayer)) {
+                homeUser = user;
+            }
+        }
+        draw.visitorUser = visitorUser;
+        draw.homeUser = homeUser;
+        draw.setVisitorLabelText(visitorPlayer);
+        draw.setHomeLabelText(homePlayer);
+        draw.setVisible(true);
+    }//GEN-LAST:event_drawMenuItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar boardMenuBar;

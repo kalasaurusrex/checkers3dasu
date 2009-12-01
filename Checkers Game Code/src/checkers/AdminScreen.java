@@ -121,6 +121,7 @@ public class AdminScreen extends javax.swing.JFrame
         jPanel7 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         clearStats = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         buttonGroup1.add(deletePlayerButton);
         buttonGroup1.add(changeStatsButton);
@@ -504,6 +505,10 @@ public class AdminScreen extends javax.swing.JFrame
         getContentPane().add(jPanel5);
         jPanel5.setBounds(210, 110, 450, 280);
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/ResetButton.png"))); // NOI18N
+        getContentPane().add(jButton2);
+        jButton2.setBounds(580, 10, 55, 55);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -762,6 +767,7 @@ public class AdminScreen extends javax.swing.JFrame
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
