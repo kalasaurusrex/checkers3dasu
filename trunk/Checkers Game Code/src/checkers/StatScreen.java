@@ -68,17 +68,17 @@ public class StatScreen extends javax.swing.JFrame
         if (selected != null) {
             // PvP stats for a player vs. himself do not make sense
             if (selected.equals(opponent)) {
-                WinsLabel.setText("");
-                LossesLabel.setText("");
-                TiesLabel.setText("");
+                WinsLabel.setText("N/A");
+                LossesLabel.setText("N/A");
+                TiesLabel.setText("N/A");
             } else if (selected.getStats().pvpRecords.containsKey(opponent)) {
                 WinsLabel.setText("" + selected.getStats().pvpRecords.get(opponent).getWins());
                 LossesLabel.setText("" + selected.getStats().pvpRecords.get(opponent).getLosses());
                 TiesLabel.setText("" + selected.getStats().pvpRecords.get(opponent).getTies());
             } else {
-                WinsLabel.setText("");
-                LossesLabel.setText("");
-                TiesLabel.setText("");
+                WinsLabel.setText("0");
+                LossesLabel.setText("0");
+                TiesLabel.setText("0");
             }
         }
     }
@@ -145,7 +145,7 @@ public class StatScreen extends javax.swing.JFrame
         LossesLabel.setFont(oldEnglish_16);
         LossesLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(LossesLabel);
-        LossesLabel.setBounds(390, 130, 30, 20);
+        LossesLabel.setBounds(380, 130, 50, 20);
 
         TiesLabel.setFont(oldEnglish_16);
         TiesLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
