@@ -12,13 +12,14 @@ import java.awt.Font;
 import java.io.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 
 public class LoadScreen extends javax.swing.JFrame
 {
-    private String homePlayer;
-    private String visitorPlayer;
-    FileNameExtensionFilter filter;
+    private FileNameExtensionFilter filter;
+    private boolean hFound = false;
+    private boolean vFound = false;
 
      //load the Old English font with a given size and type
     private Font loadFont(int type, float size)
@@ -48,9 +49,24 @@ public class LoadScreen extends javax.swing.JFrame
     public LoadScreen()
     {
         initComponents();
+        //filter the file types so that only files of type '.game'
+        //are displayed.
         filter = new FileNameExtensionFilter("Saved Games","game");
         GameLoader.addChoosableFileFilter(filter);
+
+        try
+        {
+        //set the current directory so that it is always where the saved games
+        //are.
+        File file = new File (new File(".").getCanonicalPath());
+        GameLoader.setCurrentDirectory(file);
+        }
         
+        //handle our exceptions
+        catch(IOException e)
+        {
+            System.out.println("Cannot find game directory");
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -92,13 +108,49 @@ public class LoadScreen extends javax.swing.JFrame
                File file = GameLoader.getSelectedFile();
                 try
             {
+                //retrieve our saved game from the hard drive.
                 FileInputStream fis = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 Game game = (Game) ois.readObject();
-                new LoadGameLogin(game, game.getHome(), game.getVisitor()).setVisible(true);
-                dispose();
 
+                //check to ensure that both the home player and visitor
+                //player are still registered in the users list, make
+                //sure that one or both have not been deleted.
+                for(int i = 0; i < Main.storage.getUsers().size(); i++)
+                 {
+                     if(game.getHome().equals(Main.storage.getUsers().get(i).getUserName()))
+                     {
+                         hFound = true;
+                         break;
+                     }
+                 }
+
+                for(int i = 0; i < Main.storage.getUsers().size(); i++)
+                {
+                    if(game.getVisitor().equals(Main.storage.getUsers().get(i).getUserName()))
+                    {
+                        vFound = true;
+                        break;
+                    }
+                 }
+                 // if both players were found in the Users list, continue gameplay
+                 // else go back to the welcome screen.
+                if(hFound && vFound)
+                {
+                    new LoadGameLogin(game, game.getHome(), game.getVisitor()).setVisible(true);
+                    dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "One or more players are no longer registered",
+                            "Cannot Find PLayer", JOptionPane.WARNING_MESSAGE);
+                    Main.restart();
+                }
             }
+
+
+
+            //handle any exceptions that are thrown.
             catch (FileNotFoundException fne)
             {
                 System.out.println("File Not Found");

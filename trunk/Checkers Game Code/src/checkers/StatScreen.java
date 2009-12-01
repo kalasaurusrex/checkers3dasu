@@ -43,6 +43,8 @@ public class StatScreen extends javax.swing.JFrame
 
     public StatScreen()
     {
+        //initialize screen with only the players login combo box and
+        //password field showing
         initComponents();
         UserList.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
         UserList.setVisible(true);
@@ -57,6 +59,7 @@ public class StatScreen extends javax.swing.JFrame
    
     public void indStats (User player)
     {
+        //display a player's overall stats
         WinsLabel.setText("" + player.getStats().getWins());
         LossesLabel.setText("" + player.getStats().getLosses());
         TiesLabel.setText("" + player.getStats().getTies());
@@ -65,6 +68,7 @@ public class StatScreen extends javax.swing.JFrame
 
     public void pvpStats (User selected, User opponent)
     {
+        //display the stats of the logged in player versus the selected opponent.
         if (selected != null) {
             // PvP stats for a player vs. himself do not make sense
             if (selected.equals(opponent)) {
@@ -177,7 +181,7 @@ public class StatScreen extends javax.swing.JFrame
 
         CompareLabel.setFont(oldEnglish_14);
         CompareLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        CompareLabel.setText("Select a player for PvP Stats");
+        CompareLabel.setText("Select an opponent");
         getContentPane().add(CompareLabel);
         CompareLabel.setBounds(20, 190, 170, 30);
 
@@ -212,11 +216,15 @@ public class StatScreen extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
+       //back button returns us to the welcome screen.
         Main.restart();
         dispose();
 }//GEN-LAST:event_BackButtonActionPerformed
 
     private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
+      //this button is pressed after the user selects his/her player login
+      //and input the  password. The password is first authenticated and then
+      //the players overall stats are displayed until another action is performed.
         selected = (User)UserList.getSelectedItem();
         String passwordEntry = PasswordField.getText();
         if (!(passwordEntry == null)) {
@@ -233,6 +241,8 @@ public class StatScreen extends javax.swing.JFrame
 }//GEN-LAST:event_OKButtonActionPerformed
 
     private void UserListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserListActionPerformed
+       //if a new user is selected from the combo box, the stats are cleared and
+        //the screen is reset to its initial state.
         PasswordField.setText(null);
         PasswordField.setVisible(true);
         OKButton.setVisible(true);
@@ -241,9 +251,13 @@ public class StatScreen extends javax.swing.JFrame
         TiesLabel.setText(null);
         CompareList.setVisible(false);
         CompareLabel.setVisible(false);
+        OverallButton.setVisible(false);
+        PvPButton.setVisible(false);
 }//GEN-LAST:event_UserListActionPerformed
 
     private void CompareListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompareListActionPerformed
+        //displays the pvp stats and updates them every time a new opponent
+        //is selected.
         opponent = (User)CompareList.getSelectedItem();
         selected = (User)UserList.getSelectedItem();
         pvpStats(selected, opponent);
@@ -253,6 +267,7 @@ public class StatScreen extends javax.swing.JFrame
     }//GEN-LAST:event_CompareListActionPerformed
 
     private void OverallButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OverallButtonActionPerformed
+        //display the players overall stats
         CompareList.setVisible(false);
         CompareLabel.setVisible(false);
         selected = (User)UserList.getSelectedItem();
@@ -260,6 +275,7 @@ public class StatScreen extends javax.swing.JFrame
     }//GEN-LAST:event_OverallButtonActionPerformed
 
     private void PvPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PvPButtonActionPerformed
+       //display the combo box of opponents and display the pvp of the first item.
         CompareList.setVisible(true);
         CompareLabel.setVisible(true);
         pvpStats(selected, (User)CompareList.getItemAt(0));
