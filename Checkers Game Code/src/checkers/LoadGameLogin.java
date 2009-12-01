@@ -122,7 +122,7 @@ public class LoadGameLogin extends javax.swing.JFrame {
         getContentPane().add(HomeLabel);
         HomeLabel.setBounds(400, 130, 250, 50);
         getContentPane().add(jSeparator1);
-        jSeparator1.setBounds(0, 0, 50, 10);
+        jSeparator1.setBounds(0, 0, 0, 2);
 
         TitleLabel.setFont(oldEnglish_36b);
         TitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -139,6 +139,9 @@ public class LoadGameLogin extends javax.swing.JFrame {
         VSLabel.setBounds(300, 130, 50, 50);
 
         BackButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/Back_Button.png"))); // NOI18N
+        BackButton.setBorder(null);
+        BackButton.setBorderPainted(false);
+        BackButton.setContentAreaFilled(false);
         BackButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BackButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,8 +150,6 @@ public class LoadGameLogin extends javax.swing.JFrame {
         });
         getContentPane().add(BackButton);
         BackButton.setBounds(10, 10, 55, 55);
-        BackButton.getAccessibleContext().setAccessibleName("");
-
         getContentPane().add(jSeparator2);
         jSeparator2.setBounds(-30, 80, 690, 10);
 
@@ -168,7 +169,7 @@ public class LoadGameLogin extends javax.swing.JFrame {
         getContentPane().add(VPasswordField);
         VPasswordField.setBounds(60, 200, 120, 20);
 
-        visitorOK.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        visitorOK.setFont(new java.awt.Font("Tahoma", 0, 10));
         visitorOK.setText("OK");
         visitorOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,7 +179,7 @@ public class LoadGameLogin extends javax.swing.JFrame {
         getContentPane().add(visitorOK);
         visitorOK.setBounds(180, 200, 50, 21);
 
-        homeOK.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        homeOK.setFont(new java.awt.Font("Tahoma", 0, 10));
         homeOK.setText("OK");
         homeOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

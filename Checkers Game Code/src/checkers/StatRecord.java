@@ -42,12 +42,21 @@ public class StatRecord implements Serializable {
     }
     public void removeWin() {
         wins--;
+        if (wins < 0) {
+            wins = 0;
+        }
     }
     public void removeLoss() {
         losses--;
+        if (losses < 0) {
+            losses = 0;
+        }
     }
     public void removeTie() {
         ties--;
+        if (ties < 0) {
+            ties = 0;
+        }
     }
     public void setWins(int wins) {
         this.wins = wins;

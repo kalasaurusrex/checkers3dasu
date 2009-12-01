@@ -93,6 +93,7 @@ public class AdminScreen extends javax.swing.JFrame
         ties = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         selectedOpponent = new javax.swing.JComboBox();
+        selectedOpponent.setEnabled(false);
         pvpWins = new javax.swing.JLabel();
         pvpLosses = new javax.swing.JLabel();
         pvpTies = new javax.swing.JLabel();
@@ -106,12 +107,12 @@ public class AdminScreen extends javax.swing.JFrame
         addTieButton = new javax.swing.JButton();
         removeTieButton = new javax.swing.JButton();
         jPanel13 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
+        pvpAddWinButton = new javax.swing.JButton();
+        pvpRemoveWinButton = new javax.swing.JButton();
+        pvpAddLossButton = new javax.swing.JButton();
+        pvpRemoveLossButton = new javax.swing.JButton();
+        pvpAddTieButton = new javax.swing.JButton();
+        pvpRemoveTieButton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPasswordField3 = new javax.swing.JPasswordField();
         jPanel6 = new javax.swing.JPanel();
@@ -121,7 +122,7 @@ public class AdminScreen extends javax.swing.JFrame
         jPanel7 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         clearStats = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        retireAdminButton = new javax.swing.JButton();
 
         buttonGroup1.add(deletePlayerButton);
         buttonGroup1.add(changeStatsButton);
@@ -144,6 +145,9 @@ public class AdminScreen extends javax.swing.JFrame
         backButton.setFont(oldEnglish_12);
         backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/back_button.png"))); // NOI18N
         backButton.setToolTipText("Back");
+        backButton.setBorder(null);
+        backButton.setBorderPainted(false);
+        backButton.setContentAreaFilled(false);
         backButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         backButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -426,29 +430,59 @@ public class AdminScreen extends javax.swing.JFrame
         jPanel13.setVisible(false);
         jPanel13.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton5.setFont(oldEnglish_12);
-        jButton5.setText("Win +");
-        jPanel13.add(jButton5);
+        pvpAddWinButton.setFont(oldEnglish_12);
+        pvpAddWinButton.setText("Win +");
+        pvpAddWinButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pvpAddWinButtonActionPerformed(evt);
+            }
+        });
+        jPanel13.add(pvpAddWinButton);
 
-        jButton11.setFont(oldEnglish_12);
-        jButton11.setText("Win -");
-        jPanel13.add(jButton11);
+        pvpRemoveWinButton.setFont(oldEnglish_12);
+        pvpRemoveWinButton.setText("Win -");
+        pvpRemoveWinButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pvpRemoveWinButtonActionPerformed(evt);
+            }
+        });
+        jPanel13.add(pvpRemoveWinButton);
 
-        jButton6.setFont(oldEnglish_12);
-        jButton6.setText("Loss +");
-        jPanel13.add(jButton6);
+        pvpAddLossButton.setFont(oldEnglish_12);
+        pvpAddLossButton.setText("Loss +");
+        pvpAddLossButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pvpAddLossButtonActionPerformed(evt);
+            }
+        });
+        jPanel13.add(pvpAddLossButton);
 
-        jButton12.setFont(oldEnglish_12);
-        jButton12.setText("Loss -");
-        jPanel13.add(jButton12);
+        pvpRemoveLossButton.setFont(oldEnglish_12);
+        pvpRemoveLossButton.setText("Loss -");
+        pvpRemoveLossButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pvpRemoveLossButtonActionPerformed(evt);
+            }
+        });
+        jPanel13.add(pvpRemoveLossButton);
 
-        jButton7.setFont(oldEnglish_12);
-        jButton7.setText("Tie +");
-        jPanel13.add(jButton7);
+        pvpAddTieButton.setFont(oldEnglish_12);
+        pvpAddTieButton.setText("Tie +");
+        pvpAddTieButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pvpAddTieButtonActionPerformed(evt);
+            }
+        });
+        jPanel13.add(pvpAddTieButton);
 
-        jButton13.setFont(oldEnglish_12);
-        jButton13.setText("Tie -");
-        jPanel13.add(jButton13);
+        pvpRemoveTieButton.setFont(oldEnglish_12);
+        pvpRemoveTieButton.setText("Tie -");
+        pvpRemoveTieButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pvpRemoveTieButtonActionPerformed(evt);
+            }
+        });
+        jPanel13.add(pvpRemoveTieButton);
 
         jPanel4.add(jPanel13);
         jPanel13.setBounds(0, 200, 430, 20);
@@ -505,9 +539,19 @@ public class AdminScreen extends javax.swing.JFrame
         getContentPane().add(jPanel5);
         jPanel5.setBounds(210, 110, 450, 280);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/ResetButton.png"))); // NOI18N
-        getContentPane().add(jButton2);
-        jButton2.setBounds(580, 10, 55, 55);
+        retireAdminButton.setEnabled(false);
+        retireAdminButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/ResetButton.png"))); // NOI18N
+        retireAdminButton.setToolTipText("Click here to retire the Administrator User");
+        retireAdminButton.setBorder(null);
+        retireAdminButton.setBorderPainted(false);
+        retireAdminButton.setContentAreaFilled(false);
+        retireAdminButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                retireAdminButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(retireAdminButton);
+        retireAdminButton.setBounds(580, 10, 55, 55);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -533,6 +577,7 @@ public class AdminScreen extends javax.swing.JFrame
                 return;
             }
             adminButton.setEnabled(false);
+            retireAdminButton.setEnabled(true);
             adminNameSelect.setEnabled(false);
             jPasswordField1.setEnabled(false);
             adminOKbutton.setEnabled(false);
@@ -571,9 +616,20 @@ public class AdminScreen extends javax.swing.JFrame
                 return;
             } else {
                 Main.storage.removeUser(playerToDelete);
-                Main.storage.saveStorage();
+                for (User user : Main.storage.getUsers()) {
+                    if (user.getStats().pvpRecords.containsKey(playerToDelete)) {
+                        user.getStats().pvpRecords.remove(playerToDelete);
+                    }
+                }
+                
                 playerNameSelect.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
+                selectedPlayer.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
+                selectedOpponent.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
+                selected = (User) selectedPlayer.getItemAt(0);
+                opponent = (User) selectedOpponent.getItemAt(0);
                 jPasswordField2.setText(null);
+                Main.storage.saveStorage();
+                refreshStatsView();
                 JOptionPane.showMessageDialog(this, "User " + playerToDelete + " has been deleted.", "Player Deleted", JOptionPane.INFORMATION_MESSAGE);
 }//GEN-LAST:event_OKbuttonActionPerformed
         }
@@ -601,6 +657,7 @@ public class AdminScreen extends javax.swing.JFrame
                 if (!passwordMatch) {
                     JOptionPane.showMessageDialog(this, "The passwords do not match",
                             "Error", JOptionPane.WARNING_MESSAGE);
+                    return;
                 }
                 for (User user : Main.storage.getUsers()) {
                     user.clearStats();
@@ -643,6 +700,7 @@ public class AdminScreen extends javax.swing.JFrame
                         jPanel13.setVisible(true);
                     }
             }
+                selectedOpponent.setEnabled(true);
             }//GEN-LAST:event_selectedPlayerActionPerformed
           private void refreshStatsView() {
         wins.setText("Wins: " + selected.getStats().getWins());
@@ -734,6 +792,125 @@ public class AdminScreen extends javax.swing.JFrame
                     refreshStatsView();
                 }//GEN-LAST:event_removeTieButtonActionPerformed
 
+                private void pvpAddWinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pvpAddWinButtonActionPerformed
+                    // record win for selected user
+                    selected.getStats().addWin();
+                    // update selected user's stats vs opponent
+                    if (selected.getStats().pvpRecords.containsKey(opponent)) {
+                        selected.getStats().pvpRecords.get(opponent).addWin();
+                    } else {
+                        selected.getStats().pvpRecords.put(opponent, new Record(1,0,0));
+                    }
+                    // record loss for opponent
+                    opponent.getStats().addLoss();
+                    // update opponent's stats vs selected user
+                    if (opponent.getStats().pvpRecords.containsKey(selected)) {
+                        opponent.getStats().pvpRecords.get(selected).addLoss();
+                    } else {
+                        opponent.getStats().pvpRecords.put(selected, new Record(0,1,0));
+                    }
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_pvpAddWinButtonActionPerformed
+
+                private void pvpAddLossButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pvpAddLossButtonActionPerformed
+                      // record loss for selected user
+                    selected.getStats().addLoss();
+                    // update selected user's stats vs opponent
+                    if (selected.getStats().pvpRecords.containsKey(opponent)) {
+                        selected.getStats().pvpRecords.get(opponent).addLoss();
+                    } else {
+                        selected.getStats().pvpRecords.put(opponent, new Record(0,1,0));
+                    }
+                    // record win for opponent
+                    opponent.getStats().addWin();
+                    // update opponent's stats vs selected user
+                    if (opponent.getStats().pvpRecords.containsKey(selected)) {
+                        opponent.getStats().pvpRecords.get(selected).addWin();
+                    } else {
+                        opponent.getStats().pvpRecords.put(selected, new Record(1,0,0));
+                    }
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_pvpAddLossButtonActionPerformed
+
+                private void pvpAddTieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pvpAddTieButtonActionPerformed
+                      // record tie for selected user
+                    selected.getStats().addTie();
+                    // update selected user's stats vs opponent
+                    if (selected.getStats().pvpRecords.containsKey(opponent)) {
+                        selected.getStats().pvpRecords.get(opponent).addTie();
+                    } else {
+                        selected.getStats().pvpRecords.put(opponent, new Record(0,0,1));
+                    }
+                    // record tie for opponent
+                    opponent.getStats().addTie();
+                    // update opponent's stats vs selected user
+                    if (opponent.getStats().pvpRecords.containsKey(selected)) {
+                        opponent.getStats().pvpRecords.get(selected).addTie();
+                    } else {
+                        opponent.getStats().pvpRecords.put(selected, new Record(0,0,1));
+                    }
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_pvpAddTieButtonActionPerformed
+
+                private void pvpRemoveWinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pvpRemoveWinButtonActionPerformed
+                    // update selected user's stats vs opponent
+                    if (selected.getStats().pvpRecords.containsKey(opponent)) {
+                        selected.getStats().removeWin();
+                        selected.getStats().pvpRecords.get(opponent).removeWin();
+                    }
+                    // update opponent's stats vs selected user
+                    if (opponent.getStats().pvpRecords.containsKey(selected)) {
+                        opponent.getStats().removeLoss();
+                        opponent.getStats().pvpRecords.get(selected).removeLoss();
+                    }
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_pvpRemoveWinButtonActionPerformed
+
+                private void pvpRemoveLossButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pvpRemoveLossButtonActionPerformed
+                     // update selected user's stats vs opponent
+                    if (selected.getStats().pvpRecords.containsKey(opponent)) {
+                        selected.getStats().removeLoss();
+                        selected.getStats().pvpRecords.get(opponent).removeLoss();
+                    }
+                    // update opponent's stats vs selected user
+                    if (opponent.getStats().pvpRecords.containsKey(selected)) {
+                        opponent.getStats().removeWin();
+                        opponent.getStats().pvpRecords.get(selected).removeWin();
+                    }
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_pvpRemoveLossButtonActionPerformed
+
+                private void pvpRemoveTieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pvpRemoveTieButtonActionPerformed
+                    // update selected user's stats vs opponent
+                    if (selected.getStats().pvpRecords.containsKey(opponent)) {
+                        selected.getStats().removeTie();
+                        selected.getStats().pvpRecords.get(opponent).removeTie();
+                    }
+                    // update opponent's stats vs selected user
+                    if (opponent.getStats().pvpRecords.containsKey(selected)) {
+                        opponent.getStats().removeTie();
+                        opponent.getStats().pvpRecords.get(selected).removeTie();
+                    }
+                    Main.storage.saveStorage();
+                    refreshStatsView();
+                }//GEN-LAST:event_pvpRemoveTieButtonActionPerformed
+
+                private void retireAdminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retireAdminButtonActionPerformed
+                    int selection = JOptionPane.showConfirmDialog(this, "Are you sure you want to retire the Administrator User?  A new Administrator can be set by selecting Administration from the Main Menu.");
+                    if (selection == 0) {
+                        admin.setAdmin(false);
+                        Main.storage.adminCreated = false;
+                        Main.storage.saveStorage();
+                        Main.restart();
+                        this.dispose();
+                    }
+                }//GEN-LAST:event_retireAdminButtonActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -764,13 +941,6 @@ public class AdminScreen extends javax.swing.JFrame
     private javax.swing.JRadioButton clearStatsButton;
     private javax.swing.JRadioButton deletePlayerButton;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -803,12 +973,19 @@ public class AdminScreen extends javax.swing.JFrame
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel losses;
     private javax.swing.JComboBox playerNameSelect;
+    private javax.swing.JButton pvpAddLossButton;
+    private javax.swing.JButton pvpAddTieButton;
+    private javax.swing.JButton pvpAddWinButton;
     private javax.swing.JLabel pvpLosses;
+    private javax.swing.JButton pvpRemoveLossButton;
+    private javax.swing.JButton pvpRemoveTieButton;
+    private javax.swing.JButton pvpRemoveWinButton;
     private javax.swing.JLabel pvpTies;
     private javax.swing.JLabel pvpWins;
     private javax.swing.JButton removeLossButton;
     private javax.swing.JButton removeTieButton;
     private javax.swing.JButton removeWinButton;
+    private javax.swing.JButton retireAdminButton;
     private javax.swing.JComboBox selectedOpponent;
     private javax.swing.JComboBox selectedPlayer;
     private javax.swing.JLabel ties;

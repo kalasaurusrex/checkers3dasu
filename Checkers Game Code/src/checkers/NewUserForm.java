@@ -204,7 +204,7 @@ public class NewUserForm extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2MouseClicked
     }
         private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-            this.setVisible(false);
+            this.dispose();
         }//GEN-LAST:event_jButton1MouseClicked
 
     /*

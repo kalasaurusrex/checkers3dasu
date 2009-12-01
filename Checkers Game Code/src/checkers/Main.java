@@ -53,13 +53,12 @@ public class Main
             System.exit(2);
         }
 	    
-        welcome = new WelcomeScreen();//.setVisible(true);
+        welcome = new WelcomeScreen();
         welcome.setVisible(true);
     }
 
     public static void restart()
     {
-        //welcome = new WelcomeScreen();//.setVisible(true);
         welcome.setVisible(true);
     }
 }
