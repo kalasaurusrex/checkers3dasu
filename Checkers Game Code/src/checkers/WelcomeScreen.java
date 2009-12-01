@@ -91,21 +91,18 @@ public class WelcomeScreen extends javax.swing.JFrame
         buttonGroup.add(LoadGameButton);
         LoadGameButton.setFont(oldEnglish_16);
         LoadGameButton.setText("Load Game");
-        LoadGameButton.setEnabled(true);
         getContentPane().add(LoadGameButton);
         LoadGameButton.setBounds(160, 120, 140, 24);
 
         buttonGroup.add(StatsButton);
         StatsButton.setFont(oldEnglish_16);
         StatsButton.setText("Statistics");
-        StatsButton.setEnabled(true);
         getContentPane().add(StatsButton);
         StatsButton.setBounds(160, 150, 140, 24);
 
         buttonGroup.add(AdminButton);
         AdminButton.setFont(oldEnglish_16);
         AdminButton.setText("Administration");
-        AdminButton.setEnabled(false);
         getContentPane().add(AdminButton);
         AdminButton.setBounds(160, 180, 140, 24);
 
@@ -138,28 +135,36 @@ public class WelcomeScreen extends javax.swing.JFrame
     }//GEN-LAST:event_ExitButtonActionPerformed
 
     private void NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextButtonActionPerformed
-        if (NewGameButton.isSelected())
-        {
+        if (NewGameButton.isSelected()) {
             //new GameScreen(10, "New Player 1", "New Player 2").setVisible(true);
             new LoginScreen(Main.NEW).setVisible(true);
             setVisible(false);
         }
 
         //Go to load game screen
-        if(LoadGameButton.isSelected())
-        {
+        if (LoadGameButton.isSelected()) {
             new LoadScreen().setVisible(true);
             setVisible(false);
         }
 
         //go to stat screen
-        if(StatsButton.isSelected())
-        {
-            new LoginScreen(Main.STATS).setVisible(true);
+        if (StatsButton.isSelected()) {
+            new StatScreen().setVisible(true);
             setVisible(false);
         }
+        if (AdminButton.isSelected()) {
+            // create NewAdminForm to accept a new adminstrator
+            if (!Main.storage.adminCreated) {
+                NewAdminForm newForm = new NewAdminForm(this, true);
+                newForm.setVisible(true);
+                setVisible(false);
+                // create AdminScreen to allow adminstrative functions
+            } else {
+                new AdminScreen().setVisible(true);
+                setVisible(false);
+            }
     }//GEN-LAST:event_NextButtonActionPerformed
-
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton AdminButton;
     private javax.swing.JButton ExitButton;
