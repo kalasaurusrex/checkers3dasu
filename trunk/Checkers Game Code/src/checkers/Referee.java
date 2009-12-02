@@ -47,10 +47,7 @@ public class Referee
                 start.getPosition().getColumn();
         int boardDifference = destination.getPosition().getBoard() -
                 start.getPosition().getBoard();
-        //boolean landedOnMine = false;
-
-        //if (!move.moreJumps())
-        //{
+        
             //check if the move is valid
             if (inList(movesList, dIndex))
                 move.setValidMove(true);
@@ -65,7 +62,6 @@ public class Referee
                         !game.getVisitorTurn()) || (!destination.getVisitorMine() &&
                         game.getVisitorTurn())))
                 {
-                    //landedOnMine = true;
                     move.setLandedOnMine(true);
                 }
 
@@ -78,8 +74,6 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                //move.addJump(squareArray[sIndex + halfBoard + oddDownRight]);
-
                                 if (squareArray[sIndex + halfBoard + oddDownRight].getPiece() != null &&
                                       squareArray[sIndex + halfBoard + oddDownRight].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -92,8 +86,6 @@ public class Referee
                             }
                             else
                             {
-                                //move.addJump(squareArray[sIndex + halfBoard + evenDownRight]);
-
                                 if (squareArray[sIndex + halfBoard + evenDownRight].getPiece() != null &&
                                       squareArray[sIndex + halfBoard + evenDownRight].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -109,8 +101,6 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                //move.addJump(squareArray[sIndex - (halfBoard - oddDownRight)]);
-
                                 if (squareArray[sIndex - halfBoard + oddDownRight].getPiece() != null &&
                                       squareArray[sIndex - halfBoard + oddDownRight].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -123,8 +113,6 @@ public class Referee
                             }
                             else
                             {
-                                //move.addJump(squareArray[sIndex - (halfBoard - evenDownRight)]);
-
                                 if (squareArray[sIndex - halfBoard + evenDownRight].getPiece() != null &&
                                       squareArray[sIndex - halfBoard + evenDownRight].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -150,8 +138,6 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                //move.addJump(squareArray[sIndex + halfBoard + oddDownLeft]);
-
                                 if (squareArray[sIndex + halfBoard + oddDownLeft].getPiece() != null &&
                                       squareArray[sIndex + halfBoard + oddDownLeft].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -164,8 +150,6 @@ public class Referee
                             }
                             else
                             {
-                                //move.addJump(squareArray[sIndex + halfBoard + evenDownLeft]);
-
                                 if (squareArray[sIndex + halfBoard + evenDownLeft].getPiece() != null &&
                                       squareArray[sIndex + halfBoard + evenDownLeft].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -181,8 +165,6 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                //move.addJump(squareArray[sIndex - (halfBoard - oddDownLeft)]);
-
                                 if (squareArray[sIndex - halfBoard + oddDownLeft].getPiece() != null &&
                                       squareArray[sIndex - halfBoard + oddDownLeft].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -195,8 +177,6 @@ public class Referee
                             }
                             else
                             {
-                                //move.addJump(squareArray[sIndex - (halfBoard - evenDownLeft)]);
-
                                 if (squareArray[sIndex - halfBoard + evenDownLeft].getPiece() != null &&
                                       squareArray[sIndex - halfBoard + evenDownLeft].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -225,8 +205,6 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                //move.addJump(squareArray[sIndex + halfBoard + oddUpRight]);
-
                                 if (squareArray[sIndex + halfBoard + oddUpRight].getPiece() != null &&
                                       squareArray[sIndex + halfBoard + oddUpRight].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -239,8 +217,6 @@ public class Referee
                             }
                             else
                             {
-                                //move.addJump(squareArray[sIndex + halfBoard + evenUpRight]);
-
                                 if (squareArray[sIndex + halfBoard + evenUpRight].getPiece() != null &&
                                       squareArray[sIndex + halfBoard + evenUpRight].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -256,8 +232,6 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                //move.addJump(squareArray[sIndex - (halfBoard - oddUpRight)]);
-
                                 if (squareArray[sIndex - halfBoard + oddUpRight].getPiece() != null &&
                                       squareArray[sIndex - halfBoard + oddUpRight].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -270,8 +244,6 @@ public class Referee
                             }
                             else
                             {
-                                //move.addJump(squareArray[sIndex - (halfBoard - evenUpRight)]);
-
                                 if (squareArray[sIndex - halfBoard + evenUpRight].getPiece() != null &&
                                       squareArray[sIndex - halfBoard + evenUpRight].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -297,8 +269,6 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1) //odd row
                             {
-                                //move.addJump(squareArray[sIndex + halfBoard + oddUpLeft]);
-
                                 if (squareArray[sIndex + halfBoard + oddUpLeft].getPiece() != null &&
                                       squareArray[sIndex + halfBoard + oddUpLeft].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -311,8 +281,6 @@ public class Referee
                             }
                             else //even row
                             {
-                                //move.addJump(squareArray[sIndex + halfBoard + evenUpLeft]);
-
                                 if (squareArray[sIndex + halfBoard + evenUpLeft].getPiece() != null &&
                                       squareArray[sIndex + halfBoard + evenUpLeft].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -328,8 +296,6 @@ public class Referee
                         {
                             if (start.getPosition().getRow() % 2 == 1)
                             {
-                                //move.addJump(squareArray[sIndex - (halfBoard - oddUpLeft)]);
-
                                 if (squareArray[sIndex - halfBoard + oddUpLeft].getPiece() != null &&
                                       squareArray[sIndex - halfBoard + oddUpLeft].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -342,8 +308,6 @@ public class Referee
                             }
                             else
                             {
-                                //move.addJump(squareArray[sIndex - (halfBoard - evenUpLeft)]);
-
                                 if (squareArray[sIndex - halfBoard + evenUpLeft].getPiece() != null &&
                                       squareArray[sIndex - halfBoard + evenUpLeft].getPiece().getColor() !=
                                       start.getPiece().getColor() &&
@@ -428,20 +392,7 @@ public class Referee
                     move.setWarp(true);
 
                 start.setPiece(null);
-
-                //if (move.jumpSize() == 0 || showJumps(destination).isEmpty())
-                //    toggleTurn();
             }
-            //invalid move
-//            else
-//            {
-//                move.clearMove();
-//            }
-
-//            if ((move.isValidMove() && (move.jumpSize() == 0 || showJumps(destination).isEmpty())) ||
-//                  (!move.isValidMove() && move.moreJumps()))
-//                toggleTurn();
-        //}
 
         return move;
     }
@@ -458,6 +409,31 @@ public class Referee
                 return true;
 
         return false;
+    }
+
+    //checks the entire board to see if there is a required jump to take
+    public ArrayList requiredJumps(Move move)
+    {
+        ArrayList<Square> requiredSquares = new ArrayList();
+        for (int i = 0; i < squareArray.length; i++)
+        {
+            if (squareArray[i].getPiece() != null)
+            {
+                //red (home) = 0; black (visitor) = 1
+                //checks the current player's turn and the color of the piece on the square
+                if ((squareArray[i].getPiece().getColor() == 1 && game.getVisitorTurn()) ||
+                        (squareArray[i].getPiece().getColor() == 0 && !game.getVisitorTurn()))
+                {
+                    //checks if the square has jumps available and adds it to the list.
+                    if (showJumps(squareArray[i], move).size() > 0)
+                        requiredSquares.add(squareArray[i]);
+                }
+            }
+        }
+        if (requiredSquares.size() > 0)
+            move.setRequiredJump(true);
+
+        return requiredSquares;
     }
 
     public void toggleTurn()
@@ -636,7 +612,8 @@ public class Referee
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (squareArray[index + evenUpLeft].getPiece() == null || !warpBlocked)
+                    if ((squareArray[index + evenUpLeft].getPiece() == null &&
+                            !squareArray[index + evenUpLeft].getBlocked()) || !warpBlocked)
                     {
                         if (piece instanceof King && index >= halfBoard &&
                           !squareArray[(index - halfBoard) + evenUpLeft].getBlocked()) //up and left on board 1
@@ -662,7 +639,8 @@ public class Referee
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (squareArray[index + evenUpRight].getPiece() == null || !warpBlocked)
+                    if ((squareArray[index + evenUpRight].getPiece() == null &&
+                            !squareArray[index + evenUpRight].getBlocked())|| !warpBlocked)
                     {
                         if (piece instanceof King && index >= halfBoard &&
                           !squareArray[(index - halfBoard) + evenUpRight].getBlocked()) //up and right on board 1
@@ -691,7 +669,8 @@ public class Referee
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (squareArray[index + evenDownLeft].getPiece() == null || !warpBlocked)
+                    if ((squareArray[index + evenDownLeft].getPiece() == null &&
+                            !squareArray[index + evenDownLeft].getBlocked()) || !warpBlocked)
                     {
                         if (piece instanceof King && index >= halfBoard &&
                           !squareArray[(index - halfBoard) + evenDownLeft].getBlocked()) //down and left on board 1
@@ -717,7 +696,8 @@ public class Referee
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (squareArray[index + evenDownRight].getPiece() == null || !warpBlocked)
+                    if ((squareArray[index + evenDownRight].getPiece() == null &&
+                            !squareArray[index + evenDownRight].getBlocked())|| !warpBlocked)
                     {
                         if (piece instanceof King && index >= halfBoard &&
                           !squareArray[(index - halfBoard) + evenDownRight].getBlocked()) //down and right on board 1
@@ -749,7 +729,8 @@ public class Referee
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (squareArray[index + oddUpLeft].getPiece() == null || !warpBlocked)
+                    if ((squareArray[index + oddUpLeft].getPiece() == null &&
+                            !squareArray[index + oddUpLeft].getBlocked())|| !warpBlocked)
                     {
                         if (piece instanceof King && index >= halfBoard &&
                           !squareArray[(index - halfBoard) + oddUpLeft].getBlocked()) //up and left on board 1
@@ -775,7 +756,8 @@ public class Referee
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (squareArray[index + oddUpRight].getPiece() == null || !warpBlocked)
+                    if ((squareArray[index + oddUpRight].getPiece() == null &&
+                            !squareArray[index + oddUpRight].getBlocked()) || !warpBlocked)
                     {
                         if (piece instanceof King && index >= halfBoard &&
                           !squareArray[(index - halfBoard) + oddUpRight].getBlocked()) //up and right on board 1
@@ -804,7 +786,8 @@ public class Referee
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (squareArray[index + oddDownLeft].getPiece() == null || !warpBlocked)
+                    if ((squareArray[index + oddDownLeft].getPiece() == null &&
+                            !squareArray[index + oddDownLeft].getBlocked()) || !warpBlocked)
                     {
                         if (piece instanceof King && index >= halfBoard &&
                           !squareArray[(index - halfBoard) + oddDownLeft].getBlocked()) //down and left on board 1
@@ -830,7 +813,8 @@ public class Referee
                     }
 
                     //if not blocked off check for available squares on other board
-                    if (squareArray[index + oddDownRight].getPiece() == null || !warpBlocked)
+                    if ((squareArray[index + oddDownRight].getPiece() == null &&
+                            !squareArray[index + oddDownRight].getBlocked()) || !warpBlocked)
                     {
                         if (piece instanceof King && index >= halfBoard &&
                           !squareArray[(index - halfBoard) + oddDownRight].getBlocked()) //down and right on board 1
