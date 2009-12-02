@@ -46,6 +46,7 @@ public class GameScreen extends javax.swing.JFrame
     Square secondSelectSetup;
     ArrayList<Square> availableMoves;
     ArrayList<Square> moreJumps;
+    ArrayList requiredJumps = new ArrayList();
     Random random;
 
     //load fonts
@@ -92,9 +93,11 @@ public class GameScreen extends javax.swing.JFrame
     ImageIcon background = new ImageIcon(getClass().getResource("/checkers/images/Background.png"));
     ImageIcon displayLabel = new ImageIcon(getClass().getResource("/checkers/images/DisplayLabel.png"));
 
-    /** Creates new form GameScreen */
+    //accepts a Game object and sets up the board accordingly.
+    //used for loading a  game
     public GameScreen(Game savedGame)
     {
+        //populate variables with vales from the saved game
         game = savedGame;
         square = game.getBoard();
         width = game.getWidth();
@@ -105,9 +108,9 @@ public class GameScreen extends javax.swing.JFrame
         move = new Move();
 
         initComponents();
-        //initBoard();
         initBackground();
 
+        //re-add the mouse listener to all the squares
         for (int i = 0; i < boardSize / 2; i++)
         {
             square[i].addMouseListener(new java.awt.event.MouseAdapter()
@@ -141,11 +144,13 @@ public class GameScreen extends javax.swing.JFrame
         initBoardExtras();
         initGamePlay();
 
-        //setup defaults to visitor's turn, so if it's home's turn, toggle player
+        //if it's home's turn, toggle player's turn
         if (!game.getVisitorTurn())
             togglePlayer();
     }
 
+    //set up the board.
+    //used for new games
     public GameScreen(int size, String player1, String player2)
     {
         width = size;
@@ -164,10 +169,14 @@ public class GameScreen extends javax.swing.JFrame
         initBoard();
 
         setVisible(true);
+
+        //find out which player is home/visitor
         coinToss(player1, player2);
+
         initBoardExtras();
-        
-        game = new Game(/*square, */width, visitorPlayer, homePlayer);
+
+        //initialize the objects that are used in game play
+        game = new Game(width, visitorPlayer, homePlayer);
         referee = new Referee(square, game);
         move = new Move();
         
@@ -427,7 +436,7 @@ public class GameScreen extends javax.swing.JFrame
         initGamePlay();
     }
 
-    //randomly determine the home and visitor player
+    //determine the home and visitor player
     private void coinToss(String player1, String player2)
     {
         CoinToss toss = new CoinToss(null, true, player1, player2);
@@ -447,32 +456,33 @@ public class GameScreen extends javax.swing.JFrame
             visitorPlayer = player1;
         }
 
+        //find out if the user would like to set up the board
+        //randomly or manually
         if (toss.randomSetup())
             randomSetup = true;
         else
             randomSetup = false;
     }
 
+    //setup the image for the background and the two boards.
     private void initBackground()
     {
+        BackgroundPane = new JLayeredPane();
+        BackgroundLabel = new JLabel();
         lBoardPane = new JLayeredPane();
         lBackgroundLabel = new JLabel();
         rBoardPane = new JLayeredPane();
         rBackgroundLabel = new JLabel();
 
-        //initialize the array of Squares
-        //square = new Square[boardSize];
-
-        BackgroundPane = new JLayeredPane();
-        BackgroundLabel = new JLabel();
+        //set up the background
         getContentPane().add(BackgroundPane);
         BackgroundPane.setBounds(0, 0, 888, 640);
         BackgroundPane.add(BackgroundLabel, -1);
         BackgroundLabel.setIcon(background);
         BackgroundLabel.setBounds(0, 0, 888, 640);
 
-        //set the size and location of the background labels and add them to
-        //the layered pane.
+        //set the size and location of the board background labels and
+        //add them to the layered pane.
         lBackgroundLabel.setBounds(0, 0, PIXELS * width, PIXELS * width);
         lBoardPane.add(lBackgroundLabel, JLayeredPane.DEFAULT_LAYER);
         BackgroundPane.add(lBoardPane, 0);
@@ -520,55 +530,9 @@ public class GameScreen extends javax.swing.JFrame
         int row = 1;
         int col = 2;
         boolean halfFlag = false;
-//        lBoardPane = new JLayeredPane();
-//        lBackgroundLabel = new JLabel();
-//        rBoardPane = new JLayeredPane();
-//        rBackgroundLabel = new JLabel();
-//
-//        //initialize the array of Squares
-//        square = new Square[boardSize];
-//
-//        BackgroundPane = new JLayeredPane();
-//        BackgroundLabel = new JLabel();
-//        getContentPane().add(BackgroundPane);
-//        BackgroundPane.setBounds(0, 0, 888, 640);
-//        BackgroundPane.add(BackgroundLabel, -1);
-//        BackgroundLabel.setIcon(background);
-//        BackgroundLabel.setBounds(0, 0, 888, 640);
-//
-//        //set the size and location of the background labels and add them to
-//        //the layered pane.
-//        lBackgroundLabel.setBounds(0, 0, PIXELS * width, PIXELS * width);
-//        lBoardPane.add(lBackgroundLabel, JLayeredPane.DEFAULT_LAYER);
-//        BackgroundPane.add(lBoardPane, 0);
-//        rBackgroundLabel.setBounds(0, 0, PIXELS * width, PIXELS * width);
-//        rBoardPane.add(rBackgroundLabel, JLayeredPane.DEFAULT_LAYER);
-//        BackgroundPane.add(rBoardPane, 0);
-//
-//        if (width == 10)
-//        {
-//            //define the placement of the 10x10 board
-//            lBoardPane.setBounds(12, 10, PIXELS * width, PIXELS * width);
-//            rBoardPane.setBounds(470, 180, PIXELS * width, PIXELS * width);
-//
-//            //add the background picture to the label
-//            lBackgroundLabel.setIcon(board10X10);
-//            rBackgroundLabel.setIcon(board10X10);
-//        }
-//        else if (width == 8)
-//        {
-//            //define the placement of the 8x8 board
-//            //the PIXELS offset is added in order to center the smaller board
-//            lBoardPane.setBounds(12 + PIXELS, 10 + PIXELS, PIXELS * width, PIXELS * width);
-//            rBoardPane.setBounds(470 + PIXELS, 180 + PIXELS, PIXELS * width, PIXELS * width);
-//
-//            //add the background picture to the label
-//            lBackgroundLabel.setIcon(board8X8);
-//            rBackgroundLabel.setIcon(board8X8);
-//        }
 
         //the vert and horiz values are manipulated in the 'for' loop to place
-        //the black squares between the red squares on the board
+        //the black squares between the red "dummy" squares on the board
         int vert = 0;
         int horiz = PIXELS;
 
@@ -639,32 +603,73 @@ public class GameScreen extends javax.swing.JFrame
     //recieve and manage "clicks" from the user on the GUI
     private void squareClicked(Square sq)
     {
-        //check if the game is in the board setup phase
+        //the board is in setup phase
         if (boardSetup)
             setupClicked(sq);
+        //the board is not in setup phase
         else
         {
+            //the user has not yet selected a piece to move
             if (firstSelectMove == null)
             {
+                //validate that the correct user is attempting to move one of
+                //his/her own pieces
                 if (referee.validateTurn(sq.getPiece()))
                 {
+                    //keep track of the first square selected
                     firstSelectMove = sq;
-                    
-                    availableMoves = referee.showMoves(sq, move);
 
-                    highlightMoves(availableMoves);
+                    //if the user is restricted by a required jump, make sure
+                    //they can only move pieces with a jump available
+                    if (move.requiredJump())
+                    {
+                        //validate that the selected square has a jump available
+                        if (requiredJumps.contains(sq))
+                        {
+                            //get and highlight the available jumps for the
+                            //selected square
+                            availableMoves = referee.showJumps(sq, move);
+                            highlightMoves(availableMoves);
+                        }
+                        //if the user selects a piece that does not have a jump
+                        //available, clear thier first selection and make them
+                        //start over
+                        else
+                            firstSelectMove = null;
+                    }
+                    //there are no required jumps
+                    else
+                    {
+                        //get and highlight the available moves for the selected
+                        //square
+                        availableMoves = referee.showMoves(sq, move);
+                        highlightMoves(availableMoves);
+                    }
                 }
             }
+            //the user has already selected the piece they would like to move
             else
             {
+                //keep track of the destination square
                 secondSelectMove = sq;
                 removeHighlights(availableMoves);
 
+                //send the selections to the Referee and recieve a new move
+                //object that will inform us of what decisions the referee
+                //made
                 move = referee.executeMove(firstSelectMove, secondSelectMove,
                         availableMoves, move);
 
+                //valid move
                 if (move.isValidMove())
                 {
+                    //if a valid move has occured remove the required jumps flag
+                    if (move.requiredJump())
+                    {
+                        move.setRequiredJump(false);
+                        removeHighlights(requiredJumps);
+                    }
+
                     //if there are multiple pieces that can be captured by a
                     //jump, let the user select which piece they would like
                     //to capture
@@ -673,6 +678,7 @@ public class GameScreen extends javax.swing.JFrame
                         setHighlight(move.getJump().get(0));
                         setHighlight(move.getJump().get(1));
 
+                        //use a dialog box to ask the user
                         Object[] options = {"Left Board", "Right Board"};
                         int n = JOptionPane.showOptionDialog(this,
                             "There are two possibilities for this move."
@@ -681,68 +687,91 @@ public class GameScreen extends javax.swing.JFrame
                             JOptionPane.QUESTION_MESSAGE, null, options,
                             options[1]);
 
-                        if (n == 0) //left board selected
+                        //left board selected
+                        if (n == 0) 
                         {
-                            //find out which piece is on the left board
-                            if (move.getJump().get(0).getIndex() < move.getJump().get(1).getIndex())
+                            //find out which piece is on the left board and
+                            //remove it
+                            if (move.getJump().get(0).getIndex() <
+                                    move.getJump().get(1).getIndex())
                                 referee.removePiece(move.getJump().get(0));
                             else
                                 referee.removePiece(move.getJump().get(1));
                         }
-                        else //right board selected
+                        //right board selected
+                        else 
                         {
-                            //find out which piece is on the right board
-                            if (move.getJump().get(0).getIndex() < move.getJump().get(1).getIndex())
+                            //find out which piece is on the right board and
+                            //remove it
+                            if (move.getJump().get(0).getIndex() <
+                                    move.getJump().get(1).getIndex())
                                 referee.removePiece(move.getJump().get(1));
                             else
                                 referee.removePiece(move.getJump().get(0));
                         }
 
+                        //update the board to reflect the decisions made
                         updateIcon(move.getJump().get(0));
                         updateIcon(move.getJump().get(1));
                         updateIcon(firstSelectMove);
                         updateIcon(secondSelectMove);
 
+                        //now that a jump has occured, the destination is the
+                        //start location for any multiple jump scenarios
                         firstSelectMove = secondSelectMove;
 
-                        //check for additional jumps
+                        //if the user landed on a mine or got kinged, the move
+                        //is over
                         if (move.landedOnMine() || move.gotKinged())
                             availableMoves.clear();
+                        //check for additional jumps
                         else
                             availableMoves = referee.showJumps(firstSelectMove, move);
 
+                        //allow for multiple jumps, if there are any available
                         if (!availableMoves.isEmpty())
                             move.setMoreJumps(true);
                         else
                             move.setMoreJumps(false);
                     }
+                    //normal jump scenario (only one available jump)
                     else if (move.jumpSize() == 1)
                     {
+                        //update the board to reflect that the jump has occured
                         updateIcon(move.getJump().get(0));
                         updateIcon(firstSelectMove);
                         updateIcon(secondSelectMove);
 
+                        //now that a jump has occured, the destination is the
+                        //start location for any multiple jump scenarios
                         firstSelectMove = secondSelectMove;
 
-                        //check for additional jumps
+                        //if the user landed on a mine or got kinged, the move
+                        //is over
                         if (move.landedOnMine()  || move.gotKinged())
                             availableMoves.clear();
+                        //check for additional jumps
                         else
                             availableMoves = referee.showJumps(firstSelectMove, move);
 
+                        //allow for multiple jumps, if there are any available
                         if (!availableMoves.isEmpty())
                             move.setMoreJumps(true);
                         else
                             move.setMoreJumps(false);
                     }
+                    //no jumps made
                     else
                     {
+                        //update the board to reflect that a move has occured
                         updateIcon(firstSelectMove);
                         updateIcon(secondSelectMove);
                     }
                 }
 
-                //toggle the turn and clear the move
+                //toggle the turn and clear the move if there was a valid move
+                //made with no additional jumps or if user has additional
+                //available jumps that they do not want to take
                 if((move.isValidMove() && !move.moreJumps()) ||
                       (!move.isValidMove() && move.moreJumps()))
                 {
@@ -750,91 +779,109 @@ public class GameScreen extends javax.swing.JFrame
                     storeMove();
                     referee.toggleTurn();
                     move.clearMove();
+
+                    //check for required jumps
+                    //handleRequiredJumps();
+                    requiredJumps = referee.requiredJumps(move);
+                    if (move.requiredJump())
+                        highlightMoves(requiredJumps);
                 }
 
+                //don't reset the start location when there are multiple jumps
                 if (!move.moreJumps())
                     firstSelectMove = null;
 
                 //allow multiple jumps on a single turn
                 if (move.moreJumps())
                     highlightMoves(availableMoves);
-                
+
                 move.clearJump();
             }
 
-            //check if the game is over
+            //***** check if the game is over *****//
+            //the home player has won the game
             if (move.getGameOver() == Main.HOME_WON)
             {
+                //inform the users that the game is over
                 JOptionPane.showMessageDialog(this, "GAME OVER!\n" +
                       homePlayer + " has won the game!", "Game Over",
                       JOptionPane.INFORMATION_MESSAGE, setupKingRed);
+
                 // update statistics based on the home player winning the game,
                 // and the visitor player losing the game
                 User homeUser = null;
                 User visitorUser = null;
-                for (User user : Main.storage.getUsers()) {
-                    if (user.getUserName().equals(homePlayer)) {
+                for (User user : Main.storage.getUsers())
+                {
+                    if (user.getUserName().equals(homePlayer)) 
                         homeUser = user;
-                    }
                 }
-                for (User user : Main.storage.getUsers()) {
-                    if (user.getUserName().equals(visitorPlayer)) {
+                for (User user : Main.storage.getUsers())
+                {
+                    if (user.getUserName().equals(visitorPlayer)) 
                         visitorUser = user;
-                    }
                 }
+
                 // record the win for the home player, and the loss for the
                 // visitor player
                 homeUser.getStats().addWin();
                 visitorUser.getStats().addLoss();
+
                 // update the players' pvp records
-                if (homeUser.getStats().pvpRecords.containsKey(visitorUser)) {
+                if (homeUser.getStats().pvpRecords.containsKey(visitorUser)) 
                    homeUser.getStats().pvpRecords.get(visitorUser).addWin();
-                } else {
+                else
                      homeUser.getStats().pvpRecords.put(visitorUser, new Record(1,0,0));
-                }
-                if (visitorUser.getStats().pvpRecords.containsKey(homeUser)) {
+
+                if (visitorUser.getStats().pvpRecords.containsKey(homeUser)) 
                     visitorUser.getStats().pvpRecords.get(homeUser).addLoss();
-                } else {
+                else
                     visitorUser.getStats().pvpRecords.put(homeUser, new Record(0,1,0));
-                }
+                
                 Main.storage.saveStorage();
                 Main.restart();
                 dispose();
             }
+            //the visitor player has won the game
             else if (move.getGameOver() == Main.VISITOR_WON)
             {
+                //inform the users that the game is over
                 JOptionPane.showMessageDialog(this, "GAME OVER!\n" +
                       visitorPlayer + " has won the game!", "Game Over",
                       JOptionPane.INFORMATION_MESSAGE, setupKingBlack);
+
                 // update statistics based on the visitor player winning the
                 // game, and the home player losing the game
                 User homeUser = null;
                 User visitorUser = null;
-                for (User user : Main.storage.getUsers()) {
-                    if (user.getUserName().equals(homePlayer)) {
+                for (User user : Main.storage.getUsers())
+                {
+                    if (user.getUserName().equals(homePlayer)) 
                         homeUser = user;
-                    }
                 }
-                for (User user : Main.storage.getUsers()) {
-                    if (user.getUserName().equals(visitorPlayer)) {
+
+                for (User user : Main.storage.getUsers())
+                {
+                    if (user.getUserName().equals(visitorPlayer)) 
                         visitorUser = user;
-                    }
                 }
+
                 // record the win for the visitor player, and the loss for the
                 // home player
                 visitorUser.getStats().addWin();
                 homeUser.getStats().addLoss();
+
                 // update the players' pvp records
-                if (homeUser.getStats().pvpRecords.containsKey(visitorUser)) {
+                if (homeUser.getStats().pvpRecords.containsKey(visitorUser)) 
                    homeUser.getStats().pvpRecords.get(visitorUser).addLoss();
-                } else {
+                else 
                      homeUser.getStats().pvpRecords.put(visitorUser, new Record(0,1,0));
-                }
-                if (visitorUser.getStats().pvpRecords.containsKey(homeUser)) {
+                
+                if (visitorUser.getStats().pvpRecords.containsKey(homeUser)) 
                     visitorUser.getStats().pvpRecords.get(homeUser).addWin();
-                } else {
+                 else 
                     visitorUser.getStats().pvpRecords.put(homeUser, new Record(1,0,0));
-                }
+                
                 Main.storage.saveStorage();
                 Main.restart();
                 dispose();
@@ -842,6 +889,8 @@ public class GameScreen extends javax.swing.JFrame
         }
     }
 
+    //store the current state of the board in an array of integers, each integer
+    //corresponding to a specific square icon
     public void storeMove()
     {
         int[] boardState = new int[boardSize];
@@ -878,6 +927,8 @@ public class GameScreen extends javax.swing.JFrame
     //toggle highlight of player whose turn it is
     public void togglePlayer()
     {
+        //if the visitor player is not currently bold, make it bold and
+        //unbold the home player
         if (visitorIconLabel.getBorder() == null)
         {
             visitorIconLabel.setBorder(BorderFactory.createEtchedBorder(
@@ -887,6 +938,8 @@ public class GameScreen extends javax.swing.JFrame
             homeIconLabel.setBorder(null);
             homeNameLabel.setFont(oldEnglish_16);
         }
+        //if the home player is not currently bold, make it bold and
+        //unbold the visitor player
         else
         {
             visitorIconLabel.setBorder(null);
@@ -901,51 +954,66 @@ public class GameScreen extends javax.swing.JFrame
     //update the icon on a square that has been manipulated by the referee
     private void updateIcon(Square square)
     {
+        //blocked square
         if (square.getBlocked())
-        {
             square.setIcon(squareBlocked);
-        }
-        else if (square.getSafe()) //is safe zone
+        //safe zone
+        else if (square.getSafe())
         {
-            if (square.getPiece() == null) //empty safe
+            //empty safe square
+            if (square.getPiece() == null)
                 square.setIcon(squareSafe);
+            //safe checker
             else if (square.getPiece() instanceof Checker)
             {
-                if (square.getPiece().getColor() == Main.BLACK)  //safe black checker
+                //safe black checker
+                if (square.getPiece().getColor() == Main.BLACK)
                     square.setIcon(safeCheckerBlack);
-                else  //safe red checker
+                //safe red checker
+                else  
                     square.setIcon(safeCheckerRed);
             }
+            //safe king
             else if (square.getPiece() instanceof King)
             {
-                if (square.getPiece().getColor() == Main.BLACK) //safe black king
+                //safe black king
+                if (square.getPiece().getColor() == Main.BLACK)
                     square.setIcon(safeKingBlack);
-                else //safe red king
+                //safe red king
+                else
                     square.setIcon(safeKingRed);
             }
         }
-        else //not safe zone
+        //regular square
+        else 
         {
-            if (square.getPiece() == null) //empty square
+            //empty square
+            if (square.getPiece() == null) 
                 square.setIcon(squareBlack);
+            //checker
             else if (square.getPiece() instanceof Checker)
             {
-                if (square.getPiece().getColor() == Main.BLACK)  //black checker
+                //black checker
+                if (square.getPiece().getColor() == Main.BLACK)
                     square.setIcon(checkerBlack);
-                else  //red checker
+                //red checker
+                else
                     square.setIcon(checkerRed);
             }
+            //king
             else if (square.getPiece() instanceof King)
             {
-                if (square.getPiece().getColor() == Main.BLACK) //black king
+                //black king
+                if (square.getPiece().getColor() == Main.BLACK)
                     square.setIcon(kingBlack);
-                else //red king
+                //red king
+                else
                     square.setIcon(kingRed);
             }
         }
     }
 
-    //highlight a list of moves that are provided by the referee
+    //highlight a list of moves
     private void highlightMoves(ArrayList<Square> moves)
     {
         if (moves != null)
@@ -953,7 +1021,7 @@ public class GameScreen extends javax.swing.JFrame
                 setHighlight(moves.get(i));
     }
 
-    //remove the highlights from a list of moves provided by the referee
+    //remove the highlights from a list of moves
     private void removeHighlights(ArrayList<Square> moves)
     {
         if (moves != null)
@@ -1036,7 +1104,7 @@ public class GameScreen extends javax.swing.JFrame
             square.setIcon(setupMine);
     }
 
-    //initialize objects that will be used in board setup, random placement and
+    //initialize objects that will be used in board setup and
     //normal game play
     private void initBoardExtras()
     {
@@ -1052,50 +1120,59 @@ public class GameScreen extends javax.swing.JFrame
         visitorIconLabel = new JLabel(setupCheckerBlack, JLabel.CENTER);
         visitorNameLabel = new JLabel(visitorPlayer);
 
+        //add the top-right message/button container
         BackgroundPane.add(lMessagePane, 0);
         lMessagePane.setBounds(40, 430, 340, 145);
 
+        //add the bottom-left message/button container
         BackgroundPane.add(rMessagePane, 0);
         rMessagePane.setBounds(500, 20, 340, 145);
 
+        //bottom-left image
         lMessageLabel.setIcon(displayLabel);
         lMessageLabel.setBounds(0, 0, 340, 145);
         lMessagePane.add(lMessageLabel, -1);
 
+        //bottom-left text label
         lTextLabel.setBounds(0, 0, 340, 145);
         lTextLabel.setFont(oldEnglish_20);
         lTextLabel.setHorizontalAlignment(SwingConstants.CENTER);
         lMessagePane.add(lTextLabel, 0);
 
+        //top-right image
         rMessageLabel.setIcon(displayLabel);
         rMessageLabel.setBounds(0, 0, 340, 145);
         rMessagePane.add(rMessageLabel, -1);
 
-        visitorIconLabel.setBounds(20, 20, 40, 40);
-        rMessagePane.add(visitorIconLabel, 0);
-        visitorIconLabel.setVisible(false);
-        visitorNameLabel.setBounds(65, 20, 275, 40);
-        rMessagePane.add(visitorNameLabel, 0);
-        visitorNameLabel.setVisible(false);
-
+        //set up the top-right container
         rPlayerLabel.setBounds(5,5,330,20);
         rPlayerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         rPlayerLabel.setFont(oldEnglish_16);
         rPlayerLabel.setText(visitorPlayer);
         rMessagePane.add(rPlayerLabel,0);
 
-        lPlayerLabel.setBounds(5,5,330,20);
-        lPlayerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        lPlayerLabel.setFont(oldEnglish_16);
-        lPlayerLabel.setText(homePlayer);
-        lMessagePane.add(lPlayerLabel,0);
-
+        //add visitor icon and label to top-right container
+        visitorIconLabel.setBounds(20, 20, 40, 40);
+        rMessagePane.add(visitorIconLabel, 0);
+        visitorIconLabel.setVisible(false);
+        visitorNameLabel.setBounds(65, 20, 275, 40);
+        rMessagePane.add(visitorNameLabel, 0);
+        visitorNameLabel.setVisible(false);
+        
+        //add home icon and label to top-right container
         homeIconLabel.setBounds(20, 75, 40, 40);
         rMessagePane.add(homeIconLabel, 0);
         homeIconLabel.setVisible(false);
         homeNameLabel.setBounds(65, 75, 275, 40);
         rMessagePane.add(homeNameLabel, 0);
         homeNameLabel.setVisible(false);
+
+        //add message label to bottom-left container
+        lPlayerLabel.setBounds(5,5,330,20);
+        lPlayerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        lPlayerLabel.setFont(oldEnglish_16);
+        lPlayerLabel.setText(homePlayer);
+        lMessagePane.add(lPlayerLabel,0);
     }
 
     //*********************** initialize board setup **********************//
@@ -1110,121 +1187,131 @@ public class GameScreen extends javax.swing.JFrame
     /////////////////////////////////////////////////////////////////////////
     private void initBoardSetup()
     {
+        //black checker
         placeVisitorChecker = new Square(new Position(0, 1, 1), NIL);
         placeVisitorChecker.setIcon(setupCheckerBlack);
         rMessagePane.add(placeVisitorChecker, 0);
         placeVisitorChecker.setBounds(80, 35, 40, 40);
         placeVisitorChecker.setToolTipText("Checker");
         placeVisitorChecker.addMouseListener(mouseAdapter);
-        
+        //black checker count
         visitorCheckerLabel = new JLabel();
         visitorCheckerLabel.setText("x " + visitorCheckers);
         rMessagePane.add(visitorCheckerLabel, 0);
         visitorCheckerLabel.setBounds(125, 45, 30, 20);
 
+        //black king
         placeVisitorKing = new Square(new Position(0, 1, 2), NIL);
         placeVisitorKing.setIcon(setupKingBlack);
         rMessagePane.add(placeVisitorKing, 0);
         placeVisitorKing.setBounds(200, 35, 40, 40);
         placeVisitorKing.setToolTipText("King");
         placeVisitorKing.addMouseListener(mouseAdapter);
-
+        //black king count
         visitorKingLabel = new JLabel();
         visitorKingLabel.setText("x " + visitorKings);
         rMessagePane.add(visitorKingLabel, 0);
         visitorKingLabel.setBounds(245, 45, 30, 20);
 
+        //visitor blocked
         placeVisitorBlocked = new Square(new Position(0, 2, 1), NIL);
         placeVisitorBlocked.setIcon(squareBlocked);
         rMessagePane.add(placeVisitorBlocked, 0);
         placeVisitorBlocked.setBounds(20, 85, 40, 40);
         placeVisitorBlocked.setToolTipText("Blocked Square");
         placeVisitorBlocked.addMouseListener(mouseAdapter);
-
+        //visitor blocked count
         visitorBlockedLabel = new JLabel();
         visitorBlockedLabel.setText("x " + visitorBlocked);
         rMessagePane.add(visitorBlockedLabel, 0);
         visitorBlockedLabel.setBounds(65, 95, 30, 20);
 
+        //visitor safe
         placeVisitorSafe = new Square(new Position(0, 2, 2), NIL);
         placeVisitorSafe.setIcon(squareSafe);
         rMessagePane.add(placeVisitorSafe, 0);
         placeVisitorSafe.setBounds(140, 85, 40, 40);
         placeVisitorSafe.setToolTipText("Safe Zone");
         placeVisitorSafe.addMouseListener(mouseAdapter);
-
+        //visitor safe count
         visitorSafeLabel = new JLabel();
         visitorSafeLabel.setText("x " + visitorSafe);
         rMessagePane.add(visitorSafeLabel, 0);
         visitorSafeLabel.setBounds(185, 95, 30, 20);
 
+        //visitor mine
         placeVisitorMine = new Square(new Position(0, 2, 3), NIL);
         placeVisitorMine.setIcon(setupMine);
         rMessagePane.add(placeVisitorMine, 0);
         placeVisitorMine.setBounds(260, 85, 40, 40);
         placeVisitorMine.setToolTipText("Smart Mine");
         placeVisitorMine.addMouseListener(mouseAdapter);
-
+        //visitor mine count
         visitorMineLabel = new JLabel();
         visitorMineLabel.setText("x " + visitorMines);
         rMessagePane.add(visitorMineLabel, 0);
         visitorMineLabel.setBounds(305, 95, 30, 20);
 
+        //red checker
         placeHomeChecker = new Square(new Position(0, 3, 1), NIL);
         placeHomeChecker.setIcon(setupCheckerRed);
         lMessagePane.add(placeHomeChecker, 0);
         placeHomeChecker.setBounds(80, 35, 40, 40);
         placeHomeChecker.setToolTipText("Checker");
         placeHomeChecker.addMouseListener(mouseAdapter);
-
+        //red checker count
         homeCheckerLabel = new JLabel();
         homeCheckerLabel.setText("x " + homeCheckers);
         lMessagePane.add(homeCheckerLabel, 0);
         homeCheckerLabel.setBounds(125, 45, 30, 20);
 
+        //red king
         placeHomeKing = new Square(new Position(0, 3, 2), NIL);
         placeHomeKing.setIcon(setupKingRed);
         lMessagePane.add(placeHomeKing, 0);
         placeHomeKing.setBounds(200, 35, 40, 40);
         placeHomeKing.setToolTipText("King");
         placeHomeKing.addMouseListener(mouseAdapter);
-
+        //red king count
         homeKingLabel = new JLabel();
         homeKingLabel.setText("x " + homeKings);
         lMessagePane.add(homeKingLabel, 0);
         homeKingLabel.setBounds(245, 45, 30, 20);
 
+        //home blocked
         placeHomeBlocked = new Square(new Position(0, 4, 1), NIL);
         placeHomeBlocked.setIcon(squareBlocked);
         lMessagePane.add(placeHomeBlocked, 0);
         placeHomeBlocked.setBounds(20, 85, 40, 40);
         placeHomeBlocked.setToolTipText("Blocked Square");
         placeHomeBlocked.addMouseListener(mouseAdapter);
-
+        //home blocked count
         homeBlockedLabel = new JLabel();
         homeBlockedLabel.setText("x " + homeBlocked);
         lMessagePane.add(homeBlockedLabel, 0);
         homeBlockedLabel.setBounds(65, 95, 30, 20);
 
+        //home safe
         placeHomeSafe = new Square(new Position(0, 4, 2), NIL);
         placeHomeSafe.setIcon(squareSafe);
         lMessagePane.add(placeHomeSafe, 0);
         placeHomeSafe.setBounds(140, 85, 40, 40);
         placeHomeSafe.setToolTipText("Safe Zone");
         placeHomeSafe.addMouseListener(mouseAdapter);
-
+        //home safe count
         homeSafeLabel = new JLabel();
         homeSafeLabel.setText("x " + homeSafe);
         lMessagePane.add(homeSafeLabel, 0);
         homeSafeLabel.setBounds(185, 95, 30, 20);
 
+        //home mine
         placeHomeMine = new Square(new Position(0, 4, 3), NIL);
         placeHomeMine.setIcon(setupMine);
         lMessagePane.add(placeHomeMine, 0);
         placeHomeMine.setBounds(260, 85, 40, 40);
         placeHomeMine.setToolTipText("Smart Mine");
         placeHomeMine.addMouseListener(mouseAdapter);
-
+        //home mine count
         homeMineLabel = new JLabel();
         homeMineLabel.setText("x " + homeMines);
         lMessagePane.add(homeMineLabel, 0);
@@ -1270,7 +1357,6 @@ public class GameScreen extends javax.swing.JFrame
         initGamePlay();
 
         //inform the user that the board setup phase is over
-        //javax.swing.UIManager.put("OptionPane.messageFont", oldEnglish_16);
         JOptionPane.showMessageDialog(this, "Board setup is complete!\n" +
               visitorPlayer + " has the first move.", "Board Setup",
               JOptionPane.INFORMATION_MESSAGE);
@@ -1298,15 +1384,11 @@ public class GameScreen extends javax.swing.JFrame
         rPlayerLabel.setVisible(false);
         lPlayerLabel.setVisible(false);
 
+        //add a message to the label
         lTextLabel.setText("Play game!");
 
+        //set the dialog font
         javax.swing.UIManager.put("OptionPane.messageFont", oldEnglish_16);
-
-//        //inform the user that the board setup phase is over
-//        javax.swing.UIManager.put("OptionPane.messageFont", oldEnglish_16);
-//        JOptionPane.showMessageDialog(this, "Board setup is complete!\n" +
-//              visitorPlayer + " has the first move.", "Board Setup",
-//              JOptionPane.INFORMATION_MESSAGE);
     }
 
     //handle mouse click on Squares
@@ -1686,17 +1768,20 @@ public class GameScreen extends javax.swing.JFrame
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
+    //display the instant replay screen
     private void replayMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replayMenuItemActionPerformed
         setVisible(false);
         new ReplayScreen(this, true, width, game.getMoves()).setVisible(true);
         setVisible(true);
     }//GEN-LAST:event_replayMenuItemActionPerformed
 
+    //close the game and go back to the welcome screen
     private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
         Main.restart();
         dispose();
     }//GEN-LAST:event_closeMenuItemActionPerformed
 
+    //save the game
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy_HHmmss");
@@ -1705,8 +1790,36 @@ public class GameScreen extends javax.swing.JFrame
         String fileName = visitorPlayer + "_vs_" + homePlayer + "_" + strDate + ".game";
 
         game.saveGame(square, fileName);
+
+        JOptionPane.showMessageDialog(this, "Save complete!\n" +
+              "File name: \n" + fileName, "Save Game",
+              JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
+    //allow a user to request a draw
+    private void drawMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawMenuItemActionPerformed
+        DrawDialog draw = new DrawDialog(this, true);
+        User visitorUser = null;
+        User homeUser = null;
+        for (User user : Main.storage.getUsers()) {
+            if (user.getUserName().equalsIgnoreCase(visitorPlayer)) {
+                visitorUser = user;
+            }
+        }
+        for (User user : Main.storage.getUsers()) {
+            if (user.getUserName().equalsIgnoreCase(homePlayer)) {
+                homeUser = user;
+            }
+        }
+        draw.visitorUser = visitorUser;
+        draw.homeUser = homeUser;
+        draw.setVisitorLabelText(visitorPlayer);
+        draw.setHomeLabelText(homePlayer);
+        draw.setVisible(true);
+
+    }//GEN-LAST:event_drawMenuItemActionPerformed
+
+    //allow a user to forfeit
     private void forfeitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forfeitMenuItemActionPerformed
         ForfeitDialog forfeit = new ForfeitDialog(this, true);
         User visitorUser = null;
@@ -1733,28 +1846,8 @@ public class GameScreen extends javax.swing.JFrame
             forfeit.setLabelIcon(false);
         }
         forfeit.setVisible(true);
+        
     }//GEN-LAST:event_forfeitMenuItemActionPerformed
-
-    private void drawMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawMenuItemActionPerformed
-        DrawDialog draw = new DrawDialog(this, true);
-        User visitorUser = null;
-        User homeUser = null;
-        for (User user : Main.storage.getUsers()) {
-            if (user.getUserName().equalsIgnoreCase(visitorPlayer)) {
-                visitorUser = user;
-            }
-        }
-        for (User user : Main.storage.getUsers()) {
-            if (user.getUserName().equalsIgnoreCase(homePlayer)) {
-                homeUser = user;
-            }
-        }
-        draw.visitorUser = visitorUser;
-        draw.homeUser = homeUser;
-        draw.setVisitorLabelText(visitorPlayer);
-        draw.setHomeLabelText(homePlayer);
-        draw.setVisible(true);
-    }//GEN-LAST:event_drawMenuItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar boardMenuBar;
