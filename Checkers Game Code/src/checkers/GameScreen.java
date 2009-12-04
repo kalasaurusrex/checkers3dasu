@@ -62,22 +62,30 @@ public class GameScreen extends javax.swing.JFrame
     ImageIcon hSquareBlack = new ImageIcon(getClass().getResource("/checkers/images/hSquareBlack.png"));
     ImageIcon checkerBlack = new ImageIcon(getClass().getResource("/checkers/images/CheckerBlack.png"));
     ImageIcon hCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/hCheckerBlack.png"));
+    ImageIcon rhCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/rhCheckerBlack.png"));
     ImageIcon checkerRed = new ImageIcon(getClass().getResource("/checkers/images/CheckerRed.png"));
     ImageIcon hCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/hCheckerRed.png"));
+    ImageIcon rhCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/rhCheckerRed.png"));
     ImageIcon kingBlack = new ImageIcon(getClass().getResource("/checkers/images/KingBlack.png"));
     ImageIcon hKingBlack = new ImageIcon(getClass().getResource("/checkers/images/hKingBlack.png"));
+    ImageIcon rhKingBlack = new ImageIcon(getClass().getResource("/checkers/images/rhKingBlack.png"));
     ImageIcon kingRed = new ImageIcon(getClass().getResource("/checkers/images/KingRed.png"));
     ImageIcon hKingRed = new ImageIcon(getClass().getResource("/checkers/images/hKingRed.png"));
+    ImageIcon rhKingRed = new ImageIcon(getClass().getResource("/checkers/images/rhKingRed.png"));
     ImageIcon squareSafe = new ImageIcon(getClass().getResource("/checkers/images/SquareSafe.png"));
     ImageIcon hSquareSafe = new ImageIcon(getClass().getResource("/checkers/images/hSquareSafe.png"));
     ImageIcon safeCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/SafeCheckerBlack.png"));
     ImageIcon hSafeCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/hSafeCheckerBlack.png"));
+    ImageIcon rhSafeCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/rhSafeCheckerBlack.png"));
     ImageIcon safeCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/SafeCheckerRed.png"));
     ImageIcon hSafeCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/hSafeCheckerRed.png"));
+    ImageIcon rhSafeCheckerRed = new ImageIcon(getClass().getResource("/checkers/images/rhSafeCheckerRed.png"));
     ImageIcon safeKingBlack = new ImageIcon(getClass().getResource("/checkers/images/SafeKingBlack.png"));
     ImageIcon hSafeKingBlack = new ImageIcon(getClass().getResource("/checkers/images/hSafeKingBlack.png"));
+    ImageIcon rhSafeKingBlack = new ImageIcon(getClass().getResource("/checkers/images/rhSafeKingBlack.png"));
     ImageIcon safeKingRed = new ImageIcon(getClass().getResource("/checkers/images/SafeKingRed.png"));
     ImageIcon hSafeKingRed = new ImageIcon(getClass().getResource("/checkers/images/hSafeKingRed.png"));
+    ImageIcon rhSafeKingRed = new ImageIcon(getClass().getResource("/checkers/images/rhSafeKingRed.png"));
     ImageIcon squareBlocked = new ImageIcon(getClass().getResource("/checkers/images/SquareBlocked.png"));
     ImageIcon hSquareBlocked = new ImageIcon(getClass().getResource("/checkers/images/hSquareBlocked.png"));
     ImageIcon setupCheckerBlack = new ImageIcon(getClass().getResource("/checkers/images/PieceCheckerBlack.png"));
@@ -92,6 +100,7 @@ public class GameScreen extends javax.swing.JFrame
     ImageIcon hSetupMine = new ImageIcon(getClass().getResource("/checkers/images/hMine.png"));
     ImageIcon background = new ImageIcon(getClass().getResource("/checkers/images/Background.png"));
     ImageIcon displayLabel = new ImageIcon(getClass().getResource("/checkers/images/DisplayLabel.png"));
+    ImageIcon explosion = new ImageIcon(getClass().getResource("/checkers/images/Flame.png"));
 
     //accepts a Game object and sets up the board accordingly.
     //used for loading a  game
@@ -663,11 +672,14 @@ public class GameScreen extends javax.swing.JFrame
                 //valid move
                 if (move.isValidMove())
                 {
+                    //remove message
+                    lTextLabel.setText("");
+                    
                     //if a valid move has occured remove the required jumps flag
                     if (move.requiredJump())
                     {
                         move.setRequiredJump(false);
-                        removeHighlights(requiredJumps);
+                        removeRedHighlights(requiredJumps);
                     }
 
                     //if there are multiple pieces that can be captured by a
@@ -748,15 +760,21 @@ public class GameScreen extends javax.swing.JFrame
 
                         //if the user landed on a mine or got kinged, the move
                         //is over
-                        if (move.landedOnMine()  || move.gotKinged())
+                        if (move.landedOnMine())
                             availableMoves.clear();
+                        else if (move.gotKinged())                        
+                            availableMoves.clear();
+
                         //check for additional jumps
                         else
                             availableMoves = referee.showJumps(firstSelectMove, move);
 
                         //allow for multiple jumps, if there are any available
                         if (!availableMoves.isEmpty())
+                        {
                             move.setMoreJumps(true);
+                            lTextLabel.setText("Additional jump(s) available!");
+                        }
                         else
                             move.setMoreJumps(false);
                     }
@@ -768,6 +786,18 @@ public class GameScreen extends javax.swing.JFrame
                         updateIcon(secondSelectMove);
                     }
                 }
+
+                //provide feedback to user
+                if (move.landedOnMine())
+                {
+                    lTextLabel.setText("Smart Mine!");
+
+                    //show smart mine explosion
+                    //animateExplosion(secondSelectMove);
+                }
+                else if (move.gotKinged())
+                   lTextLabel.setText("Kinged!");
+
 
                 //toggle the turn and clear the move if there was a valid move
                 //made with no additional jumps or if user has additional
@@ -781,10 +811,12 @@ public class GameScreen extends javax.swing.JFrame
                     move.clearMove();
 
                     //check for required jumps
-                    //handleRequiredJumps();
                     requiredJumps = referee.requiredJumps(move);
                     if (move.requiredJump())
-                        highlightMoves(requiredJumps);
+                    {
+                        redHighlightMoves(requiredJumps);
+                        lTextLabel.setText("Required jump(s)!");
+                    }
                 }
 
                 //don't reset the start location when there are multiple jumps
@@ -889,6 +921,40 @@ public class GameScreen extends javax.swing.JFrame
         }
     }
 
+    public void animateExplosion(Square sq)
+    {
+        sq.setIcon(explosion);
+        pause();
+        
+        sq.setIcon(squareBlack);
+    }
+
+    public void pause()
+    {
+        try
+        {
+            // Sleep at least n milliseconds.
+            // 1 millisecond = 1/1000 of a second.
+            Thread.sleep(1000);
+        }
+        catch ( InterruptedException e )
+        {
+            System.out.println( "awakened prematurely" );
+
+            // If you want to simulate the interrupt happening
+            // just after awakening, use the following line
+            // so that our NEXT sleep or wait
+            // will be interrupted immediately.
+            // Thread.currentThread().interrupt();
+            // Or have have same other thread awaken us:
+            // Thread us;
+            // ...
+            // us = Thread.currentThread();
+            // ...
+            // us.interrupt();
+        }
+    }
+
     //store the current state of the board in an array of integers, each integer
     //corresponding to a specific square icon
     public void storeMove()
@@ -952,63 +1018,63 @@ public class GameScreen extends javax.swing.JFrame
     }
 
     //update the icon on a square that has been manipulated by the referee
-    private void updateIcon(Square square)
+    private void updateIcon(Square sq)
     {
         //blocked square
-        if (square.getBlocked())
-            square.setIcon(squareBlocked);
+        if (sq.getBlocked())
+            sq.setIcon(squareBlocked);
         //safe zone
-        else if (square.getSafe())
+        else if (sq.getSafe())
         {
             //empty safe square
-            if (square.getPiece() == null)
-                square.setIcon(squareSafe);
+            if (sq.getPiece() == null)
+                sq.setIcon(squareSafe);
             //safe checker
-            else if (square.getPiece() instanceof Checker)
+            else if (sq.getPiece() instanceof Checker)
             {
                 //safe black checker
-                if (square.getPiece().getColor() == Main.BLACK)
-                    square.setIcon(safeCheckerBlack);
+                if (sq.getPiece().getColor() == Main.BLACK)
+                    sq.setIcon(safeCheckerBlack);
                 //safe red checker
                 else  
-                    square.setIcon(safeCheckerRed);
+                    sq.setIcon(safeCheckerRed);
             }
             //safe king
-            else if (square.getPiece() instanceof King)
+            else if (sq.getPiece() instanceof King)
             {
                 //safe black king
-                if (square.getPiece().getColor() == Main.BLACK)
-                    square.setIcon(safeKingBlack);
+                if (sq.getPiece().getColor() == Main.BLACK)
+                    sq.setIcon(safeKingBlack);
                 //safe red king
                 else
-                    square.setIcon(safeKingRed);
+                    sq.setIcon(safeKingRed);
             }
         }
         //regular square
         else 
         {
             //empty square
-            if (square.getPiece() == null) 
-                square.setIcon(squareBlack);
+            if (sq.getPiece() == null)
+                sq.setIcon(squareBlack);
             //checker
-            else if (square.getPiece() instanceof Checker)
+            else if (sq.getPiece() instanceof Checker)
             {
                 //black checker
-                if (square.getPiece().getColor() == Main.BLACK)
-                    square.setIcon(checkerBlack);
+                if (sq.getPiece().getColor() == Main.BLACK)
+                    sq.setIcon(checkerBlack);
                 //red checker
                 else
-                    square.setIcon(checkerRed);
+                    sq.setIcon(checkerRed);
             }
             //king
-            else if (square.getPiece() instanceof King)
+            else if (sq.getPiece() instanceof King)
             {
                 //black king
-                if (square.getPiece().getColor() == Main.BLACK)
-                    square.setIcon(kingBlack);
+                if (sq.getPiece().getColor() == Main.BLACK)
+                    sq.setIcon(kingBlack);
                 //red king
                 else
-                    square.setIcon(kingRed);
+                    sq.setIcon(kingRed);
             }
         }
     }
@@ -1021,6 +1087,14 @@ public class GameScreen extends javax.swing.JFrame
                 setHighlight(moves.get(i));
     }
 
+    //highlight in red a list of moves
+    private void redHighlightMoves(ArrayList<Square> moves)
+    {
+        if (moves != null)
+            for (int i = 0; i < moves.size(); i++)
+                setRedHighlight(moves.get(i));
+    }
+
     //remove the highlights from a list of moves
     private void removeHighlights(ArrayList<Square> moves)
     {
@@ -1029,79 +1103,129 @@ public class GameScreen extends javax.swing.JFrame
                 removeHighlight(moves.get(i));
     }
 
-    //highlight a given square
-    private void setHighlight(Square square)
+    //remove the red highlights from a list of moves
+    private void removeRedHighlights(ArrayList<Square> moves)
     {
-        if(square.getIcon() == squareBlack)
-            square.setIcon(hSquareBlack);
-        else if (square.getIcon() == checkerBlack)
-            square.setIcon(hCheckerBlack);
-        else if (square.getIcon() == kingBlack)
-            square.setIcon(hKingBlack);
-        else if (square.getIcon() == checkerRed)
-            square.setIcon(hCheckerRed);
-        else if (square.getIcon() == kingRed)
-            square.setIcon(hKingRed);
-        else if (square.getIcon() == squareSafe)
-            square.setIcon(hSquareSafe);
-        else if (square.getIcon() == safeCheckerBlack)
-            square.setIcon(hSafeCheckerBlack);
-        else if (square.getIcon() == safeKingBlack)
-            square.setIcon(hSafeKingBlack);
-        else if (square.getIcon() == safeCheckerRed)
-            square.setIcon(hSafeCheckerRed);
-        else if (square.getIcon() == safeKingRed)
-            square.setIcon(hSafeKingRed);
-        else if (square.getIcon() == squareBlocked)
-            square.setIcon(hSquareBlocked);
-        else if (square.getIcon() == setupCheckerBlack)
-            square.setIcon(hSetupCheckerBlack);
-        else if (square.getIcon() == setupKingBlack)
-            square.setIcon(hSetupKingBlack);
-        else if (square.getIcon() == setupCheckerRed)
-            square.setIcon(hSetupCheckerRed);
-        else if (square.getIcon() == setupKingRed)
-            square.setIcon(hSetupKingRed);
-        else if (square.getIcon() == setupMine)
-            square.setIcon(hSetupMine);
+        if (moves != null)
+            for (int i = 0; i < moves.size(); i++)
+                removeRedHighlight(moves.get(i));
+    }
+
+    //highlight a given square
+    private void setHighlight(Square sq)
+    {
+        if(sq.getIcon() == squareBlack)
+            sq.setIcon(hSquareBlack);
+        else if (sq.getIcon() == checkerBlack)
+            sq.setIcon(hCheckerBlack);
+        else if (sq.getIcon() == kingBlack)
+            sq.setIcon(hKingBlack);
+        else if (sq.getIcon() == checkerRed)
+            sq.setIcon(hCheckerRed);
+        else if (sq.getIcon() == kingRed)
+            sq.setIcon(hKingRed);
+        else if (sq.getIcon() == squareSafe)
+            sq.setIcon(hSquareSafe);
+        else if (sq.getIcon() == safeCheckerBlack)
+            sq.setIcon(hSafeCheckerBlack);
+        else if (sq.getIcon() == safeKingBlack)
+            sq.setIcon(hSafeKingBlack);
+        else if (sq.getIcon() == safeCheckerRed)
+            sq.setIcon(hSafeCheckerRed);
+        else if (sq.getIcon() == safeKingRed)
+            sq.setIcon(hSafeKingRed);
+        else if (sq.getIcon() == squareBlocked)
+            sq.setIcon(hSquareBlocked);
+        else if (sq.getIcon() == setupCheckerBlack)
+            sq.setIcon(hSetupCheckerBlack);
+        else if (sq.getIcon() == setupKingBlack)
+            sq.setIcon(hSetupKingBlack);
+        else if (sq.getIcon() == setupCheckerRed)
+            sq.setIcon(hSetupCheckerRed);
+        else if (sq.getIcon() == setupKingRed)
+            sq.setIcon(hSetupKingRed);
+        else if (sq.getIcon() == setupMine)
+            sq.setIcon(hSetupMine);
 
     }
 
-    //remove the highlight from a given square
-    private void removeHighlight(Square square)
+    //highlight in red a given square
+    private void setRedHighlight(Square sq)
     {
-        if(square.getIcon() == hSquareBlack)
-            square.setIcon(squareBlack);
-        else if (square.getIcon() == hCheckerBlack)
-            square.setIcon(checkerBlack);
-        else if (square.getIcon() == hKingBlack)
-            square.setIcon(kingBlack);
-        else if (square.getIcon() == hCheckerRed)
-            square.setIcon(checkerRed);
-        else if (square.getIcon() == hKingRed)
-            square.setIcon(kingRed);
-        else if (square.getIcon() == hSquareSafe)
-            square.setIcon(squareSafe);
-        else if (square.getIcon() == hSafeCheckerBlack)
-            square.setIcon(safeCheckerBlack);
-        else if (square.getIcon() == hSafeKingBlack)
-            square.setIcon(safeKingBlack);
-        else if (square.getIcon() == hSafeCheckerRed)
-            square.setIcon(safeCheckerRed);
-        else if (square.getIcon() == hSafeKingRed)
-            square.setIcon(safeKingRed);
-        else if (square.getIcon() == hSquareBlocked)
-            square.setIcon(squareBlocked);
-        else if (square.getIcon() == hSetupCheckerBlack)
-            square.setIcon(setupCheckerBlack);
-        else if (square.getIcon() == hSetupKingBlack)
-            square.setIcon(setupKingBlack);
-        else if (square.getIcon() == hSetupCheckerRed)
-            square.setIcon(setupCheckerRed);
-        else if (square.getIcon() == hSetupKingRed)
-            square.setIcon(setupKingRed);
-        else if (square.getIcon() == hSetupMine)
-            square.setIcon(setupMine);
+        if (sq.getIcon() == checkerBlack)
+            sq.setIcon(rhCheckerBlack);
+        else if (sq.getIcon() == kingBlack)
+            sq.setIcon(rhKingBlack);
+        else if (sq.getIcon() == checkerRed)
+            sq.setIcon(rhCheckerRed);
+        else if (sq.getIcon() == kingRed)
+            sq.setIcon(rhKingRed);
+        else if (sq.getIcon() == safeCheckerBlack)
+            sq.setIcon(rhSafeCheckerBlack);
+        else if (sq.getIcon() == safeKingBlack)
+            sq.setIcon(rhSafeKingBlack);
+        else if (sq.getIcon() == safeCheckerRed)
+            sq.setIcon(rhSafeCheckerRed);
+        else if (sq.getIcon() == safeKingRed)
+            sq.setIcon(rhSafeKingRed);
+    }
+
+    //remove the highlight from a given square
+    private void removeHighlight(Square sq)
+    {
+        if(sq.getIcon() == hSquareBlack)
+            sq.setIcon(squareBlack);
+        else if (sq.getIcon() == hCheckerBlack)
+            sq.setIcon(checkerBlack);
+        else if (sq.getIcon() == hKingBlack)
+            sq.setIcon(kingBlack);
+        else if (sq.getIcon() == hCheckerRed)
+            sq.setIcon(checkerRed);
+        else if (sq.getIcon() == hKingRed)
+            sq.setIcon(kingRed);
+        else if (sq.getIcon() == hSquareSafe)
+            sq.setIcon(squareSafe);
+        else if (sq.getIcon() == hSafeCheckerBlack)
+            sq.setIcon(safeCheckerBlack);
+        else if (sq.getIcon() == hSafeKingBlack)
+            sq.setIcon(safeKingBlack);
+        else if (sq.getIcon() == hSafeCheckerRed)
+            sq.setIcon(safeCheckerRed);
+        else if (sq.getIcon() == hSafeKingRed)
+            sq.setIcon(safeKingRed);
+        else if (sq.getIcon() == hSquareBlocked)
+            sq.setIcon(squareBlocked);
+        else if (sq.getIcon() == hSetupCheckerBlack)
+            sq.setIcon(setupCheckerBlack);
+        else if (sq.getIcon() == hSetupKingBlack)
+            sq.setIcon(setupKingBlack);
+        else if (sq.getIcon() == hSetupCheckerRed)
+            sq.setIcon(setupCheckerRed);
+        else if (sq.getIcon() == hSetupKingRed)
+            sq.setIcon(setupKingRed);
+        else if (sq.getIcon() == hSetupMine)
+            sq.setIcon(setupMine);
+    }
+
+    //remove the red highlight from a given square
+    private void removeRedHighlight(Square sq)
+    {
+        if (sq.getIcon() == rhCheckerBlack)
+            sq.setIcon(checkerBlack);
+        else if (sq.getIcon() == rhKingBlack)
+            sq.setIcon(kingBlack);
+        else if (sq.getIcon() == rhCheckerRed)
+            sq.setIcon(checkerRed);
+        else if (sq.getIcon() == rhKingRed)
+            sq.setIcon(kingRed);
+        else if (sq.getIcon() == rhSafeCheckerBlack)
+            sq.setIcon(safeCheckerBlack);
+        else if (sq.getIcon() == rhSafeKingBlack)
+            sq.setIcon(safeKingBlack);
+        else if (sq.getIcon() == rhSafeCheckerRed)
+            sq.setIcon(safeCheckerRed);
+        else if (sq.getIcon() == rhSafeKingRed)
+            sq.setIcon(safeKingRed);
     }
 
     //initialize objects that will be used in board setup and
@@ -1531,20 +1655,33 @@ public class GameScreen extends javax.swing.JFrame
         }
     }
 
-    //receive and manage "clicks" from the user during setup phase
-    private void setupClicked(Square square)
+    //receive and manage "clicks" from the user during board setup phase
+    private void setupClicked(Square sq)
     {
         //check if a first selection has been made
-        if (firstSelectSetup != null)
+        if (firstSelectSetup == null)
         {
-            secondSelectSetup = square;
+            if (sq.isEnabled() && referee.verifySelection(sq))
+            {
+                firstSelectSetup = sq;
+
+                setHighlight(sq);
+
+                //highlight the rows where pieces can be placed
+                highlightSetup(sq);
+            }
+        }
+        else
+        {
+            secondSelectSetup = sq;
 
             //remove the highlight after every selection, regardless of whether
             //or not it is valid
             removeHighlight(firstSelectSetup);
             removeHighlight(secondSelectSetup);
+            removeSetupHighlight(firstSelectSetup);
 
-            if (square.isEnabled() && referee.executePlacement(firstSelectSetup, secondSelectSetup))
+            if (sq.isEnabled() && referee.executePlacement(firstSelectSetup, secondSelectSetup))
             {
                 updateSetupIcons(firstSelectSetup.getPosition(), secondSelectSetup);
 
@@ -1561,18 +1698,92 @@ public class GameScreen extends javax.swing.JFrame
 
             firstSelectSetup = null;
         }
-        else
-        {
-            if (square.isEnabled() && referee.verifySelection(square))
-            {
-                firstSelectSetup = square;
+    }
 
-                setHighlight(square);
+    //highlight the rows where the selected piece can be placed on the board
+    private void highlightSetup(Square sq)
+    {
+        //visitor king or checker selected
+        if (sq.getPosition().getRow() == 1)
+        {
+            for (int i = 0; i < square.length; i++)
+            {
+                if (square[i].getPosition().getRow() <= 3)
+                    setHighlight(square[i]);
+            }
+        }
+        //visitor blocked square, safe zone or smart mine selected
+        if (sq.getPosition().getRow() == 2)
+        {
+            for (int i = 0; i < square.length; i++)
+            {
+                if (square[i].getPosition().getRow() <= width / 2)
+                    setHighlight(square[i]);
+            }
+        }
+        //home king or checker selected
+        if (sq.getPosition().getRow() == 3)
+        {
+            for (int i = 0; i < square.length; i++)
+            {
+                if (square[i].getPosition().getRow() > width - 3)
+                    setHighlight(square[i]);
+            }
+        }
+        //home blocked square, safe zone or smart mine selected
+        if (sq.getPosition().getRow() == 4)
+        {
+            for (int i = 0; i < square.length; i++)
+            {
+                if (square[i].getPosition().getRow() > width / 2)
+                    setHighlight(square[i]);
             }
         }
     }
 
-        private void toggleSetupTurn()
+    //remove the highlighted rows during board setup
+    private void removeSetupHighlight(Square sq)
+    {
+        //visitor king or checker selected
+        if (sq.getPosition().getRow() == 1)
+        {
+            for (int i = 0; i < square.length; i++)
+            {
+                if (square[i].getPosition().getRow() <= 3)
+                    removeHighlight(square[i]);
+            }
+        }
+        //visitor blocked square, safe zone or smart mine selected
+        if (sq.getPosition().getRow() == 2)
+        {
+            for (int i = 0; i < square.length; i++)
+            {
+                if (square[i].getPosition().getRow() <= width / 2)
+                    removeHighlight(square[i]);
+            }
+        }
+        //home king or checker selected
+        if (sq.getPosition().getRow() == 3)
+        {
+            for (int i = 0; i < square.length; i++)
+            {
+                if (square[i].getPosition().getRow() > width - 3)
+                    removeHighlight(square[i]);
+            }
+        }
+        //home blocked square, safe zone or smart mine selected
+        if (sq.getPosition().getRow() == 4)
+        {
+            for (int i = 0; i < square.length; i++)
+            {
+                if (square[i].getPosition().getRow() > width / 2)
+                    removeHighlight(square[i]);
+            }
+        }
+    }
+
+    //toggle the availability of the setup icons
+    private void toggleSetupTurn()
     {
         if (visitorCheckerLabel.isEnabled())
         {
