@@ -793,7 +793,7 @@ public class GameScreen extends javax.swing.JFrame
                     lTextLabel.setText("Smart Mine!");
 
                     //show smart mine explosion
-                    //animateExplosion(secondSelectMove);
+                    animateExplosion(secondSelectMove);
                 }
                 else if (move.gotKinged())
                    lTextLabel.setText("Kinged!");
