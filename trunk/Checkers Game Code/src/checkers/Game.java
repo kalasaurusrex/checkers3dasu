@@ -13,10 +13,10 @@ public class Game implements Serializable
     private boolean visitorTurn;
     private ArrayList<int[]> movesList;
 
-    public Game (/*Square[] s, */int w, String v, String h)
+    //constructor for new Game object
+    public Game (int w, String v, String h)
     {
         visitorTurn = true;
-        //square = s;
         visitor = v;
         home = h;
         width = w;
@@ -29,88 +29,97 @@ public class Game implements Serializable
         movesList = new ArrayList();
     }
 
+    //empty constructor for Serializable
     public Game()
     {
 
     }
 
+    //get the home player's name
     public String getHome ()
     {
         return home;
     }
 
-    public void setHome (String val)
-    {
-        this.home = val;
-    }
-
+    //get the visitor player's name
     public String getVisitor ()
     {
         return visitor;
     }
 
-    public void setVisitor (String val)
-    {
-        this.visitor = val;
-    }
-
+    //find out who's turn it is
     public boolean getVisitorTurn ()
     {
         return visitorTurn;
     }
 
+    //set the turn
     public void setVisitorTurn (boolean val)
     {
         this.visitorTurn = val;
     }
 
+    //subtract 1 from visitor's piece count
     public void decVisitorPieces()
     {
         visitorPieces--;
     }
 
+    //get visitor's piece count
     public int getVisitorPieces()
     {
         return visitorPieces;
     }
 
+    //subtract 1 from home's piece count
     public void decHomePieces()
     {
         homePieces--;
     }
 
+    //get visitor's piece count
     public int getHomePieces()
     {
         return homePieces;
     }
 
+    //store the state of the board
     public void storeMove (int[] m)
     {
         movesList.add(m);
     }
 
+    //return the list of moves
     public ArrayList getMoves ()
     {
         return movesList;
     }
 
+    //return the width of the board
     public int getWidth()
     {
         return width;
     }
 
+    //return the array of squares that comprises the board
     public Square[] getBoard()
     {
         return board;
     }
 
+    //save the Game object as a Serializable file
     public void saveGame(Square[] b, String fileName)
     {
         board = b;
 
         try
         {
-            FileOutputStream fos = new FileOutputStream(fileName);
+            //if the "games" directory doesn't exist, create one
+            new File (new File(".").getCanonicalPath() + File.separator + "games").mkdir();
+            
+            String filePath =new File(".").getCanonicalPath() + File.separator + "games";
+            FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName);
+            System.out.println(fos);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(this);
             oos.close();
@@ -123,7 +132,6 @@ public class Game implements Serializable
         catch (IOException ioe)
         {
             System.out.println("IO Exception");
-            ioe.printStackTrace();
         }
     }
 }

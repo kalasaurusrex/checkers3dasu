@@ -58,7 +58,8 @@ public class LoadScreen extends javax.swing.JFrame
         {
         //set the current directory so that it is always where the saved games
         //are.
-        File file = new File (new File(".").getCanonicalPath());
+        File file = new File (new File(".").getCanonicalPath() + File.separator + "games");
+        System.out.println(file.getCanonicalPath() + File.separator + "games");
         GameLoader.setCurrentDirectory(file);
         }
         

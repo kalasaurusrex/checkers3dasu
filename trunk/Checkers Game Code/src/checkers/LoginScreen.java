@@ -13,8 +13,6 @@ package checkers;
 
 import java.util.*;
 import javax.swing.*;
-import javax.naming.*;
-import java.security.InvalidParameterException;
 import java.io.*;
 import java.awt.Font;
 
@@ -28,16 +26,10 @@ import java.awt.Font;
 // statistics version requires only a single player to log in.
 public class LoginScreen extends javax.swing.JFrame
 {
-    private static final int NEW = 0;
-    private static final int ADMIN = 1;
-    private static final int STATS = 2;
-
     private User homePlayer;
     private User visitorPlayer;
     private boolean player1LoggedIn = false;
     private boolean player2LoggedIn = false;
-    private int boardSize;
-    private String input;
 
     //load the Old English font with a given size and type
     private Font loadFont(int type, float size)
@@ -45,9 +37,9 @@ public class LoginScreen extends javax.swing.JFrame
         Font font = null;
         try
         {
-            InputStream input =
+            InputStream oldEnglish =
                             this.getClass().getResourceAsStream("/OLDENGL.TTF");
-            font = Font.createFont(Font.PLAIN, input).deriveFont(type, size);
+            font = Font.createFont(Font.PLAIN, oldEnglish).deriveFont(type, size);
         }
         catch (Exception e)
         {
@@ -69,29 +61,7 @@ public class LoginScreen extends javax.swing.JFrame
     {
         initComponents();
     }
-    // constructor used to create a new LoginScreen.  the constants NEW, ADMIN,
-    // and STATS are used to create different versions of the LoginScreen,
-    // depending on the application.
 
-    public LoginScreen(int selection) {
-        initComponents();
-        // selection code NEW is used to instatiate a LoginScreen that allows 2
-        // players to log in to a new game
-        if (selection == NEW) {
-            // selection code ADMIN is used to instatiate a LoginScreen that
-            // allows an administrator to log in and perform administrative
-            // tasks.
-        } else if (selection == ADMIN) {
-            // selection code STATS is used to instatiate a LoginScreen that
-            // allows a user to log in and view statistics.
-        } else if (selection == STATS) {
-            // any other selection code is invalid and results in an
-            // InvalidParameterException.
-        } else {
-            InvalidParameterException ipe =
-                        new InvalidParameterException("Invalid Selection Code");
-        }
-    }
     // constructor used to create a LoginScreen when loading a saved game
     public LoginScreen(String homePlayer, String visitorPlayer, Date timeStamp)
     {
@@ -306,9 +276,8 @@ public class LoginScreen extends javax.swing.JFrame
         jPanel4.setBounds(233, 80, 190, 220);
 
         backButton.setFont(oldEnglish_12);
-        backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/back_button.png"))); // NOI18N
+        backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/Back_Button.png")));
         backButton.setToolTipText("Back");
-        backButton.setBorder(null);
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
         backButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -437,20 +406,6 @@ public class LoginScreen extends javax.swing.JFrame
                     new WelcomeScreen().setVisible(true);
                     this.setVisible(false);
                 }//GEN-LAST:event_backButtonActionPerformed
-
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[])
-    {
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                new LoginScreen().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
