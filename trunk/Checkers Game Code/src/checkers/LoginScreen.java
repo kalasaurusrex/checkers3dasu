@@ -172,7 +172,7 @@ public class LoginScreen extends javax.swing.JFrame
         jPanel2.add(player2Button);
         player2Button.setVisible(true);
 
-        player2NameSelect.setFont(new java.awt.Font("Old English Text MT", 0, 14));
+        player2NameSelect.setFont(oldEnglish_14);
         player2NameSelect.setMinimumSize(new java.awt.Dimension(125, 30));
         player2NameSelect.setPreferredSize(new java.awt.Dimension(170, 30));
         player2NameSelect.addActionListener(new java.awt.event.ActionListener() {
