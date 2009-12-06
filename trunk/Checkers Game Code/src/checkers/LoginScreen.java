@@ -62,11 +62,6 @@ public class LoginScreen extends javax.swing.JFrame
         initComponents();
     }
 
-    // constructor used to create a LoginScreen when loading a saved game
-    public LoginScreen(String homePlayer, String visitorPlayer, Date timeStamp)
-    {
-        initComponents();
-    }
 
     /** This method is called from within the constructor to
      * initialize the form.
