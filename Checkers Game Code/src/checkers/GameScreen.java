@@ -100,7 +100,6 @@ public class GameScreen extends javax.swing.JFrame
     ImageIcon hSetupMine = new ImageIcon(getClass().getResource("/checkers/images/hMine.png"));
     ImageIcon background = new ImageIcon(getClass().getResource("/checkers/images/Background.png"));
     ImageIcon displayLabel = new ImageIcon(getClass().getResource("/checkers/images/DisplayLabel.png"));
-    ImageIcon explosion = new ImageIcon(getClass().getResource("/checkers/images/Flame.png"));
 
     //accepts a Game object and sets up the board accordingly.
     //used for loading a  game
@@ -791,9 +790,6 @@ public class GameScreen extends javax.swing.JFrame
                 if (move.landedOnMine())
                 {
                     lTextLabel.setText("Smart Mine!");
-
-                    //show smart mine explosion
-                    animateExplosion(secondSelectMove);
                 }
                 else if (move.gotKinged())
                    lTextLabel.setText("Kinged!");
@@ -918,40 +914,6 @@ public class GameScreen extends javax.swing.JFrame
                 Main.restart();
                 dispose();
             }
-        }
-    }
-
-    public void animateExplosion(Square sq)
-    {
-        sq.setIcon(explosion);
-        pause();
-        
-        sq.setIcon(squareBlack);
-    }
-
-    public void pause()
-    {
-        try
-        {
-            // Sleep at least n milliseconds.
-            // 1 millisecond = 1/1000 of a second.
-            Thread.sleep(1000);
-        }
-        catch ( InterruptedException e )
-        {
-            System.out.println( "awakened prematurely" );
-
-            // If you want to simulate the interrupt happening
-            // just after awakening, use the following line
-            // so that our NEXT sleep or wait
-            // will be interrupted immediately.
-            // Thread.currentThread().interrupt();
-            // Or have have same other thread awaken us:
-            // Thread us;
-            // ...
-            // us = Thread.currentThread();
-            // ...
-            // us.interrupt();
         }
     }
 
