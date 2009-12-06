@@ -16,11 +16,12 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 public class WelcomeScreen extends javax.swing.JFrame
 {
     //load fonts
     Font oldEnglish_16 = loadFont(Font.PLAIN, 16);
-    Font oldEnglish_40 = loadFont(Font.PLAIN, 40);
+    Font oldEnglish_34 = loadFont(Font.PLAIN, 34);
     
     /** Creates new form WelcomeScreen */
     public WelcomeScreen()
@@ -74,7 +75,7 @@ public class WelcomeScreen extends javax.swing.JFrame
         setResizable(false);
         getContentPane().setLayout(null);
 
-        WelcomeLabel.setFont(oldEnglish_40);
+        WelcomeLabel.setFont(oldEnglish_34);
         WelcomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         WelcomeLabel.setText("Welcome to 3D Checkers");
         WelcomeLabel.setPreferredSize(new java.awt.Dimension(404, 50));
@@ -114,7 +115,7 @@ public class WelcomeScreen extends javax.swing.JFrame
             }
         });
         getContentPane().add(NextButton);
-        NextButton.setBounds(240, 242, 68, 28);
+        NextButton.setBounds(240, 240, 80, 28);
         getRootPane().setDefaultButton(NextButton);
 
         ExitButton.setFont(oldEnglish_16);
@@ -125,7 +126,7 @@ public class WelcomeScreen extends javax.swing.JFrame
             }
         });
         getContentPane().add(ExitButton);
-        ExitButton.setBounds(130, 242, 68, 28);
+        ExitButton.setBounds(120, 240, 80, 28);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -135,36 +136,41 @@ public class WelcomeScreen extends javax.swing.JFrame
     }//GEN-LAST:event_ExitButtonActionPerformed
 
     private void NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextButtonActionPerformed
-        if (NewGameButton.isSelected()) {
-            //new GameScreen(10, "New Player 1", "New Player 2").setVisible(true);
+        if (NewGameButton.isSelected())
+        {
             new LoginScreen().setVisible(true);
             setVisible(false);
         }
-
         //Go to load game screen
-        if (LoadGameButton.isSelected()) {
+        else if (LoadGameButton.isSelected())
+        {
             new LoadScreen().setVisible(true);
             setVisible(false);
         }
-
         //go to stat screen
-        if (StatsButton.isSelected()) {
+        else if (StatsButton.isSelected())
+        {
             new StatScreen().setVisible(true);
             setVisible(false);
         }
-        if (AdminButton.isSelected()) {
+        else if (AdminButton.isSelected())
+        {
             // create NewAdminForm to accept a new adminstrator
-            if (!Main.storage.adminCreated) {
+            if (!Main.storage.adminCreated)
+            {
                 NewAdminForm newForm = new NewAdminForm(this, true);
                 newForm.setVisible(true);
                 setVisible(false);
                 // create AdminScreen to allow adminstrative functions
-            } else {
+            } 
+            else
+            {
                 new AdminScreen().setVisible(true);
                 setVisible(false);
             }
+        }
     }//GEN-LAST:event_NextButtonActionPerformed
-    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton AdminButton;
     private javax.swing.JButton ExitButton;

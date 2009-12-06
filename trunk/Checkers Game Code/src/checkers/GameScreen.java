@@ -20,6 +20,7 @@ public class GameScreen extends javax.swing.JFrame
 {
     private static final int NIL = 0;
     final int PIXELS = 40;
+    private final int ALLOWABLE_ROWS = 3;
     private Square[] square;
     private Referee referee;
     private Game game;
@@ -1670,7 +1671,7 @@ public class GameScreen extends javax.swing.JFrame
         {
             for (int i = 0; i < square.length; i++)
             {
-                if (square[i].getPosition().getRow() <= 3)
+                if (square[i].getPosition().getRow() <= ALLOWABLE_ROWS)
                     setHighlight(square[i]);
             }
         }
@@ -1688,7 +1689,7 @@ public class GameScreen extends javax.swing.JFrame
         {
             for (int i = 0; i < square.length; i++)
             {
-                if (square[i].getPosition().getRow() > width - 3)
+                if (square[i].getPosition().getRow() > width - ALLOWABLE_ROWS)
                     setHighlight(square[i]);
             }
         }

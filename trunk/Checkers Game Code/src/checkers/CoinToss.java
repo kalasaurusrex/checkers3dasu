@@ -126,13 +126,13 @@ public class CoinToss extends javax.swing.JDialog
         headsRadio.setFont(oldEnglish_14);
         headsRadio.setText("Heads");
         getContentPane().add(headsRadio);
-        headsRadio.setBounds(110, 140, 70, 23);
+        headsRadio.setBounds(100, 140, 90, 23);
 
         headsTailsGroup.add(tailsRadio);
         tailsRadio.setFont(oldEnglish_14);
         tailsRadio.setText("Tails");
         getContentPane().add(tailsRadio);
-        tailsRadio.setBounds(220, 140, 70, 23);
+        tailsRadio.setBounds(220, 140, 90, 23);
 
         flipButton.setFont(oldEnglish_14);
         flipButton.setText("Flip It!");
@@ -142,20 +142,20 @@ public class CoinToss extends javax.swing.JDialog
             }
         });
         getContentPane().add(flipButton);
-        flipButton.setBounds(160, 180, 80, 25);
+        flipButton.setBounds(150, 180, 100, 25);
 
         homeVisitorGroup.add(homeRadio);
         homeRadio.setFont(oldEnglish_14);
         homeRadio.setText("Home");
         getContentPane().add(homeRadio);
-        homeRadio.setBounds(110, 140, 70, 23);
+        homeRadio.setBounds(100, 140, 90, 23);
         homeRadio.setVisible(false);
 
         homeVisitorGroup.add(visitorRadio);
         visitorRadio.setFont(oldEnglish_14);
         visitorRadio.setText("Visitor");
         getContentPane().add(visitorRadio);
-        visitorRadio.setBounds(220, 140, 70, 23);
+        visitorRadio.setBounds(220, 140, 90, 23);
         visitorRadio.setVisible(false);
 
         confirmButton.setFont(oldEnglish_14);
@@ -166,7 +166,7 @@ public class CoinToss extends javax.swing.JDialog
             }
         });
         getContentPane().add(confirmButton);
-        confirmButton.setBounds(160, 180, 80, 25);
+        confirmButton.setBounds(150, 180, 100, 25);
         confirmButton.setVisible(false);
 
         infoLabel1.setFont(oldEnglish_17);
@@ -190,21 +190,21 @@ public class CoinToss extends javax.swing.JDialog
             }
         });
         getContentPane().add(setupButton);
-        setupButton.setBounds(160, 180, 80, 25);
+        setupButton.setBounds(150, 180, 100, 25);
         setupButton.setVisible(false);
 
         manualRandomGroup.add(manualRadio);
         manualRadio.setFont(oldEnglish_14);
         manualRadio.setText("Manual");
         getContentPane().add(manualRadio);
-        manualRadio.setBounds(110, 140, 70, 23);
+        manualRadio.setBounds(100, 140, 90, 23);
         manualRadio.setVisible(false);
 
         manualRandomGroup.add(randomRadio);
         randomRadio.setFont(oldEnglish_14);
         randomRadio.setText("Random");
         getContentPane().add(randomRadio);
-        randomRadio.setBounds(220, 140, 70, 23);
+        randomRadio.setBounds(220, 140, 90, 23);
         randomRadio.setVisible(false);
 
         pack();

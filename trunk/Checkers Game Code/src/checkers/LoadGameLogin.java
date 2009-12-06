@@ -132,7 +132,7 @@ public class LoadGameLogin extends javax.swing.JFrame {
         TitleLabel.setText("Load Game - Log In");
         TitleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         getContentPane().add(TitleLabel);
-        TitleLabel.setBounds(110, 20, 410, 70);
+        TitleLabel.setBounds(110, 20, 436, 70);
 
         VSLabel.setFont(oldEnglish_26b);
         VSLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -162,7 +162,7 @@ public class LoadGameLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(HPasswordField);
-        HPasswordField.setBounds(440, 200, 120, 20);
+        HPasswordField.setBounds(440, 230, 120, 20);
 
         VPasswordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,7 +170,7 @@ public class LoadGameLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(VPasswordField);
-        VPasswordField.setBounds(60, 200, 120, 20);
+        VPasswordField.setBounds(60, 230, 120, 20);
 
         visitorOK.setFont(new java.awt.Font("Tahoma", 0, 10));
         visitorOK.setText("OK");
@@ -180,7 +180,7 @@ public class LoadGameLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(visitorOK);
-        visitorOK.setBounds(180, 200, 50, 21);
+        visitorOK.setBounds(180, 230, 50, 21);
 
         homeOK.setFont(new java.awt.Font("Tahoma", 0, 10));
         homeOK.setText("OK");
@@ -190,7 +190,7 @@ public class LoadGameLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(homeOK);
-        homeOK.setBounds(560, 200, 50, 21);
+        homeOK.setBounds(560, 230, 50, 21);
 
         visitorPlayerNameDisplay.setFont(oldEnglish_18);
         visitorPlayerNameDisplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/PieceKingBlack.png"))); // NOI18N
@@ -241,13 +241,13 @@ public class LoadGameLogin extends javax.swing.JFrame {
         hPassword.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         hPassword.setText("Password:");
         getContentPane().add(hPassword);
-        hPassword.setBounds(380, 200, 60, 20);
+        hPassword.setBounds(445, 205, 100, 20);
 
         vPassword.setFont(oldEnglish_14);
         vPassword.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         vPassword.setText("Password:");
         getContentPane().add(vPassword);
-        vPassword.setBounds(0, 200, 60, 20);
+        vPassword.setBounds(65, 205, 100, 20);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

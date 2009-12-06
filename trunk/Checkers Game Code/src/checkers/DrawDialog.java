@@ -5,7 +5,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 /**
  *
@@ -175,22 +175,7 @@ public class DrawDialog extends javax.swing.JDialog {
     public void setHomeLabelText(String entry) {
         homeNameDisplay.setText(entry);
     }
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DrawDialog dialog = new DrawDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel homeNameDisplay;

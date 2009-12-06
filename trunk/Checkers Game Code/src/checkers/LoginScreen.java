@@ -290,13 +290,13 @@ public class LoginScreen extends javax.swing.JFrame
     
     private void player2NameSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player2NameSelectActionPerformed
         jPasswordField2.setText(null);
-        jPasswordField2.setVisible(true);
-        player2OKbutton.setVisible(true);
     }//GEN-LAST:event_player2NameSelectActionPerformed
 
     private void player2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player2ButtonActionPerformed
-            player2NameSelect.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
-            player2NameSelect.setVisible(true);                
+        player2NameSelect.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
+        player2NameSelect.setVisible(true);
+        jPasswordField2.setVisible(true);
+        player2OKbutton.setVisible(true);
     }//GEN-LAST:event_player2ButtonActionPerformed
 
         private void playGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playGameButtonActionPerformed
@@ -319,14 +319,14 @@ public class LoginScreen extends javax.swing.JFrame
 
         private void player1NameSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player1NameSelectActionPerformed
             jPasswordField1.setText(null);
-            jPasswordField1.setVisible(true);
-            player1OKbutton.setVisible(true);
+
 }//GEN-LAST:event_player1NameSelectActionPerformed
 
         private void player1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_player1ButtonActionPerformed
-                player1NameSelect.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
-                player1NameSelect.setVisible(true);
-                
+            player1NameSelect.setModel(new DefaultComboBoxModel(Main.storage.getUsers()));
+            player1NameSelect.setVisible(true);
+            jPasswordField1.setVisible(true);
+            player1OKbutton.setVisible(true);
 }//GEN-LAST:event_player1ButtonActionPerformed
 
         private void visitorPlayerNameDisplayComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_visitorPlayerNameDisplayComponentShown

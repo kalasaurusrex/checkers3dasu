@@ -140,7 +140,7 @@ public class AdminScreen extends javax.swing.JFrame
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel1.setPreferredSize(new java.awt.Dimension(200, 30));
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(125, 10, 432, 62);
+        jLabel1.setBounds(108, 10, 432, 62);
 
         backButton.setFont(oldEnglish_12);
         backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/back_button.png"))); // NOI18N
@@ -559,12 +559,12 @@ public class AdminScreen extends javax.swing.JFrame
     private void adminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminButtonActionPerformed
         adminNameSelect.setModel(new DefaultComboBoxModel(Main.storage.getAdmins()));
         adminNameSelect.setVisible(true);
+        jPasswordField1.setVisible(true);
+        adminOKbutton.setVisible(true);
     }//GEN-LAST:event_adminButtonActionPerformed
 
     private void adminNameSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminNameSelectActionPerformed
         jPasswordField1.setText(null);
-        jPasswordField1.setVisible(true);
-        adminOKbutton.setVisible(true);
 }//GEN-LAST:event_adminNameSelectActionPerformed
 
     private void adminOKbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminOKbuttonActionPerformed
@@ -910,20 +910,6 @@ public class AdminScreen extends javax.swing.JFrame
                         this.dispose();
                     }
                 }//GEN-LAST:event_retireAdminButtonActionPerformed
-
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[])
-    {
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                new AdminScreen().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton OKbutton;

@@ -107,65 +107,63 @@ public class LoadScreen extends javax.swing.JFrame
             {
                //the Open button was pressed
                File file = GameLoader.getSelectedFile();
-                try
-            {
-                //retrieve our saved game from the hard drive.
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                Game game = (Game) ois.readObject();
+               try
+               {
+                    //retrieve our saved game from the hard drive.
+                    FileInputStream fis = new FileInputStream(file);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+                    Game game = (Game) ois.readObject();
 
-                //check to ensure that both the home player and visitor
-                //player are still registered in the users list, make
-                //sure that one or both have not been deleted.
-                for(int i = 0; i < Main.storage.getUsers().size(); i++)
-                 {
-                     if(game.getHome().equals(Main.storage.getUsers().get(i).getUserName()))
-                     {
-                         hFound = true;
-                         break;
-                     }
-                 }
-
-                for(int i = 0; i < Main.storage.getUsers().size(); i++)
-                {
-                    if(game.getVisitor().equals(Main.storage.getUsers().get(i).getUserName()))
+                    //check to ensure that both the home player and visitor
+                    //player are still registered in the users list, make
+                    //sure that one or both have not been deleted.
+                    for(int i = 0; i < Main.storage.getUsers().size(); i++)
                     {
-                        vFound = true;
-                        break;
+                        if(game.getHome().equals(Main.storage.getUsers().get(i).getUserName()))
+                        {
+                            hFound = true;
+                            break;
+                        }
                     }
-                 }
-                 // if both players were found in the Users list, continue gameplay
-                 // else go back to the welcome screen.
-                if(hFound && vFound)
-                {
-                    new LoadGameLogin(game, game.getHome(), game.getVisitor()).setVisible(true);
-                    dispose();
+
+                    for(int i = 0; i < Main.storage.getUsers().size(); i++)
+                    {
+                        if(game.getVisitor().equals(Main.storage.getUsers().get(i).getUserName()))
+                        {
+                            vFound = true;
+                            break;
+                        }
+                    }
+                    // if both players were found in the Users list, continue gameplay
+                    // else go back to the welcome screen.
+                    if(hFound && vFound)
+                    {
+                        new LoadGameLogin(game, game.getHome(), game.getVisitor()).setVisible(true);
+                        dispose();
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this, "One or more players are no longer registered",
+                                "Cannot Find PLayer", JOptionPane.WARNING_MESSAGE);
+                        Main.restart();
+                    }
                 }
-                else
+
+                //handle any exceptions that are thrown.
+                catch (FileNotFoundException fne)
                 {
-                    JOptionPane.showMessageDialog(this, "One or more players are no longer registered",
-                            "Cannot Find PLayer", JOptionPane.WARNING_MESSAGE);
-                    Main.restart();
+                    System.out.println("File Not Found");
+                    //storage = new Storage();
                 }
-            }
-
-
-
-            //handle any exceptions that are thrown.
-            catch (FileNotFoundException fne)
-            {
-                System.out.println("File Not Found");
-                //storage = new Storage();
-            }
-            catch (IOException ioe)
-            {
-                //System.exit(1);
-                ioe.printStackTrace();
-            }
-            catch (ClassNotFoundException cne)
-            {
-                System.exit(2);
-            }
+                catch (IOException ioe)
+                {
+                    //System.exit(1);
+                    ioe.printStackTrace();
+                }
+                catch (ClassNotFoundException cne)
+                {
+                    System.exit(2);
+                }
             }
         
            else
