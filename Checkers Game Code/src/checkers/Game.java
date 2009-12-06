@@ -1,7 +1,12 @@
 package checkers;
 
 import java.util.ArrayList;
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.Serializable;
+import java.io.File;
+import java.io.ObjectOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Game implements Serializable
 {
@@ -119,7 +124,6 @@ public class Game implements Serializable
             
             String filePath =new File(".").getCanonicalPath() + File.separator + "games";
             FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName);
-            System.out.println(fos);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(this);
             oos.close();

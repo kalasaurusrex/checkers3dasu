@@ -1,7 +1,7 @@
 package checkers;
 
 import java.util.*;
-import javax.naming.*;
+//import javax.naming.*;
 import java.io.*;
 
 // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 

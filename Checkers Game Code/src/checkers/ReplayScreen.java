@@ -238,7 +238,6 @@ public class ReplayScreen extends javax.swing.JDialog
         currentMoveText = new IntegerTextField();
         maxMoveLabel = new JLabel("of  " + maxMoves);
 
-        //firstButton.setText("<<");
         firstButton.setIcon(firstIcon);
         firstButton.setContentAreaFilled(false);
         firstButton.setBorder(null);
@@ -253,7 +252,6 @@ public class ReplayScreen extends javax.swing.JDialog
         backButton.setIcon(backIcon);
         backButton.setContentAreaFilled(false);
         backButton.setBorder(null);
-        //backButton.setText("<");
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 backButtonActionPerformed(evt);
@@ -265,7 +263,6 @@ public class ReplayScreen extends javax.swing.JDialog
         forwardButton.setIcon(forwardIcon);
         forwardButton.setContentAreaFilled(false);
         forwardButton.setBorder(null);
-        //forwardButton.setText(">");
         forwardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 forwardButtonActionPerformed(evt);
@@ -277,7 +274,6 @@ public class ReplayScreen extends javax.swing.JDialog
         lastButton.setIcon(lastIcon);
         lastButton.setContentAreaFilled(false);
         lastButton.setBorder(null);
-        //lastButton.setText(">>");
         lastButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 lastButtonActionPerformed(evt);
@@ -286,7 +282,6 @@ public class ReplayScreen extends javax.swing.JDialog
         rMessagePane.add(lastButton, 0);
         lastButton.setBounds(265, 70, 55, 55);
 
-        //exitButton.setText("X");
         exitButton.setIcon(exitSign);
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
