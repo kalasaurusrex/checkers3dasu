@@ -143,7 +143,7 @@ public class AdminScreen extends javax.swing.JFrame
         jLabel1.setBounds(108, 10, 432, 62);
 
         backButton.setFont(oldEnglish_12);
-        backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/back_button.png"))); // NOI18N
+        backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/checkers/images/Back_Button.png"))); // NOI18N
         backButton.setToolTipText("Back");
         backButton.setBorder(null);
         backButton.setBorderPainted(false);
