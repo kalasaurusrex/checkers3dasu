@@ -158,9 +158,8 @@ public class WelcomeScreen extends javax.swing.JFrame
             // create NewAdminForm to accept a new adminstrator
             if (!Main.storage.adminCreated)
             {
-                NewAdminForm newForm = new NewAdminForm(this, true);
-                newForm.setVisible(true);
                 setVisible(false);
+                new NewAdminForm(this, true).setVisible(true);
                 // create AdminScreen to allow adminstrative functions
             } 
             else
