@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.File;
 import java.text.SimpleDateFormat;
 
 public class GameScreen extends javax.swing.JFrame
@@ -1849,6 +1850,9 @@ public class GameScreen extends javax.swing.JFrame
         drawMenuItem = new javax.swing.JMenuItem();
         forfeitMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
+        UserGuideMenu = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JSeparator();
+        AboutMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("3D Checkers");
@@ -1930,6 +1934,28 @@ public class GameScreen extends javax.swing.JFrame
 
         helpMenu.setText("Help");
         helpMenu.setFont(oldEnglish_16);
+
+        UserGuideMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        UserGuideMenu.setFont(oldEnglish_16);
+        UserGuideMenu.setText("User's Guide");
+        UserGuideMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UserGuideMenuActionPerformed(evt);
+            }
+        });
+        helpMenu.add(UserGuideMenu);
+        helpMenu.add(jSeparator2);
+
+        AboutMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        AboutMenu.setFont(oldEnglish_16);
+        AboutMenu.setText("About");
+        AboutMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AboutMenuActionPerformed(evt);
+            }
+        });
+        helpMenu.add(AboutMenu);
+
         boardMenuBar.add(helpMenu);
 
         setJMenuBar(boardMenuBar);
@@ -2023,7 +2049,28 @@ public class GameScreen extends javax.swing.JFrame
         
     }//GEN-LAST:event_forfeitMenuItemActionPerformed
 
+    //view a PDF of the user's guide
+    private void UserGuideMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserGuideMenuActionPerformed
+        try
+        {
+            String filePath =new File(".").getCanonicalPath() + File.separator + "User's Guide.pdf";
+            
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + filePath);
+        }
+        catch (IOException ioe)
+        {
+            JOptionPane.showMessageDialog(this, "Error loading User's Guide",
+                  "User's Guide", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_UserGuideMenuActionPerformed
+
+    private void AboutMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutMenuActionPerformed
+        new AboutDialog(this, true).setVisible(true);
+    }//GEN-LAST:event_AboutMenuActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AboutMenu;
+    private javax.swing.JMenuItem UserGuideMenu;
     private javax.swing.JMenuBar boardMenuBar;
     private javax.swing.JMenuItem closeMenuItem;
     private javax.swing.JMenuItem drawMenuItem;
@@ -2032,6 +2079,7 @@ public class GameScreen extends javax.swing.JFrame
     private javax.swing.JMenu gameMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JMenuItem replayMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
