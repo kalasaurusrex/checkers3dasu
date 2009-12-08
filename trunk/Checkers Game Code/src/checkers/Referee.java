@@ -93,6 +93,9 @@ public class Referee
 
                                 //check for jumpable square on the same board
                                 if (squareArray[sIndex + oddDownRight].getPiece() != null &&
+                                        squareArray[sIndex + oddDownRight].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + oddDownRight + evenDownRight].getPiece() == null &&
                                         !squareArray[sIndex + oddDownRight].getSafe())
                                     move.addJump(squareArray[sIndex + oddDownRight]);
                             }
@@ -108,6 +111,9 @@ public class Referee
 
                                 //check for jumpable square on the same board
                                 if (squareArray[sIndex + evenDownRight].getPiece() != null &&
+                                        squareArray[sIndex + evenDownRight].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + evenDownRight + oddDownRight].getPiece() == null &&
                                         !squareArray[sIndex + evenDownRight].getSafe())
                                     move.addJump(squareArray[sIndex + evenDownRight]);
                             }
@@ -127,6 +133,9 @@ public class Referee
 
                                 //check for jumpable square on the same board
                                 if (squareArray[sIndex + oddDownRight].getPiece() != null &&
+                                        squareArray[sIndex + oddDownRight].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + oddDownRight + evenDownRight].getPiece() == null &&
                                         !squareArray[sIndex + oddDownRight].getSafe())
                                     move.addJump(squareArray[sIndex + oddDownRight]);
                             }
@@ -142,6 +151,9 @@ public class Referee
 
                                 //check for jumpable square on the same board
                                 if (squareArray[sIndex + evenDownRight].getPiece() != null &&
+                                        squareArray[sIndex + evenDownRight].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + evenDownRight + oddDownRight].getPiece() == null &&
                                         !squareArray[sIndex + evenDownRight].getSafe())
                                     move.addJump(squareArray[sIndex + evenDownRight]);
                             }
@@ -171,6 +183,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex + halfBoard + oddDownLeft]);
                                 
                                 if (squareArray[sIndex + oddDownLeft].getPiece() != null &&
+                                        squareArray[sIndex + oddDownLeft].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + oddDownLeft + evenDownLeft].getPiece() == null &&
                                         !squareArray[sIndex + oddDownLeft].getSafe())
                                     move.addJump(squareArray[sIndex + oddDownLeft]);
                             }
@@ -183,6 +198,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex + halfBoard + evenDownLeft]);
 
                                 if (squareArray[sIndex + evenDownLeft].getPiece() != null &&
+                                        squareArray[sIndex + evenDownLeft].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + evenDownLeft + oddDownLeft].getPiece() == null &&
                                         !squareArray[sIndex + evenDownLeft].getSafe())
                                     move.addJump(squareArray[sIndex + evenDownLeft]);
                             }
@@ -198,6 +216,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex - halfBoard + oddDownLeft]);
 
                                 if (squareArray[sIndex + oddDownLeft].getPiece() != null &&
+                                        squareArray[sIndex + oddDownLeft].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + oddDownLeft + evenDownLeft].getPiece() == null &&
                                         !squareArray[sIndex + oddDownLeft].getSafe())
                                     move.addJump(squareArray[sIndex + oddDownLeft]);
                             }
@@ -210,6 +231,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex - halfBoard + evenDownLeft]);
 
                                 if (squareArray[sIndex + evenDownLeft].getPiece() != null &&
+                                        squareArray[sIndex + evenDownLeft].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + evenDownLeft + oddDownLeft].getPiece() == null &&
                                         !squareArray[sIndex + evenDownLeft].getSafe())
                                     move.addJump(squareArray[sIndex + evenDownLeft]);
                             }
@@ -240,6 +264,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex + halfBoard + oddUpRight]);
 
                                 if (squareArray[sIndex + oddUpRight].getPiece() != null &&
+                                        squareArray[sIndex + oddUpRight].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + oddUpRight + evenUpRight].getPiece() == null &&
                                         !squareArray[sIndex + oddUpRight].getSafe())
                                     move.addJump(squareArray[sIndex + oddUpRight]);
                             }
@@ -252,6 +279,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex + halfBoard + evenUpRight]);
 
                                 if (squareArray[sIndex + evenUpRight].getPiece() != null &&
+                                        squareArray[sIndex + evenUpRight].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + evenUpRight + oddUpRight].getPiece() == null &&
                                         !squareArray[sIndex + evenUpRight].getSafe())
                                     move.addJump(squareArray[sIndex + evenUpRight]);
                             }
@@ -267,6 +297,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex - halfBoard + oddUpRight]);
 
                                 if (squareArray[sIndex + oddUpRight].getPiece() != null &&
+                                        squareArray[sIndex + oddUpRight].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + oddUpRight + evenUpRight].getPiece() == null &&
                                         !squareArray[sIndex + oddUpRight].getSafe())
                                     move.addJump(squareArray[sIndex + oddUpRight]);
                             }
@@ -279,6 +312,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex - halfBoard + evenUpRight]);
 
                                 if (squareArray[sIndex + evenUpRight].getPiece() != null &&
+                                        squareArray[sIndex + evenUpRight].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + evenUpRight + oddUpRight].getPiece() == null &&
                                         !squareArray[sIndex + evenUpRight].getSafe())
                                     move.addJump(squareArray[sIndex + evenUpRight]);
                             }
@@ -305,6 +341,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex + halfBoard + oddUpLeft]);
 
                                 if (squareArray[sIndex + oddUpLeft].getPiece() != null &&
+                                        squareArray[sIndex + oddUpLeft].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + oddUpLeft + evenUpLeft].getPiece() == null &&
                                         !squareArray[sIndex + oddUpLeft].getSafe())
                                     move.addJump(squareArray[sIndex + oddUpLeft]);
                             }
@@ -317,6 +356,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex + halfBoard + evenUpLeft]);
 
                                 if (squareArray[sIndex + evenUpLeft].getPiece() != null &&
+                                        squareArray[sIndex + evenUpLeft].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + evenUpLeft + oddUpLeft].getPiece() == null &&
                                         !squareArray[sIndex + evenUpLeft].getSafe())
                                     move.addJump(squareArray[sIndex + evenUpLeft]);
                             }
@@ -332,6 +374,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex - halfBoard + oddUpLeft]);
 
                                 if (squareArray[sIndex + oddUpLeft].getPiece() != null &&
+                                        squareArray[sIndex + oddUpLeft].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + oddUpLeft + evenUpLeft].getPiece() == null &&
                                         !squareArray[sIndex + oddUpLeft].getSafe())
                                     move.addJump(squareArray[sIndex + oddUpLeft]);
                             }
@@ -344,6 +389,9 @@ public class Referee
                                     move.addJump(squareArray[sIndex - halfBoard + evenUpLeft]);
                                 
                                 if (squareArray[sIndex + evenUpLeft].getPiece() != null &&
+                                        squareArray[sIndex + evenUpLeft].getPiece().getColor() !=
+                                        start.getPiece().getColor() &&
+                                        squareArray[sIndex + evenUpLeft + oddUpLeft].getPiece() == null &&
                                         !squareArray[sIndex + evenUpLeft].getSafe())
                                     move.addJump(squareArray[sIndex + evenUpLeft]);
                             }
