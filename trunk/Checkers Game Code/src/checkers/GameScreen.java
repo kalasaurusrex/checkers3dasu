@@ -1275,6 +1275,9 @@ public class GameScreen extends javax.swing.JFrame
     /////////////////////////////////////////////////////////////////////////
     private void initBoardSetup()
     {
+        optionsMenu.setEnabled(false);
+        saveMenuItem.setEnabled(false);
+
         //black checker
         placeVisitorChecker = new Square(new Position(0, 1, 1), NIL);
         placeVisitorChecker.setIcon(setupCheckerBlack);
@@ -1442,6 +1445,9 @@ public class GameScreen extends javax.swing.JFrame
         homeSafeLabel.setVisible(false);
         homeMineLabel.setVisible(false);
 
+        optionsMenu.setEnabled(true);
+        saveMenuItem.setEnabled(true);
+        
         initGamePlay();
 
         //inform the user that the board setup phase is over
@@ -2065,7 +2071,7 @@ public class GameScreen extends javax.swing.JFrame
     }//GEN-LAST:event_UserGuideMenuActionPerformed
 
     private void AboutMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutMenuActionPerformed
-        new AboutDialog(this, true).setVisible(true);
+        new AboutDialog(null, true).setVisible(true);
     }//GEN-LAST:event_AboutMenuActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
